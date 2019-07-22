@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <style>
+      .popup {
+        padding: 10px;
+      }
+    </style>
     <script
       defer
       type="text/javascript"
@@ -9,8 +14,10 @@
     <script defer type="module" src="popup.js"></script>
   </head>
   <body>
-    <div>
+    <div class="popup">
       Maria popup
+      <button id="processNumbers" class="button">Process numbers</button>
+      <button id="removeLinks" class="button">Remove links</button>
     </div>
   </body>
 </html>

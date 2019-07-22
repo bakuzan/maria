@@ -4,8 +4,9 @@
   "description": "Personal Utility Extension",
   "version": "1.0.0",
   "author": "Bakuzan",
+  "permissions": ["tabs", "notifications", "http://*/", "https://*/"],
   "background": {
-    "scripts": ["src/thirdParty/hot-reload.js", "src/background.js"],
+    "page": "src/background.html",
     "persistant": false
   },
   "browser_action": {
