@@ -19,6 +19,20 @@
     }
   },
   "options_page": "src/options.html",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "css": ["src/content.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    "src/content.css",
+    "src/consts.js",
+    "src/utils/addLinks.js",
+    "src/utils/removeLinks.js",
+    "src/utils/walk.js",
+    "src/utils/toaster.js"
+  ],
   "icons": {
     "16": "src/images/maria_16x16.png",
     "32": "src/images/maria_32x32.png",

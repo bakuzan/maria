@@ -3,7 +3,32 @@
   <head>
     <style>
       .popup {
+        min-width: 200px;
+        min-height: 100px;
         padding: 10px;
+      }
+
+      .maria__title {
+        font-size: 1.5rem;
+      }
+      .maria__subtitle {
+        font-size: 1rem;
+        margin: 5px 0;
+      }
+
+      .maria__buttons {
+        display: flex;
+      }
+
+      .mra-button {
+        background: none;
+        border: none;
+        box-shadow: 1px 1px 2px 0px #ddd, 0px 0px 1px 0px #ddd;
+        margin: 0 2px;
+        cursor: pointer;
+      }
+      .mra-button:hover {
+        background-color: hsl(0, 0%, 95%);
       }
     </style>
     <script
@@ -13,11 +38,15 @@
     ></script>
     <script defer type="module" src="popup.js"></script>
   </head>
-  <body>
+  <body class="maria">
     <div class="popup">
-      Maria popup
-      <button id="processNumbers" class="button">Process numbers</button>
-      <button id="removeLinks" class="button">Remove links</button>
+      <div class="maria__title">Maria</div>
+      <hr />
+      <div class="maria__subtitle">Magic Numbers</div>
+      <div class="maria__buttons">
+        <button id="processNumbers" class="mra-button">Process numbers</button>
+        <button id="removeLinks" class="mra-button">Remove links</button>
+      </div>
     </div>
   </body>
 </html>

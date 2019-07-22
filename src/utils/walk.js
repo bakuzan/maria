@@ -7,7 +7,7 @@ export default function* walk(node) {
       child = node.firstChild;
       while (child) {
         next = child.nextSibling;
-        walk(child, choices);
+        walk(child);
         child = next;
       }
       break;

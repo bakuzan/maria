@@ -1,3 +1,5 @@
+import toaster from './toaster.js';
+
 export default function removeLinks() {
   console.log('remove');
   const links = Array.from(document.querySelectorAll('[data-maria-link]'));
@@ -7,6 +9,5 @@ export default function removeLinks() {
     link.parentNode.removeChild(link);
   }
 
-  // TODO
-  // Display user feedback
+  toaster('success', 'Links removed.');
 }

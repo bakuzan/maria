@@ -1,5 +1,6 @@
 import { BASE_LINK_URL } from '../consts.js';
 import walk from './walk.js';
+import toaster from './toaster.js';
 
 const anchorMe = (v, text) =>
   v.replace(
@@ -19,7 +20,7 @@ function processText(textNode) {
     const matchResult = v.match(re);
 
     if (matchResult != null) {
-      codes.push(matchResult);
+      codes.push(...matchResult);
     }
   }
 
@@ -47,6 +48,5 @@ export default function addLinks() {
     processText(curr.value);
   }
 
-  // TODO
-  // Display user feedback
+  toaster('success', 'Numbers processed.');
 }
