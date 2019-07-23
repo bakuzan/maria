@@ -1,4 +1,4 @@
-export default function* walk(node) {
+export default async function walk(node, fn) {
   let child, next;
   switch (node.nodeType) {
     case 1: // Element
@@ -7,7 +7,7 @@ export default function* walk(node) {
       child = node.firstChild;
       while (child) {
         next = child.nextSibling;
-        walk(child);
+        walk(child, fn);
         child = next;
       }
       break;
@@ -20,7 +20,7 @@ export default function* walk(node) {
         node.parentElement.tagName.toLowerCase() != 'textarea' &&
         node.parentElement.contentEditable != 'true'
       ) {
-        yield node;
+        fn(node);
       }
       break;
   }

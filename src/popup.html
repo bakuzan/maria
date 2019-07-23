@@ -1,36 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      .popup {
-        min-width: 200px;
-        min-height: 100px;
-        padding: 10px;
-      }
-
-      .maria__title {
-        font-size: 1.5rem;
-      }
-      .maria__subtitle {
-        font-size: 1rem;
-        margin: 5px 0;
-      }
-
-      .maria__buttons {
-        display: flex;
-      }
-
-      .mra-button {
-        background: none;
-        border: none;
-        box-shadow: 1px 1px 2px 0px #ddd, 0px 0px 1px 0px #ddd;
-        margin: 0 2px;
-        cursor: pointer;
-      }
-      .mra-button:hover {
-        background-color: hsl(0, 0%, 95%);
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="popup.css" />
     <script
       defer
       type="text/javascript"
@@ -40,7 +12,16 @@
   </head>
   <body class="maria">
     <div class="popup">
-      <div class="maria__title">Maria</div>
+      <div class="maria__heading">
+        <img
+          class="maria__image"
+          width="48"
+          height="48"
+          src="images/maria_48x48.png"
+          alt="Maria"
+        />
+        <div class="maria__title">Maria</div>
+      </div>
       <hr />
       <div class="maria__subtitle">Magic Numbers</div>
       <div class="maria__buttons">

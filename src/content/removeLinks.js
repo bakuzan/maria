@@ -1,11 +1,11 @@
-import toaster from './toaster.js';
+import toaster from '../utils/toaster.js';
 
 export default function removeLinks() {
-  console.log('remove');
   const links = Array.from(document.querySelectorAll('[data-maria-link]'));
 
   for (let link of links) {
-    link.parentNode.insertBefore(link.textContent, link);
+    const textNode = document.createTextNode(link.textContent);
+    link.parentNode.insertBefore(textNode, link);
     link.parentNode.removeChild(link);
   }
 

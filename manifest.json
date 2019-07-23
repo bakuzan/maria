@@ -22,16 +22,13 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "css": ["src/content.css"]
+      "css": ["src/styles.css", "src/content/content.css"]
     }
   ],
   "web_accessible_resources": [
-    "src/content.css",
     "src/consts.js",
-    "src/utils/addLinks.js",
-    "src/utils/removeLinks.js",
-    "src/utils/walk.js",
-    "src/utils/toaster.js"
+    "src/content/*",
+    "src/utils/*.js"
   ],
   "icons": {
     "16": "src/images/maria_16x16.png",
