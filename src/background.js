@@ -45,6 +45,22 @@ async function userFeedback(type, message) {
   }
 }
 
+async function openWindow(selectionText) {
+	try {
+		const activeTab = await getActiveTab();
+		await chrome.tabs.executeScript(activeTab.id, {
+		  code: `(() => {
+			  const win = window.open("${BASE_LINK_URL}${selectionText}", '_blank');
+			  win.opener = null;
+		  })();`
+		});
+  } catch (error) {
+    console.log(error);
+    // TODO
+    // Error handling
+  }
+}
+
 chrome.contextMenus.create({
   title: 'View magic number "%s"',
   contexts: ['selection'],
@@ -53,8 +69,7 @@ chrome.contextMenus.create({
     const selectionIsValid = /^\d+$/.test(selectionText);
 
     if (selectionIsValid) {
-      const win = window.open(`${BASE_LINK_URL}${selectionText}`, '_blank');
-      win.opener = null;
+		openWindow(selectionText);
     } else {
       userFeedback(
         'warning',
