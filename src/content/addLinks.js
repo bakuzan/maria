@@ -1,6 +1,8 @@
 import { BASE_LINK_URL } from '../consts.js';
+
 import walk from '../utils/walk.js';
 import toaster from '../utils/toaster.js';
+import getStorage from '../utils/getStorage.js';
 
 const anchorMe = (v, text) =>
   v.replace(
@@ -13,7 +15,7 @@ const anchorMe = (v, text) =>
     rel="noopener noreferrer">${text}</a>`
   );
 
-function processText(textNode) {
+async function processText(textNode) {
   const v = textNode.nodeValue;
 
   // If this node has already been processed
@@ -21,11 +23,8 @@ function processText(textNode) {
     return;
   }
 
-  // TODO
-  // Get user choices
-  const choices = [6, 5];
-
-  const codes = choices
+  const items = await getStorage();
+  const codes = items.digitOptions
     .map((x) => new RegExp('\\b[0-9]{' + x + '}\\b', 'g'))
     .reduce((p, c) => {
       const results = v.match(c);

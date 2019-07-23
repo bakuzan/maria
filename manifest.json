@@ -4,7 +4,13 @@
   "description": "Personal Utility Extension",
   "version": "1.0.0",
   "author": "Bakuzan",
-  "permissions": ["tabs", "notifications", "http://*/", "https://*/"],
+  "permissions": [
+    "tabs",
+    "notifications",
+    "storage",
+    "http://*/",
+    "https://*/"
+  ],
   "background": {
     "page": "src/background.html",
     "persistant": false
@@ -27,6 +33,7 @@
   ],
   "web_accessible_resources": [
     "src/consts.js",
+    "src/thirdParty/chrome-extension-async.js",
     "src/content/*",
     "src/utils/*.js"
   ],

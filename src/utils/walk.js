@@ -20,7 +20,7 @@ export default async function walk(node, fn) {
         node.parentElement.tagName.toLowerCase() != 'textarea' &&
         node.parentElement.contentEditable != 'true'
       ) {
-        fn(node);
+        await fn(node);
       }
       break;
   }
