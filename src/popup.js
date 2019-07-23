@@ -1,12 +1,8 @@
 import { PROCESS_NUMBERS, REMOVE_LINKS } from './consts.js';
+import getActiveTab from './utils/getActiveTab.js';
 
 const showLinks = document.getElementById('processNumbers');
 const removeLinks = document.getElementById('removeLinks');
-
-async function getActiveTab() {
-  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-  return tabs[0];
-}
 
 showLinks.addEventListener('click', async function() {
   try {
