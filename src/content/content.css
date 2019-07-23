@@ -49,7 +49,7 @@
   content: '\2713';
 }
 .maria-toast--warning {
-  background-color: rgb(254, 192, 76);
+  background-color: #fdad17;
   color: #000;
 }
 .maria-toast--warning::before {

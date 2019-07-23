@@ -16,6 +16,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       injectContentModule(request.tabID, `addLinks.js`);
       sendResponse({ action: PROCESS_NUMBERS, message: 'Done' });
       break;
+
     case REMOVE_LINKS:
       injectContentModule(request.tabID, `removeLinks.js`);
       sendResponse({ action: REMOVE_LINKS, message: 'Done' });
@@ -45,7 +46,7 @@ async function userFeedback(type, message) {
 }
 
 chrome.contextMenus.create({
-  title: 'View magic number `%s`',
+  title: 'View magic number "%s"',
   contexts: ['selection'],
   onclick: function(info) {
     const { selectionText } = info;
