@@ -1,4 +1,4 @@
-import getStorage from './utils/getStorage.js';
+import getStorage from '../utils/getStorage.js';
 
 async function saveOption(event) {
   const items = await getStorage();
