@@ -1,8 +1,14 @@
 import './thirdParty/hot-reload.js';
 import './thirdParty/chrome-extension-async.js';
-import { PROCESS_NUMBERS, REMOVE_LINKS, BASE_LINK_URL } from './consts.js';
+import {
+  PROCESS_NUMBERS,
+  REMOVE_LINKS,
+  FETCH_NUMBER_DETAIL,
+  BASE_LINK_URL
+} from './consts.js';
+import fetch from './utils/fetch.js';
 import injectContentModule from './utils/injectContentModule.js';
-import getActiveTab from './utils/getActiveTab.js';
+import userFeedback from './utils/userFeedback.js';
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log(
@@ -22,29 +28,28 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       sendResponse({ action: REMOVE_LINKS, message: 'Done' });
       break;
 
+    case FETCH_NUMBER_DETAIL:
+      fetch(`https://nhentai.net/api/gallery/${request.seriesId}`).then(
+        (response) => {
+          if (!response.success) {
+            userFeedback('error', `Failed to fetch '${request.seriesId}'`);
+          }
+
+          sendResponse({
+            action: FETCH_NUMBER_DETAIL,
+            message: 'Done',
+            ...response
+          });
+        }
+      );
+      break;
+
     default:
       return;
   }
 });
 
-async function userFeedback(type, message) {
-  try {
-    const activeTab = await getActiveTab();
-    console.log(activeTab);
-    await chrome.tabs.executeScript(activeTab.id, {
-      code: `(async () => {
-        const src = chrome.extension.getURL("src/utils/toaster.js");
-        const contentMain = await import(src);
-        contentMain.default("${type}", "${message}");
-      })();`
-    });
-  } catch (error) {
-    console.log(error);
-    // TODO
-    // Error handling
-  }
-}
-
+/* Context Menu! */
 chrome.contextMenus.create({
   title: 'View magic number "%s"',
   contexts: ['selection'],

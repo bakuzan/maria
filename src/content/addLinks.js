@@ -1,5 +1,6 @@
 import { BASE_LINK_URL } from '../consts.js';
 
+import addHoverListeners from './addHoverListeners.js';
 import walk from '../utils/walk.js';
 import toaster from '../utils/toaster.js';
 import getStorage from '../utils/getStorage.js';
@@ -8,7 +9,7 @@ const anchorMe = (v, text) =>
   v.replace(
     new RegExp(text, 'g'),
     `<a 
-    data-maria-link 
+    data-maria-link="${text}" 
     class="maria-link"
     href=${BASE_LINK_URL + text} 
     target="_blank" 
@@ -44,7 +45,9 @@ async function processText(textNode) {
     const newNodes = htmlParser.childNodes;
 
     while (newNodes.length) {
-      textNode.parentNode.insertBefore(newNodes[0], textNode);
+      const mLink = newNodes[0];
+      addHoverListeners(mLink);
+      textNode.parentNode.insertBefore(mLink, textNode);
     }
 
     textNode.parentNode.removeChild(textNode);
