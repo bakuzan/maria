@@ -10,8 +10,6 @@ function buttonListener(action) {
         tabID: activeTab.id,
         action
       });
-
-      console.log(response);
     } catch (error) {
       // TODO
       // Error handling
