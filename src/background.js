@@ -3,8 +3,7 @@ import './thirdParty/chrome-extension-async.js';
 import {
   PROCESS_NUMBERS,
   REMOVE_LINKS,
-  FETCH_NUMBER_DETAIL,
-  BASE_LINK_URL
+  FETCH_NUMBER_DETAIL
 } from './consts.js';
 import fetch from './utils/fetch.js';
 import injectContentModule from './utils/injectContentModule.js';
@@ -50,6 +49,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 /* Context Menu! */
+async function openWindow(selectionText) {
+  try {
+    const activeTab = await getActiveTab();
+    await chrome.tabs.executeScript(activeTab.id, {
+      code: `(() => {
+			  const win = window.open("${BASE_LINK_URL}${selectionText}", '_blank');
+			  win.opener = null;
+		  })();`
+    });
+  } catch (error) {
+    console.log(error);
+    // TODO
+    // Error handling
+  }
+}
+
 chrome.contextMenus.create({
   title: 'View magic number "%s"',
   contexts: ['selection'],
@@ -58,8 +73,7 @@ chrome.contextMenus.create({
     const selectionIsValid = /^\d+$/.test(selectionText);
 
     if (selectionIsValid) {
-      const win = window.open(`${BASE_LINK_URL}${selectionText}`, '_blank');
-      win.opener = null;
+      openWindow(selectionText);
     } else {
       userFeedback(
         'warning',
