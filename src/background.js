@@ -109,9 +109,6 @@ const CMD_VIEW_MAGIC_NUMBER = 'view-magic-number';
 
 chrome.commands.onCommand.addListener(function(command) {
   console.log('Command:', command);
-  chrome.commands.getAll(function(cmds) {
-    console.log(cmds);
-  });
 
   getActiveTab().then((activeTab) => {
     switch (command) {
