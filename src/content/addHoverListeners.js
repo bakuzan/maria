@@ -1,4 +1,9 @@
-import { FETCH_NUMBER_DETAIL, extensionType } from '../consts.js';
+import {
+  FETCH_NUMBER_DETAIL,
+  BASE_IMAGE_URL,
+  PROXY_URL,
+  extensionType
+} from '../consts.js';
 import dimensions from '../utils/dimensions.js';
 
 const IMG_WIDTH = 104;
@@ -93,10 +98,12 @@ export default function addHoverListeners(node) {
 
     let extension = data.images.cover.t;
     extension = extensionType[extension];
-    const imgId = data.media_id;
-    const image = `https://t.nhentai.net/galleries/${imgId}/cover.${extension}`;
     const tags = data.tags.filter((x) => x.type === 'tag').map((x) => x.name);
     const title = data.title.english;
+    const imgId = data.media_id;
+    const image = `${PROXY_URL}${BASE_IMAGE_URL}`
+      .replace('{id}', imgId)
+      .replace('{ext}', extension);
 
     addDetailContainer(link, {
       seriesId,
