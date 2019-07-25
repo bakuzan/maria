@@ -39,11 +39,9 @@ function addDetailContainer(
     ta.appendChild(el);
   });
 
-  const img = document.createElement('img');
+  const img = new Image(IMG_WIDTH, IMG_HEIGHT);
   img.src = image;
   img.alt = title;
-  img.width = IMG_WIDTH;
-  img.height = IMG_HEIGHT;
 
   const d = document.createElement('div');
   d.style.cssText = `
