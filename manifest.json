@@ -38,6 +38,29 @@
     "src/content/*",
     "src/utils/*.js"
   ],
+  "commands": {
+    "view-magic-number": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+8"
+      },
+      "description": "View magic number",
+      "global": true
+    },
+    "add-links": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+0"
+      },
+      "description": "Add processed Links",
+      "global": true
+    },
+    "remove-links": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+9"
+      },
+      "description": "Remove processed Links",
+      "global": true
+    }
+  },
   "icons": {
     "16": "src/images/maria_16x16.png",
     "32": "src/images/maria_32x32.png",
