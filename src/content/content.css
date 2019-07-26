@@ -81,15 +81,23 @@
   height: auto;
   padding: 10px;
   box-shadow: 1px 1px 5px 5px var(--shadow-colour);
+  z-index: 1000;
+}
+.maria-detail__column {
+  display: flex;
+  flex-direction: column;
+}
+.maria-detail__title {
+  margin: 10px 0;
 }
 
-.maria-tag-list {
+.maria-detail__tags {
   display: block;
   list-style-type: none;
   padding: 0;
   margin: 0 10px;
 }
-.maria-tag {
+.maria-detail__tag {
   display: inline-flex;
   padding: 2px 5px;
   margin: 2px;

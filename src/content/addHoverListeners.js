@@ -6,8 +6,8 @@ import {
 } from '../consts.js';
 import dimensions from '../utils/dimensions.js';
 
-const IMG_WIDTH = 104;
-const IMG_HEIGHT = 150;
+const IMG_WIDTH = 150;
+const IMG_HEIGHT = undefined;
 
 const uniqueId = (base) => `${base}_${new Date().getTime()}`;
 function displayStyle(node, x, y) {
@@ -15,8 +15,8 @@ function displayStyle(node, x, y) {
   const dim = dimensions();
 
   let height = y - rect.height;
-  if (height + 250 > dim.h) {
-    height = dim.h - 260;
+  if (height + 300 > dim.h) {
+    height = dim.h - 375;
   }
 
   return `
@@ -33,13 +33,14 @@ function addDetailContainer(
   const uid = uniqueId(seriesId);
 
   const ti = document.createElement('div');
+  ti.className = 'maria-detail__title';
   ti.textContent = title;
 
   const ta = document.createElement('ul');
-  ta.className = `maria-tag-list`;
+  ta.className = `maria-detail__tags`;
   tags.forEach((tag) => {
     const el = document.createElement('li');
-    el.className = `maria-tag`;
+    el.className = `maria-detail__tag`;
     el.textContent = tag;
     ta.appendChild(el);
   });
@@ -49,10 +50,7 @@ function addDetailContainer(
   img.alt = title;
 
   const d = document.createElement('div');
-  d.style.cssText = `
-  display: flex;
-  flex-direction: column;
-  `;
+  d.className = 'maria-detail__column';
   d.appendChild(ti);
   d.appendChild(img);
 
