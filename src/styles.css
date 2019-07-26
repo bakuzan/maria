@@ -3,7 +3,7 @@
   --primary-colour-hovered: #cc0028;
   --shadow-colour: #ddd;
 
-  --font-family: 'Courier New', Courier, monospace;
+  --font-family: 'Lucida Console', 'Courier New', monospace;
   --font-size: 16px;
 
   font-size: var(--font-size);
@@ -73,7 +73,7 @@ hr {
   align-items: center;
   width: 20px;
   height: 20px;
-  margin: 0 5px;
+  margin: 0 5px 5px;
 }
 
 .tickbox input:before,

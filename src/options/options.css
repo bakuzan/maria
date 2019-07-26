@@ -1,5 +1,5 @@
 .digit-options {
   display: flex;
   flex-direction: column;
-  max-width: 75px;
+  max-width: 50px;
 }
