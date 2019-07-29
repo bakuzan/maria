@@ -1,6 +1,7 @@
 .maria {
   --primary-colour: #88001b;
   --primary-colour-hovered: #cc0028;
+  --primary-colour-contrast: #fff;
   --shadow-colour: #ddd;
 
   --font-family: 'Lucida Console', 'Courier New', monospace;
@@ -50,8 +51,18 @@ hr {
   margin: 0 2px;
   cursor: pointer;
 }
+.mra-button--padding {
+  padding: 5px 10px;
+}
 .mra-button:hover {
   background-color: hsl(0, 0%, 95%);
+}
+.mra-button--primary {
+  background-color: var(--primary-colour);
+  color: var(--primary-colour-contrast);
+}
+.mra-button--primary:hover {
+  background-color: var(--primary-colour-hovered);
 }
 
 /* Tickbox */

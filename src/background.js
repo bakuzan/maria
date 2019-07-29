@@ -4,12 +4,15 @@ import {
   PROCESS_NUMBERS,
   REMOVE_LINKS,
   FETCH_NUMBER_DETAIL,
-  BASE_LINK_URL
+  BASE_LINK_URL,
+  POST_MAL_SERIES,
+  erzaGQL
 } from './consts.js';
 import fetch from './utils/fetch.js';
 import injectContentModule from './utils/injectContentModule.js';
 import userFeedback from './utils/userFeedback.js';
 import getActiveTab from './utils/getActiveTab.js';
+import getErrorMessage from './utils/getErrorMessage.js';
 
 /* Common */
 function processLinks(tabId, sendResponse = () => null) {
@@ -58,8 +61,44 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       );
       return true;
 
+    case POST_MAL_SERIES: {
+      fetch(`http://localhost:9003/graphql`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: `POST`,
+        body: JSON.stringify({
+          query: request.isAnime ? erzaGQL.anime : erzaGQL.manga,
+          variables: { payload: request.series }
+        })
+      }).then((response) => {
+        if (!response.success) {
+          const message = getErrorMessage(response);
+          userFeedback('error', message);
+        }
+
+        sendResponse({
+          action: POST_MAL_SERIES,
+          message: 'Done',
+          ...response
+        });
+      });
+      return true;
+    }
     default:
       return;
+  }
+});
+
+/* Update tabs watch */
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  const isComplete = changeInfo.status === 'complete';
+  const re = /^https:\/\/myanimelist.net\/anime\/.*|^https:\/\/myanimelist.net\/manga\/.*/;
+  const isSeriesPage = new RegExp(re).test(tab.url);
+
+  if (isComplete && isSeriesPage) {
+    injectContentModule(tabId, 'addSeries.js');
   }
 });
 

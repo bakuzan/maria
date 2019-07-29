@@ -8,7 +8,7 @@ export default async function userFeedback(type, message) {
       code: `(async () => {
           const src = chrome.extension.getURL("src/utils/toaster.js");
           const contentMain = await import(src);
-          contentMain.default("${type}", "${message}");
+          contentMain.default("${type}", \`${message}\`);
         })();`
     });
   } catch (error) {
