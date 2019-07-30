@@ -18,15 +18,17 @@ function commonElements(isAnime) {
     .filter((x) => !excludedTags.includes(x))
     .join(',');
 
+  const isAdult = tagString.includes('hentai');
+
   return {
     malId,
     title,
     image,
     series_type,
     total,
-    tagString,
+    isAdult,
     status: 'Planned',
-    isAdult: tagString.includes('hentai')
+    tagString: isAdult ? 'hentai' : tagString
   };
 }
 
