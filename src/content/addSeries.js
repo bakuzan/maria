@@ -1,6 +1,7 @@
 import { POST_MAL_SERIES, monthNames, excludedTags } from '../consts.js';
 import toaster from '../utils/toaster.js';
 import getNode from '../utils/getNode.js';
+import isValidDate from '../utils/isValidDate.js';
 
 /* Functions */
 
@@ -41,7 +42,9 @@ function handleAnime() {
     .trim()
     .split(' ')
     .slice(2, 5);
+
   const monthIndex = monthNames.findIndex((x) => x === mn);
+  const startDate = new Date(Date.UTC(year, monthIndex, day.slice(0, -1)));
 
   return {
     ...pass,
@@ -49,9 +52,9 @@ function handleAnime() {
     image: image.src,
     series_type: series_type.textContent,
     series_episodes: Number(episodes),
-    series_start: new Date(Date.UTC(year, monthIndex, day.slice(0, -1)))
-      .toISOString()
-      .split('T')[0]
+    series_start: isValidDate(startDate)
+      ? startDate.toISOString().split('T')[0]
+      : null
   };
 }
 
@@ -98,6 +101,7 @@ export default function addSeries() {
 
   const btn = document.createElement('button');
   btn.className = 'mra-button mra-button--padding mra-button--primary';
+  btn.style.cssText = `width:99%;`;
   btn.textContent = 'Add series to Erza';
   btn.addEventListener('click', function() {
     const isAnime = !window.location.href.includes('manga');
