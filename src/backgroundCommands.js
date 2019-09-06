@@ -1,7 +1,7 @@
 import './thirdParty/hot-reload.js';
 import './thirdParty/chrome-extension-async.js';
 import getActiveTab from './utils/getActiveTab.js';
-import { processLinks, removeLinks } from './utils/linksProcessing';
+import { processLinks, removeLinks } from './utils/linksProcessing.js';
 import handleMagicNumberSelect from './utils/handleMagicNumberSelect.js';
 
 /* Keyboard shortcuts */

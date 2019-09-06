@@ -1,4 +1,4 @@
-import { PROCESS_NUMBERS, REMOVE_LINKS } from './consts.js';
+import { PROCESS_NUMBERS, REMOVE_LINKS } from '../consts.js';
 import injectContentModule from './injectContentModule.js';
 
 export function processLinks(tabId, sendResponse = () => null) {

@@ -10,7 +10,7 @@ import {
 import fetch from './utils/fetch.js';
 import injectContentModule from './utils/injectContentModule.js';
 import userFeedback from './utils/userFeedback.js';
-import { processLinks, removeLinks } from './utils/linksProcessing';
+import { processLinks, removeLinks } from './utils/linksProcessing.js';
 import getErrorMessage from './utils/getErrorMessage.js';
 
 /* Message handling */
