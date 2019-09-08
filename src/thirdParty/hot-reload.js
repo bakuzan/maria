@@ -1,3 +1,5 @@
+import { shouldReload } from '../../env.js';
+
 const filesInDirectory = (dir) =>
   new Promise((resolve) =>
     dir.createReader().readEntries((entries) =>
@@ -43,6 +45,10 @@ const watchChanges = (dir, lastTimestamp) => {
 };
 
 chrome.management.getSelf((self) => {
+  if (!shouldReload) {
+    return;
+  }
+
   if (self.installType === 'development') {
     chrome.runtime.getPackageDirectoryEntry((dir) => watchChanges(dir));
   }
