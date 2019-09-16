@@ -8,7 +8,8 @@ import isValidDate from '../utils/isValidDate.js';
 function commonElements(isAnime) {
   const totalName = isAnime ? 'Episodes' : 'Chapters';
 
-  const malId = Number(window.location.pathname.replace(/\D/g, ''));
+  const [idSlug] = window.location.pathname.match(/\/\d+\//);
+  const malId = Number(idSlug.slice(1, -1));
   const title = getNode(`//*[@id='contentWrapper']//h1/span`);
   const image = getNode(`//*[@id='content']//a/img`);
   const series_type = getNode("//span[text()='Type:']/../a");
