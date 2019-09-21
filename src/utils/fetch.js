@@ -3,7 +3,12 @@ export default async function fetcher(url, options) {
     const data = await fetch(url, options).then((res) => res.json());
 
     // For graphql queries
-    if (data.hasOwnProperty('data')) {
+    if (data.hasOwnProperty('errors')) {
+      return {
+        success: false,
+        ...data
+      };
+    } else if (data.hasOwnProperty('data')) {
       const hasData = !!data.data;
       const hasErza = data.data.hasOwnProperty('erzaResponse');
       const nData =

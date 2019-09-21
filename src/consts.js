@@ -30,7 +30,7 @@ export const monthNames = [
   'Dec'
 ];
 
-export const excludedTags = ['seinen', 'shoujo', 'josei', 'shounen'];
+export const excludedTags = ['seinen', 'shoujo', 'josei', 'shounen', 'kids'];
 
 export const erzaGQL = {
   anime: `
