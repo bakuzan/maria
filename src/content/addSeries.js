@@ -4,12 +4,20 @@ import getNode from '../utils/getNode.js';
 import isValidDate from '../utils/isValidDate.js';
 
 /* Functions */
+function getMalId() {
+  const mid = document.querySelector("input[name='mid']");
+  if (!mid) {
+    const [idSlug] = window.location.pathname.match(/\/\d+\/|\/\d+$/);
+    return Number(idSlug.replace(/\D/g, ''));
+  }
+
+  return Number(mid.value);
+}
 
 function commonElements(isAnime) {
   const totalName = isAnime ? 'Episodes' : 'Chapters';
 
-  const [idSlug] = window.location.pathname.match(/\/\d+\//);
-  const malId = Number(idSlug.slice(1, -1));
+  const malId = getMalId();
   const title = getNode(`//*[@id='contentWrapper']//h1/span`);
   const image = getNode(`//*[@id='content']//a/img`);
   const series_type = getNode("//span[text()='Type:']/../a");
