@@ -59,7 +59,7 @@ function handleAnime() {
     ...pass,
     title: title.textContent.trim(),
     image: image.src,
-    series_type: series_type.textContent,
+    series_type: series_type.textContent.replace(/-/g, ''),
     series_episodes: Number(episodes),
     series_start: isValidDate(startDate)
       ? startDate.toISOString().split('T')[0]
@@ -77,7 +77,7 @@ function handleManga() {
     ...pass,
     title: title.textContent.trim(),
     image: image.src,
-    series_type: series_type.textContent,
+    series_type: series_type.textContent.replace(/-/g, ''),
     series_chapters: Number(chapters),
     series_volumes: Number(volumes)
   };
