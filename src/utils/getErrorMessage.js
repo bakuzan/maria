@@ -8,9 +8,9 @@ export default function getErrorMessage(response) {
   }
 
   if (response.errors) {
-    const baseErrors = response.errors[0];
+    const baseErrors = response.errors[0] || { extensions: {} };
     const message = baseErrors.message;
-    const { errors = [] } = errors.extensions.exception || {};
+    const { errors = [] } = baseErrors.extensions.exception || {};
     const detail = errors[0] ? errors[0].message : 'No fault detail';
 
     return `${message} - ${detail}`;
