@@ -67,14 +67,14 @@ hr {
 
 /* Tickbox */
 
-.tickbox {
+.mra-tickbox {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 2px;
   cursor: pointer;
 }
-.tickbox > input[type='checkbox'] {
+.mra-tickbox > input[type='checkbox'] {
   -webkit-appearance: none;
   appearance: none;
   transition: all 0.3s;
@@ -87,27 +87,27 @@ hr {
   margin: 0 5px 5px;
 }
 
-.tickbox input:before,
-.tickbox input:checked:before {
+.mra-tickbox input:before,
+.mra-tickbox input:checked:before {
   color: #000;
   transition: all 0.3s;
   cursor: pointer;
   z-index: 1;
 }
 
-.tickbox input:before {
-  content: '\2610';
+.mra-tickbox input:before {
+  content: '\2610\FE0E';
   font-size: 2em;
 }
 
-.tickbox input:disabled:before {
-  content: '\274c';
+.mra-tickbox input:disabled:before {
+  content: '\274c\FE0E';
   color: #666;
   cursor: default;
 }
 
-.tickbox input:checked:before {
-  content: '\2611';
+.mra-tickbox input:checked:before {
+  content: '\2611\FE0E';
   color: #0f0;
 }
 
