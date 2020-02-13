@@ -14,11 +14,25 @@ function getMalId() {
   return Number(mid.value);
 }
 
+function cleanTitle(node) {
+  let title = node.textContent;
+  const engNode = getNode(
+    `//*[@id="contentWrapper"]/div[1]/h1//span[@class="title-english"]`
+  );
+  console.log(title, engNode);
+  if (engNode) {
+    console.log(title, engNode.textContent);
+    title = title.replace(engNode.textContent, '');
+  }
+
+  return title.trim();
+}
+
 function commonElements(isAnime) {
   const totalName = isAnime ? 'Episodes' : 'Chapters';
 
   const malId = getMalId();
-  const title = getNode(`//*[@id='contentWrapper']//h1/span`);
+  const titleNode = getNode(`//*[@id='contentWrapper']//h1/span`);
   const image = getNode(`//*[@id='content']//a/img`);
   const series_type = getNode("//span[text()='Type:']/../a");
   const total = getNode(`//span[text()='${totalName}:']/..`);
@@ -32,7 +46,7 @@ function commonElements(isAnime) {
 
   return {
     malId,
-    title,
+    title: cleanTitle(titleNode),
     image,
     series_type,
     total,
@@ -43,7 +57,7 @@ function commonElements(isAnime) {
 }
 
 function handleAnime() {
-  const { title, image, series_type, total, ...pass } = commonElements(true);
+  const { image, series_type, total, ...pass } = commonElements(true);
   const episodes = total.innerText.replace(/\D/g, '');
 
   const seriesStartEl = getNode("//span[text()='Aired:']/..");
@@ -57,7 +71,6 @@ function handleAnime() {
 
   return {
     ...pass,
-    title: title.textContent.trim(),
     image: image.src,
     series_type: series_type.textContent.replace(/-/g, ''),
     series_episodes: Number(episodes),
@@ -68,14 +81,13 @@ function handleAnime() {
 }
 
 function handleManga() {
-  const { title, image, series_type, total, ...pass } = commonElements(false);
+  const { image, series_type, total, ...pass } = commonElements(false);
   const vol = getNode(`//span[text()='Volumes:']/..`);
   const chapters = total.innerText.replace(/\D/g, '');
   const volumes = vol.innerText.replace(/\D/g, '');
 
   return {
     ...pass,
-    title: title.textContent.trim(),
     image: image.src,
     series_type: series_type.textContent.replace(/-/g, ''),
     series_chapters: Number(chapters),
