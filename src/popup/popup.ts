@@ -24,6 +24,12 @@ function buttonListener(action: MariaAction) {
   };
 }
 
+function getFileName() {
+  // const [name] = window.document.title.split('»'); // TODO Get name from page title?
+
+  return 'maria_gallery_download.zip';
+}
+
 async function downloadGallery() {
   const activeTab = await getActiveTab();
   const items: DownloadItem[] = await browser.tabs.sendMessage(activeTab.id, {
@@ -47,7 +53,7 @@ async function downloadGallery() {
   downloadDriver.zipping();
   zip.generateAsync({ type: 'blob' }).then(async function(content) {
     const url = URL.createObjectURL(content);
-    const filename = 'maria_gallery_download.zip'; // TODO Get name from page title?
+    const filename = getFileName();
 
     await browser.downloads.download({
       url,
@@ -56,6 +62,7 @@ async function downloadGallery() {
     });
 
     downloadDriver.reset();
+    URL.revokeObjectURL(url);
   });
 }
 
