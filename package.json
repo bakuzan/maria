@@ -1,0 +1,63 @@
+{
+  "name": "maria",
+  "version": "2.0.0",
+  "description": "Utility extension for personal use.",
+  "scripts": {
+    "lint": "tslint --fix -c tslint.json 'src/**/*.ts{,x}'",
+    "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
+    "prebuild": "npm run clean",
+    "build": "env NODE_ENV=production webpack --config webpack.config.js",
+    "prewatch": "npm run clean",
+    "watch": "env NODE_ENV=development webpack --config webpack.config.js -w"
+  },
+  "lint-staged": {
+    "{,src}/**/*.{ts,js}": [
+      "npm run lint"
+    ],
+    "{,src}/**/*.{html,scss}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakuzan/maria.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bakuzan/maria/issues"
+  },
+  "homepage": "https://github.com/bakuzan/maria#readme",
+  "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@types/chrome": "0.0.98",
+    "@types/node": "^13.7.7",
+    "awesome-typescript-loader": "^5.2.1",
+    "copy-webpack-plugin": "^5.1.1",
+    "cpy-cli": "^3.1.0",
+    "css-loader": "^3.4.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.1",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.2",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.8.3",
+    "webextension-polyfill": "^0.6.0",
+    "webextension-polyfill-ts": "^0.12.0",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {}
+}

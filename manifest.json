@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Maria",
   "description": "Personal Utility Extension",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "author": "Bakuzan",
   "permissions": [
     "tabs",
@@ -13,31 +13,28 @@
     "https://*/"
   ],
   "background": {
-    "page": "src/background.html",
-    "persistant": false
+    "page": "background.html",
+    "persistent": false
   },
   "browser_action": {
-    "default_popup": "src/popup/popup.html",
+    "default_popup": "popup.html",
     "default_icon": {
-      "16": "src/images/maria_16x16.png",
-      "32": "src/images/maria_32x32.png",
-      "48": "src/images/maria_48x48.png",
-      "128": "src/images/maria_128x128.png"
+      "16": "assets/maria_16x16.png",
+      "32": "assets/maria_32x32.png",
+      "48": "assets/maria_48x48.png",
+      "128": "assets/maria_128x128.png"
     }
   },
-  "options_page": "src/options/options.html",
+  "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "css": ["src/styles.css", "src/content/content.css"]
+      "js": ["contentscript.js"],
+      "css": ["contentscript.css"],
+      "matches": ["<all_urls>"]
     }
   ],
-  "web_accessible_resources": [
-    "src/consts.js",
-    "src/thirdParty/chrome-extension-async.js",
-    "src/content/*",
-    "src/utils/*.js"
-  ],
+  "web_accessible_resources": ["assets/*"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "commands": {
     "view-magic-number": {
       "suggested_key": {
@@ -62,9 +59,9 @@
     }
   },
   "icons": {
-    "16": "src/images/maria_16x16.png",
-    "32": "src/images/maria_32x32.png",
-    "48": "src/images/maria_48x48.png",
-    "128": "src/images/maria_128x128.png"
+    "16": "assets/maria_16x16.png",
+    "32": "assets/maria_32x32.png",
+    "48": "assets/maria_48x48.png",
+    "128": "assets/maria_128x128.png"
   }
 }

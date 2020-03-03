@@ -1,0 +1,119 @@
+.maria {
+  --primary-colour: #88001b;
+  --primary-colour-hovered: #cc0028;
+  --primary-colour-contrast: #fff;
+  --shadow-colour: #ddd;
+
+  --font-family: 'Lucida Console', 'Courier New', monospace;
+  --font-size: 16px;
+
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+}
+
+/* Element overrides */
+
+hr {
+  border-color: var(--primary-colour);
+}
+
+/* Headings/Titles */
+
+.maria__heading {
+  display: flex;
+  align-items: center;
+}
+.maria__heading--spaced {
+  margin: 10px 0 25px;
+}
+
+.maria__title {
+  font-size: 1.5rem;
+}
+.maria__subtitle {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+/* Buttons */
+
+.maria__buttons {
+  display: flex;
+}
+
+.mra-button {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  background: none;
+  border: none;
+  box-shadow: 1px 1px 2px 0px var(--shadow-colour),
+    0px 0px 1px 0px var(--shadow-colour);
+  margin: 0 2px;
+  cursor: pointer;
+}
+.mra-button--padding {
+  padding: 5px 10px;
+}
+.mra-button:hover {
+  background-color: hsl(0, 0%, 95%);
+}
+.mra-button--primary {
+  background-color: var(--primary-colour);
+  color: var(--primary-colour-contrast);
+}
+.mra-button--primary:hover {
+  background-color: var(--primary-colour-hovered);
+}
+
+/* Tickbox */
+
+.mra-tickbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 2px;
+  margin: 2px 0;
+  cursor: pointer;
+}
+.mra-tickbox > input[type='checkbox'] {
+  -webkit-appearance: none;
+  appearance: none;
+  transition: all 0.3s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 5px;
+}
+
+.mra-tickbox input:before,
+.mra-tickbox input:checked:before {
+  color: #000;
+  transition: all 0.3s;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.mra-tickbox input:before {
+  content: '\2610\FE0E';
+  font-size: 2em;
+}
+
+.mra-tickbox input:disabled:before {
+  content: '\274c\FE0E';
+  color: #666;
+  cursor: default;
+}
+
+.mra-tickbox input:checked:before {
+  content: '\2611\FE0E';
+  color: #0f0;
+}
+
+/* Other */
+
+.maria__image {
+  margin: 0 10px;
+}
