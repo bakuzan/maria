@@ -13,13 +13,6 @@ enum MariaContextMenuOption {
   JuriSearchMangaAdult = 'manga-adult'
 }
 
-// Magic number search
-browser.contextMenus.create({
-  id: MariaContextMenuOption.MagicNumber,
-  title: 'View magic number "%s"',
-  contexts: ['selection']
-});
-
 // Juri search
 const juriSearchOptions = [
   {
@@ -41,6 +34,14 @@ const juriSearchOptions = [
 ];
 
 function onInstalled() {
+  // Magic number search
+  browser.contextMenus.create({
+    id: MariaContextMenuOption.MagicNumber,
+    title: 'View magic number "%s"',
+    contexts: ['selection']
+  });
+
+  // Search
   browser.contextMenus.create({
     id: MariaContextMenuOption.JuriSearch,
     title: 'Search Juri',

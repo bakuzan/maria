@@ -5,6 +5,10 @@ export enum MariaAction {
   POST_MAL_SERIES = 4
 }
 
+export enum PageAction {
+  GET_GALLERY = 1
+}
+
 export const BASE_LINK_URL = 'https://nhentai.net/g/';
 export const BASE_IMAGE_URL =
   'https://t.nhentai.net/galleries/{id}/cover.{ext}';

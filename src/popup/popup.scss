@@ -3,3 +3,16 @@
   min-height: 100px;
   padding: 10px;
 }
+
+.mra-downloader {
+  width: 100%;
+  padding: 5px;
+}
+
+.mra-progress {
+  margin: 10px 0;
+
+  > div {
+    margin: 2px 0;
+  }
+}
