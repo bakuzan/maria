@@ -9,6 +9,7 @@
     "notifications",
     "storage",
     "contextMenus",
+    "downloads",
     "http://*/",
     "https://*/"
   ],

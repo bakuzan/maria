@@ -8,11 +8,11 @@ class DownloadDriver {
 
   init(total: number) {
     this.total = total;
-    this.message = document.querySelector<HTMLDivElement>('downloadMessage');
+    this.message = document.querySelector<HTMLDivElement>('#downloadMessage');
     this.message.textContent = 'Downloading...\r\n';
 
-    this.progressLoad = document.querySelector<HTMLDivElement>('filesQueued');
-    this.progressDone = document.querySelector<HTMLDivElement>('filesLoaded');
+    this.progressLoad = document.querySelector<HTMLDivElement>('#filesQueued');
+    this.progressDone = document.querySelector<HTMLDivElement>('#filesLoaded');
   }
 
   bumpLoadingCount() {
@@ -35,6 +35,8 @@ class DownloadDriver {
     this.progressLoad.textContent = '';
     this.progressDone.textContent = '';
     this.message.textContent = '';
+    this.loaded = 0;
+    this.complete = 0;
   }
 }
 

@@ -2,9 +2,9 @@ import '../styles.scss';
 import './popup.scss';
 import { browser } from 'webextension-polyfill-ts';
 import JSZip from 'jszip';
-import FileSaver from 'file-saver';
 
-import { MariaAction } from '@/consts';
+import { MariaAction, PageAction } from '@/consts';
+import { DownloadItem } from '@/types/DownloadItem';
 import getActiveTab from '@/utils/getActiveTab';
 import downloadDriver from '@/utils/downloadDriver';
 
@@ -25,21 +25,14 @@ function buttonListener(action: MariaAction) {
 }
 
 async function downloadGallery() {
-  const images = document.querySelectorAll<HTMLImageElement>(''); // TODO selector?
-  downloadDriver.init(images.length);
+  const activeTab = await getActiveTab();
+  const items: DownloadItem[] = await browser.tabs.sendMessage(activeTab.id, {
+    action: PageAction.GET_GALLERY
+  });
+
+  downloadDriver.init(items.length);
 
   const zip = new JSZip();
-
-  const items = Array.from(images).map((x, i) => {
-    const rawUrl = x.getAttribute('data-src-set'); // TODO check attribute name
-    const ext = rawUrl.split('.').pop();
-    const name = i.toString().padStart(3, '0');
-
-    return {
-      name: `${name}.${ext}`,
-      url: rawUrl.replace('//t.', '//i.').replace(`t.${ext}`, `.${ext}`)
-    };
-  });
 
   for (const item of items) {
     downloadDriver.bumpLoadingCount();
@@ -52,10 +45,16 @@ async function downloadGallery() {
   }
 
   downloadDriver.zipping();
-  zip.generateAsync({ type: 'blob' }).then(function(content) {
-    // TODO
-    // Get name from page title?
-    FileSaver.saveAs(content, 'maria_gallery_download.zip');
+  zip.generateAsync({ type: 'blob' }).then(async function(content) {
+    const url = URL.createObjectURL(content);
+    const filename = 'maria_gallery_download.zip'; // TODO Get name from page title?
+
+    await browser.downloads.download({
+      url,
+      filename,
+      saveAs: true
+    });
+
     downloadDriver.reset();
   });
 }
@@ -70,7 +69,7 @@ async function run() {
     .addEventListener('click', buttonListener(MariaAction.REMOVE_LINKS));
 
   const activeTab = await getActiveTab();
-  const re = /nhentai.net\/g\/\d{1,}$/;
+  const re = /nhentai.net\/g\/\d{1,}\/$/;
   const isGalleryPage = new RegExp(re).test(activeTab.url);
 
   if (isGalleryPage) {
