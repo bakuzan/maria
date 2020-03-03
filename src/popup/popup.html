@@ -17,11 +17,29 @@
         />
         <div class="maria__title">Maria</div>
       </div>
-      <hr />
-      <div class="maria__subtitle">Magic Numbers</div>
-      <div class="maria__buttons">
-        <button id="processNumbers" class="mra-button">Process numbers</button>
-        <button id="removeLinks" class="mra-button">Remove links</button>
+
+      <div id="magicNumbersOption">
+        <hr />
+        <div class="maria__subtitle">Magic Numbers</div>
+        <div class="maria__buttons">
+          <button id="processNumbers" class="mra-button">
+            Process numbers
+          </button>
+          <button id="removeLinks" class="mra-button">Remove links</button>
+        </div>
+      </div>
+
+      <div id="downloadGalleryOption" style="display: none;">
+        <hr />
+        <div class="maria__subtitle">Download Gallery</div>
+        <div class="maria__buttons">
+          <button id="downloadGallery" class="mra-button" disabled>
+            Download
+          </button>
+        </div>
+        <div id="downloadMessage"></div>
+        <div id="filesQueued"></div>
+        <div id="filesLoaded"></div>
       </div>
     </div>
   </body>
