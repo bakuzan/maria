@@ -18,18 +18,25 @@ export default function initScrapeGalleryItems() {
           };
         });
       }
+
       case PageAction.GET_GALLERY_NAME: {
         const [name] = window.document.title.split('»');
-        const filename = name
+        const filename = (name ?? 'maria-gallery-download')
           .toLowerCase()
           .trim()
-          .replace(/ /g, '-');
+          .replace(/[^a-z0-9_\-\[\] ]/gi, '')
+          .trim()
+          .replace(/ /g, '-')
+          .replace(/-{2,}/g, '-');
 
+        const authour = '';
         // TODO
-        // Remove invalid filename characters
+        // get authour tag content
+        // const authour = document.querySelector<HTMLElement>('')?.textContent ?? "unknown";
 
-        return `${filename}.zip`;
+        return `${filename}-[${authour}].zip`;
       }
+
       default:
         return;
     }
