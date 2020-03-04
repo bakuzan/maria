@@ -18,6 +18,18 @@ export default function initScrapeGalleryItems() {
           };
         });
       }
+      case PageAction.GET_GALLERY_NAME: {
+        const [name] = window.document.title.split('»');
+        const filename = name
+          .toLowerCase()
+          .trim()
+          .replace(/ /g, '-');
+
+        // TODO
+        // Remove invalid filename characters
+
+        return `${filename}.zip`;
+      }
       default:
         return;
     }

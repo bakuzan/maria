@@ -1,7 +1,6 @@
 import '../styles.scss';
 import './popup.scss';
 import { browser } from 'webextension-polyfill-ts';
-import JSZip from 'jszip';
 
 import { MariaAction, PageAction } from '@/consts';
 import { DownloadItem } from '@/types/DownloadItem';
@@ -24,15 +23,15 @@ function buttonListener(action: MariaAction) {
   };
 }
 
-function getFileName() {
-  // const [name] = window.document.title.split('»'); // TODO Get name from page title?
-
-  return 'maria_gallery_download.zip';
-}
-
 async function downloadGallery() {
+  const { default: JSZip } = await import(
+    /* webpackChunkName: "jszip" */ 'jszip'
+  );
+
   const activeTab = await getActiveTab();
-  const items: DownloadItem[] = await browser.tabs.sendMessage(activeTab.id, {
+
+  const tabId = activeTab.id;
+  const items: DownloadItem[] = await browser.tabs.sendMessage(tabId, {
     action: PageAction.GET_GALLERY
   });
 
@@ -53,7 +52,9 @@ async function downloadGallery() {
   downloadDriver.zipping();
   zip.generateAsync({ type: 'blob' }).then(async function(content) {
     const url = URL.createObjectURL(content);
-    const filename = getFileName();
+    const filename = await browser.tabs.sendMessage(tabId, {
+      action: PageAction.GET_GALLERY_NAME
+    });
 
     await browser.downloads.download({
       url,
