@@ -35,8 +35,13 @@ class DownloadDriver {
     this.progressLoad.textContent = '';
     this.progressDone.textContent = '';
     this.message.textContent = '';
+    this.total = undefined;
     this.loaded = 0;
     this.complete = 0;
+
+    delete this.message;
+    delete this.progressLoad;
+    delete this.progressDone;
   }
 }
 
