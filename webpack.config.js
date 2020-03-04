@@ -24,6 +24,7 @@ module.exports = {
   },
   output: {
     path: join(__dirname, 'dist'),
+    chunkFilename: '[name].bundle.js',
     filename: '[name].js'
   },
   module: {

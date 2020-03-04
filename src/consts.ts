@@ -6,7 +6,8 @@ export enum MariaAction {
 }
 
 export enum PageAction {
-  GET_GALLERY = 1
+  GET_GALLERY = 1,
+  GET_GALLERY_NAME = 2
 }
 
 export const BASE_LINK_URL = 'https://nhentai.net/g/';
