@@ -1,5 +1,6 @@
 import { PageAction } from '@/consts';
 import { browser } from 'webextension-polyfill-ts';
+import getNode from '@/utils/getNode';
 
 export default function initScrapeGalleryItems() {
   browser.runtime.onMessage.addListener(async function(msg, sender) {
@@ -20,8 +21,8 @@ export default function initScrapeGalleryItems() {
       }
 
       case PageAction.GET_GALLERY_NAME: {
-        const [name] = window.document.title.split('»');
-        const filename = (name ?? 'maria-gallery-download')
+        const name = document.querySelector('h1')?.textContent;
+        const title = (name ?? 'maria-gallery-download')
           .toLowerCase()
           .trim()
           .replace(/[^a-z0-9_\-\[\] ]/gi, '')
@@ -29,12 +30,14 @@ export default function initScrapeGalleryItems() {
           .replace(/ /g, '-')
           .replace(/-{2,}/g, '-');
 
-        const authour = '';
-        // TODO
-        // get authour tag content
-        // const authour = document.querySelector<HTMLElement>('')?.textContent ?? "unknown";
+        const authourTag = getNode(`//a[starts-with(@href, "/artist/")]`);
+        const authour =
+          authourTag?.textContent.replace(/\(.*$/, '').trim() ?? '';
 
-        return `${filename}-[${authour}].zip`;
+        const suff = `[${authour.replace(/ /g, '-')}]`;
+        const filename = title.replace(`${suff}-`, '').trim();
+
+        return `${filename}-${suff}.zip`;
       }
 
       default:
