@@ -8,11 +8,7 @@ export default async function userFeedback(type: ToasterType, message: string) {
     const activeTab = await getActiveTab();
 
     await browser.tabs.executeScript(activeTab.id, {
-      code: `(async () => {
-          const src = browser.extension.getURL("src/utils/toaster.js");
-          const contentMain = await import(src);
-          contentMain.default("${type}", \`${message}\`);
-        })();`
+      code: `(async () => window.__Maria__.toaster("${type}", \`${message}\`))();`
     });
   } catch (error) {
     console.log(error);
