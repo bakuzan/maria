@@ -4,9 +4,10 @@ const { CheckerPlugin } = require('awesome-typescript-loader');
 const { optimize } = require('webpack');
 const { join } = require('path');
 
+const isProduction = process.env.NODE_ENV === 'production';
 let prodPlugins = [];
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
   prodPlugins.push(
     new optimize.AggressiveMergingPlugin(),
     new optimize.OccurrenceOrderPlugin()
@@ -15,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  devtool: 'inline-source-map',
+  devtool: isProduction ? 'source-map' : 'inline-source-map',
   entry: {
     contentscript: join(__dirname, 'src/contentscript/contentscript.ts'),
     background: join(__dirname, 'src/background/background.ts'),

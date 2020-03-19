@@ -10,12 +10,11 @@ export enum PageAction {
   GET_GALLERY_NAME = 2
 }
 
+export const PROXY_URL = 'https://proxy.duckduckgo.com/iu/?u=';
 export const BASE_LINK_URL = 'https://nhentai.net/g/';
+export const BASE_JURI_URL = 'http://localhost:9000/juri';
 export const BASE_IMAGE_URL =
   'https://t.nhentai.net/galleries/{id}/cover.{ext}';
-export const PROXY_URL = 'https://proxy.duckduckgo.com/iu/?u=';
-
-export const BASE_JURI_URL = 'http://localhost:9000/juri';
 
 export const extensionType = {
   p: 'png',

@@ -10,32 +10,28 @@ enum MariaCommand {
   ViewMagicNumber = 'view-magic-number'
 }
 
-function onInstalled() {
-  browser.commands.onCommand.addListener(function(command: MariaCommand) {
-    console.log('Command:', command);
+browser.commands.onCommand.addListener(async function(command: MariaCommand) {
+  console.log('Command:', command);
 
-    getActiveTab().then((activeTab) => {
-      switch (command) {
-        case MariaCommand.AddLinks:
-          processLinks(activeTab.id);
-          break;
-        case MariaCommand.RemoveLinks:
-          removeLinks(activeTab.id);
-          break;
-        case MariaCommand.ViewMagicNumber:
-          chrome.tabs.executeScript(
-            activeTab.id,
-            {
-              code: `window.getSelection().toString();`
-            },
-            (text: any) => handleMagicNumberSelect(text, false)
-          );
-          break;
-        default:
-          return;
-      }
-    });
-  });
-}
+  const activeTab = await getActiveTab();
 
-browser.runtime.onInstalled.addListener(onInstalled);
+  switch (command) {
+    case MariaCommand.AddLinks:
+      processLinks(activeTab.id);
+      break;
+    case MariaCommand.RemoveLinks:
+      removeLinks(activeTab.id);
+      break;
+    case MariaCommand.ViewMagicNumber:
+      chrome.tabs.executeScript(
+        activeTab.id,
+        {
+          code: `window.getSelection().toString();`
+        },
+        (text: any) => handleMagicNumberSelect(text, false)
+      );
+      break;
+    default:
+      return;
+  }
+});

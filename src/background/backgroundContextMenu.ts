@@ -33,44 +33,40 @@ const juriSearchOptions = [
   }
 ];
 
-function onInstalled() {
-  // Magic number search
+// Magic number search
+browser.contextMenus.create({
+  id: MariaContextMenuOption.MagicNumber,
+  title: 'View magic number "%s"',
+  contexts: ['selection']
+});
+
+// Search
+browser.contextMenus.create({
+  id: MariaContextMenuOption.JuriSearch,
+  title: 'Search Juri',
+  contexts: ['selection']
+});
+
+juriSearchOptions.forEach((option) => {
   browser.contextMenus.create({
-    id: MariaContextMenuOption.MagicNumber,
-    title: 'View magic number "%s"',
-    contexts: ['selection']
+    parentId: MariaContextMenuOption.JuriSearch,
+    contexts: ['selection'],
+    ...option
   });
+});
 
-  // Search
-  browser.contextMenus.create({
-    id: MariaContextMenuOption.JuriSearch,
-    title: 'Search Juri',
-    contexts: ['selection']
-  });
+browser.contextMenus.onClicked.addListener(function(info) {
+  const { menuItemId, selectionText: search } = info;
+  const itemId = menuItemId as string;
 
-  juriSearchOptions.forEach((option) => {
-    browser.contextMenus.create({
-      parentId: MariaContextMenuOption.JuriSearch,
-      contexts: ['selection'],
-      ...option
-    });
-  });
+  if (menuItemId === MariaContextMenuOption.MagicNumber) {
+    handleMagicNumberSelect(search);
+    return;
+  }
 
-  browser.contextMenus.onClicked.addListener(function(info) {
-    const { menuItemId, selectionText: search } = info;
-    const itemId = menuItemId as string;
+  const [type, age] = itemId.replace(/_/g, ' ').split('-');
+  const optionUrl = `${BASE_JURI_URL}?type=${type}&age=${age}`;
+  const juriSearchUrl = `${optionUrl}&searchString=${search}`;
 
-    if (menuItemId === MariaContextMenuOption.MagicNumber) {
-      handleMagicNumberSelect(search);
-      return;
-    }
-
-    const [type, age] = itemId.replace(/_/g, ' ').split('-');
-    const optionUrl = `${BASE_JURI_URL}?type=${type}&age=${age}`;
-    const juriSearchUrl = `${optionUrl}&searchString=${search}`;
-
-    openWindow(juriSearchUrl);
-  });
-}
-
-browser.runtime.onInstalled.addListener(onInstalled);
+  openWindow(juriSearchUrl);
+});
