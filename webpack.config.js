@@ -21,7 +21,8 @@ module.exports = {
     contentscript: join(__dirname, 'src/contentscript/contentscript.ts'),
     background: join(__dirname, 'src/background/background.ts'),
     popup: join(__dirname, 'src/popup/popup.ts'),
-    options: join(__dirname, 'src/options/options.ts')
+    options: join(__dirname, 'src/options/options.ts'),
+    tabStore: join(__dirname, 'src/tabStore/tabStore.ts')
   },
   output: {
     path: join(__dirname, 'dist'),
@@ -51,7 +52,8 @@ module.exports = {
     new CopyPlugin([
       { from: 'src/background/background.html', to: 'background.html' },
       { from: 'src/options/options.html', to: 'options.html' },
-      { from: 'src/popup/popup.html', to: 'popup.html' }
+      { from: 'src/popup/popup.html', to: 'popup.html' },
+      { from: 'src/tabStore/tabStore.html', to: 'tabStore.html' }
     ])
   ],
   resolve: {

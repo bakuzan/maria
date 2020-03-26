@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Maria",
   "description": "Personal Utility Extension",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": "Bakuzan",
   "permissions": [
     "tabs",
@@ -37,13 +37,6 @@
   "web_accessible_resources": ["assets/*"],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "commands": {
-    "view-magic-number": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+8"
-      },
-      "description": "View magic number",
-      "global": true
-    },
     "add-links": {
       "suggested_key": {
         "default": "Ctrl+Shift+0"
@@ -56,6 +49,20 @@
         "default": "Ctrl+Shift+9"
       },
       "description": "Remove processed Links",
+      "global": true
+    },
+    "open-tab-store": {
+      "suggested_key": {
+        "default": "Alt+Shift+1"
+      },
+      "description": "Open tab store management tab",
+      "global": true
+    },
+    "store-tab": {
+      "suggested_key": {
+        "default": "Alt+Shift+0"
+      },
+      "description": "Send current store to tab store",
       "global": true
     }
   },

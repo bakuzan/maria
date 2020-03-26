@@ -1,8 +1,15 @@
+@import './_extensions';
+
 .maria {
+  --base-colour: #000;
+
   --primary-colour: #88001b;
   --primary-colour-hovered: #cc0028;
   --primary-colour-contrast: #fff;
   --shadow-colour: #ddd;
+
+  --anchor-shadow: #ccc;
+  --anchor-shadow-hover: var(--primary-colour);
 
   --font-family: 'Lucida Console', 'Courier New', monospace;
   --font-size: 16px;
@@ -15,6 +22,11 @@
 
 hr {
   border-color: var(--primary-colour);
+}
+
+input {
+  font-size: var(--font-size);
+  font-family: var(--font-family);
 }
 
 /* Headings/Titles */
@@ -112,8 +124,51 @@ hr {
   color: #0f0;
 }
 
+/* Link */
+.mra-link,
+.mra-link:visited {
+  @extend %anchor-shadow;
+  color: var(--primary-colour);
+  text-decoration: none;
+
+  &:focus,
+  &:hover,
+  &:active {
+    color: var(--primary-colour-contrast);
+  }
+}
+
 /* Other */
 
 .maria__image {
   margin: 0 10px;
+}
+
+input[type='text'],
+select {
+  font-size: inherit;
+  padding: 1em 0.25em 0.1em;
+  margin-bottom: 2px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--shadow-colour);
+}
+
+input[type='text']::-webkit-input-placeholder,
+select::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+input[type='text']:placeholder-shown:not(:focus)::-webkit-input-placeholder,
+.has-float-label
+  select:placeholder-shown:not(:focus)::-webkit-input-placeholder {
+  opacity: 0;
+}
+
+input[type='text']:focus,
+select:focus {
+  outline: none;
+  border-bottom: 2px solid var(--primary-colour);
 }

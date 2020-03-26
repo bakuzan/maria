@@ -1,6 +1,6 @@
 {
   "name": "maria",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Utility extension for personal use.",
   "scripts": {
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts{,x}'",

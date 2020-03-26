@@ -18,6 +18,7 @@ async function saveOption(event: InputEvent) {
   }
 
   await browser.storage.sync.set({
+    ...items,
     digitOptions: Array.from(curr)
   });
 }

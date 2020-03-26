@@ -3,9 +3,12 @@ import { browser } from 'webextension-polyfill-ts';
 import { MariaStore } from '@/types/MariaStore';
 
 export default async function getStorage() {
-  const store = await browser.storage.sync.get({
-    digitOptions: [6, 5]
-  });
+  const storageDefaults = {
+    digitOptions: [6, 5],
+    tabGroups: []
+  };
 
-  return store as MariaStore;
+  const store = await browser.storage.sync.get(storageDefaults);
+
+  return { ...storageDefaults, ...store } as MariaStore;
 }
