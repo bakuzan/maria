@@ -73,7 +73,7 @@ function addDetailContainer(
 export default function addHoverListeners<T extends Node>(node: T) {
   // Trigger detail tooltip
   const element: HTMLElement = node as any;
-  element.addEventListener('mouseenter', async function(event) {
+  element.addEventListener('mouseenter', async function (event) {
     const { target, clientX, clientY } = event;
 
     const link = target as HTMLElement;
@@ -124,7 +124,7 @@ export default function addHoverListeners<T extends Node>(node: T) {
   });
 
   // Handle hiding the detail tooltip
-  element.addEventListener('mouseleave', function(event) {
+  element.addEventListener('mouseleave', function (event) {
     const link = event.target as HTMLElement;
 
     const uid = link.getAttribute('data-maria-has-detail');

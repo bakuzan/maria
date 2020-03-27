@@ -92,7 +92,7 @@ tabStoreOptions.forEach((option) => {
 });
 
 // ContextMenu click handler
-browser.contextMenus.onClicked.addListener(async function(info) {
+browser.contextMenus.onClicked.addListener(async function (info) {
   const { menuItemId, parentMenuItemId, selectionText: search } = info;
   console.log('Context menu click : ', info);
 

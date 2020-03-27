@@ -12,7 +12,7 @@ enum MariaCommand {
   StoreTab = 'store-tab'
 }
 
-browser.commands.onCommand.addListener(async function(command: MariaCommand) {
+browser.commands.onCommand.addListener(async function (command: MariaCommand) {
   console.log('Command:', command);
 
   const activeTab = await getActiveTab();

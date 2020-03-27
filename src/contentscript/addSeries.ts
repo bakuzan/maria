@@ -131,7 +131,7 @@ export default function addSeries() {
   btn.style.cssText = `width:99%;`;
   btn.textContent = 'Add series to Erza';
 
-  btn.addEventListener('click', function() {
+  btn.addEventListener('click', function () {
     const isAnime = !window.location.href.includes('manga');
     let result = null;
 

@@ -3,7 +3,7 @@ import { browser } from 'webextension-polyfill-ts';
 import getNode from '@/utils/getNode';
 
 export default function initScrapeGalleryItems() {
-  browser.runtime.onMessage.addListener(async function(msg, sender) {
+  browser.runtime.onMessage.addListener(async function (msg, sender) {
     switch (msg.action) {
       case PageAction.GET_GALLERY: {
         const images = document.querySelectorAll('.gallerythumb > img');
