@@ -19,7 +19,9 @@ export default async function storeTabs(tabs: Tabs.Tab[]) {
     console.log(tab.url, tab.title);
 
     const matchedGroup = groups.find(
-      (x) => x.patterns.length && x.patterns.some((p) => tab.url.match(p))
+      (x) =>
+        x.patterns.length &&
+        x.patterns.some((p) => tab.url.match(new RegExp(p)))
     );
 
     const targetGroup = matchedGroup ?? newGroup;
