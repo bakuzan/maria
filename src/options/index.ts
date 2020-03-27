@@ -1,4 +1,4 @@
-import '../styles.scss';
+import '../styles/index.scss';
 import './options.scss';
 import { browser } from 'webextension-polyfill-ts';
 

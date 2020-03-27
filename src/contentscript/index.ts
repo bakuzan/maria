@@ -1,4 +1,4 @@
-import '../styles.scss';
+import '../styles/index.scss';
 import './contentscript.scss';
 
 import addHoverListeners from './addHoverListeners';

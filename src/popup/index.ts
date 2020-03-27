@@ -1,4 +1,4 @@
-import '../styles.scss';
+import '../styles/index.scss';
 import './popup.scss';
 import { browser } from 'webextension-polyfill-ts';
 
@@ -8,7 +8,7 @@ import getActiveTab from '@/utils/getActiveTab';
 import downloadDriver from '@/utils/downloadDriver';
 
 function buttonListener(action: MariaAction) {
-  return async function() {
+  return async function () {
     try {
       const activeTab = await getActiveTab();
 
@@ -50,7 +50,7 @@ async function downloadGallery() {
   }
 
   downloadDriver.zipping();
-  zip.generateAsync({ type: 'blob' }).then(async function(content) {
+  zip.generateAsync({ type: 'blob' }).then(async function (content) {
     const url = URL.createObjectURL(content);
     const filename = await browser.tabs.sendMessage(tabId, {
       action: PageAction.GET_GALLERY_NAME
@@ -68,6 +68,16 @@ async function downloadGallery() {
 }
 
 async function run() {
+  document
+    .getElementById('openTabStore')
+    .addEventListener('click', async () => {
+      await browser.tabs.create({
+        url: chrome.extension.getURL('tabStore.html')
+      });
+
+      window.close();
+    });
+
   document
     .getElementById('processNumbers')
     .addEventListener('click', buttonListener(MariaAction.PROCESS_NUMBERS));

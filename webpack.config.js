@@ -1,4 +1,4 @@
-const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const { optimize } = require('webpack');
@@ -18,11 +18,11 @@ module.exports = {
   mode: process.env.NODE_ENV,
   devtool: isProduction ? 'source-map' : 'inline-source-map',
   entry: {
-    contentscript: join(__dirname, 'src/contentscript/contentscript.ts'),
-    background: join(__dirname, 'src/background/background.ts'),
-    popup: join(__dirname, 'src/popup/popup.ts'),
-    options: join(__dirname, 'src/options/options.ts'),
-    tabStore: join(__dirname, 'src/tabStore/tabStore.ts')
+    contentscript: join(__dirname, 'src/contentscript', 'index.ts'),
+    background: join(__dirname, 'src/background', 'index.ts'),
+    popup: join(__dirname, 'src/popup', 'index.ts'),
+    options: join(__dirname, 'src/options', 'index.ts'),
+    tabStore: join(__dirname, 'src/tabStore', 'index.ts')
   },
   output: {
     path: join(__dirname, 'dist'),
@@ -49,12 +49,15 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css'
     }),
-    new CopyPlugin([
-      { from: 'src/background/background.html', to: 'background.html' },
-      { from: 'src/options/options.html', to: 'options.html' },
-      { from: 'src/popup/popup.html', to: 'popup.html' },
-      { from: 'src/tabStore/tabStore.html', to: 'tabStore.html' }
-    ])
+    ...['background', 'options', 'popup', 'tabStore'].map(
+      (name) =>
+        new HtmlWebpackPlugin({
+          template: join('src', name, `${name}.html`),
+          inject: 'body',
+          chunks: [name],
+          filename: `${name}.html`
+        })
+    )
   ],
   resolve: {
     extensions: ['.ts', '.js'],

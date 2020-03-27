@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tab Store | Maria</title>
-    <link rel="stylesheet" type="text/css" href="tabStore.css" />
-    <script defer type="module" src="tabStore.js"></script>
   </head>
   <body class="maria">
     <header class="maria__heading maria__heading--spaced">
@@ -15,9 +15,18 @@
         alt="Maria"
       />
       <h1 class="maria__title">Maria's Tab Store</h1>
+      <div class="flex-spacer"></div>
+      <div class="tab-store-actions">
+        <button
+          id="addNewGroup"
+          type="button"
+          class="mra-button mra-button--primary"
+        >
+          Add new tab group
+        </button>
+      </div>
     </header>
     <main>
-      <div class="tab-store-actions"></div>
       <div id="tabStore" class="tab-group-grid"></div>
     </main>
   </body>

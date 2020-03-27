@@ -61,6 +61,7 @@ input {
   box-shadow: 1px 1px 2px 0px var(--shadow-colour),
     0px 0px 1px 0px var(--shadow-colour);
   margin: 0 2px;
+  padding: 5px;
   cursor: pointer;
 }
 .mra-button--padding {
@@ -110,7 +111,7 @@ input {
 
 .mra-tickbox input:before {
   content: '\2610\FE0E';
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .mra-tickbox input:disabled:before {
@@ -140,8 +141,17 @@ input {
 
 /* Other */
 
+.flex-spacer {
+  display: flex;
+  flex: 1;
+}
+
 .maria__image {
   margin: 0 10px;
+}
+
+.mra-label {
+  font-size: 0.9rem;
 }
 
 input[type='text'],

@@ -11,7 +11,7 @@ import getErrorMessage from '@/utils/getErrorMessage';
 
 /* Message handling */
 
-chrome.runtime.onMessage.addListener(function(
+chrome.runtime.onMessage.addListener(function (
   request: any,
   sender: chrome.runtime.MessageSender,
   sendResponse: (action: BackgroundAction) => void
@@ -79,7 +79,7 @@ chrome.runtime.onMessage.addListener(function(
 });
 
 /* Update tabs watch */
-chrome.tabs.onUpdated.addListener(function(
+chrome.tabs.onUpdated.addListener(function (
   tabId: number,
   changeInfo: any,
   tab: any
