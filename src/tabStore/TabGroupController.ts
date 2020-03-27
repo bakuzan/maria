@@ -1,12 +1,13 @@
 import { browser } from 'webextension-polyfill-ts';
 import Sortable from 'sortablejs';
 
-import funnelSVG from './funnelSVG';
+import getViewToggleSVG from './getViewToggleSVG';
+import groupSync from './TabGroupSync';
 
 import { TabGroup } from '@/types/TabGroup';
 import getStorage from '@/utils/getStorage';
 import move from '@/utils/move';
-import groupSync from './TabGroupSync';
+import getUrlOrigin from '@/utils/getUrlOrigin';
 
 export class TabGroupController {
   private data: TabGroup;
@@ -49,7 +50,7 @@ export class TabGroupController {
 
     const name = document.createElement('input');
     name.type = 'text';
-    name.className = 'tab-group__name';
+    name.className = 'mra-input tab-group__name';
     name.placeholder = 'Enter a group name...';
     name.value = this.data.name ?? '';
     name.addEventListener('blur', (e: Event) => this.onNameChange(e));
@@ -63,7 +64,7 @@ export class TabGroupController {
       ? 'Display pattern filters'
       : 'Display group links';
 
-    patternToggle.innerHTML = funnelSVG();
+    patternToggle.innerHTML = getViewToggleSVG(this.isGroupView);
     patternToggle.addEventListener('click', () => this.togglePatternView());
 
     const tickbox = document.createElement('label');
@@ -123,6 +124,16 @@ export class TabGroupController {
       btn.textContent = '\u274C\uFE0E';
       btn.addEventListener('click', handleRemoveLink);
 
+      const icon = new Image(16, 16);
+      icon.className = 'stored-links__icon';
+      icon.src = `${getUrlOrigin(item.url)}/favicon.ico`;
+      icon.alt = 'i';
+      icon.onerror = function (event: ErrorEvent) {
+        const t = event.target as HTMLImageElement;
+        t.onerror = null;
+        t.src = 'assets/maria_16x16.png';
+      };
+
       const link = document.createElement('a');
       link.className = 'mra-link stored-links__link';
       link.textContent = item.title;
@@ -132,6 +143,7 @@ export class TabGroupController {
       link.addEventListener('click', handleRemoveLink);
 
       li.append(btn);
+      li.append(icon);
       li.append(link);
       ul.append(li);
     });
