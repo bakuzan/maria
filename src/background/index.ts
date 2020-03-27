@@ -1,5 +1,6 @@
 import './backgroundCommands';
 import './backgroundContextMenu';
+import { browser } from 'webextension-polyfill-ts';
 
 import { MariaAction, erzaGQL } from '@/consts';
 import { BackgroundAction } from '@/types/BackgroundAction';
@@ -79,7 +80,7 @@ chrome.runtime.onMessage.addListener(function (
 });
 
 /* Update tabs watch */
-chrome.tabs.onUpdated.addListener(function (
+chrome.tabs.onUpdated.addListener(async function (
   tabId: number,
   changeInfo: any,
   tab: any
@@ -90,5 +91,13 @@ chrome.tabs.onUpdated.addListener(function (
 
   if (isComplete && isSeriesPage) {
     executeContentModule(tabId, 'addSeries');
+
+    await browser.tabs.executeScript(tabId, {
+      code: `(async () => {
+        Array
+          .from(document.querySelectorAll(".inputtext"))
+          .forEach((inp) => inp.setAttribute("autocomplete", "off"))
+      })();`
+    });
   }
 });

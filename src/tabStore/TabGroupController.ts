@@ -78,6 +78,11 @@ export class TabGroupController {
     tickbox.append(lock);
     tickbox.append('\uD83D\uDD12\uFE0E');
 
+    const itemCount = this.data.items.length;
+    const count = document.createElement('div');
+    count.className = 'tab-group__count';
+    count.textContent = `${itemCount} tab${itemCount !== 1 ? 's' : ''}`;
+
     const content = this.isGroupView
       ? this.createItemsList()
       : this.createPatternsView();
@@ -90,6 +95,9 @@ export class TabGroupController {
     header.append(controls);
 
     this.node.append(header);
+    if (this.isGroupView) {
+      this.node.append(count);
+    }
     this.node.append(content);
 
     if (oldNode) {
