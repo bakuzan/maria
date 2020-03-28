@@ -32,7 +32,7 @@ export class TabGroupSync {
       const caller = this.subscribers[groupId];
       const grp = groups.find((x) => x.id === groupId);
 
-      if (caller && grp) {
+      if (caller) {
         caller(grp);
       }
     });

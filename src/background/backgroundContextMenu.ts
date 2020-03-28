@@ -5,6 +5,7 @@ import handleMagicNumberSelect from '@/utils/handleMagicNumberSelect';
 import openWindow from '@/utils/openWindow';
 import getActiveTab from '@/utils/getActiveTab';
 import storeTabs from '@/utils/storeTabs';
+import openNewTabStore from '@/utils/openOrFocusTabStore';
 
 enum MariaContextMenuOption {
   MagicNumber = 'magic-number',
@@ -116,9 +117,7 @@ browser.contextMenus.onClicked.addListener(async function (info) {
 
     switch (menuItemId) {
       case MariaContextMenuOption.TabStoreOpen:
-        await browser.tabs.create({
-          url: chrome.extension.getURL('tabStore.html')
-        });
+        await openNewTabStore();
         break;
 
       case MariaContextMenuOption.TabStoreStoreTab:

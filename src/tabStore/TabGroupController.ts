@@ -33,8 +33,12 @@ export class TabGroupController {
     this.render();
 
     this.unsubscribe = groupSync.subscribe(this.id, (group) => {
-      this.data = group;
-      this.render();
+      if (group) {
+        this.data = group;
+        this.render();
+      } else {
+        this.tearDown();
+      }
     });
   }
 
@@ -109,7 +113,6 @@ export class TabGroupController {
   }
 
   private createItemsList() {
-    const handleRemoveLink = (e: MouseEvent) => this.removeListener(e);
     const ul = document.createElement('ul');
     ul.className = 'tab-group__items stored-links';
     ul.setAttribute('data-id', this.id);
@@ -122,7 +125,7 @@ export class TabGroupController {
       const btn = document.createElement('button');
       btn.className = 'mra-button stored-links__button';
       btn.textContent = '\u274C\uFE0E';
-      btn.addEventListener('click', handleRemoveLink);
+      btn.addEventListener('click', (e: MouseEvent) => this.removeListener(e));
 
       const icon = new Image(16, 16);
       icon.className = 'stored-links__icon';
@@ -140,7 +143,10 @@ export class TabGroupController {
       link.setAttribute('href', item.url);
       link.setAttribute('target', '_blank');
       link.setAttribute('rel', 'nofollow noreferrer noopener');
-      link.addEventListener('click', handleRemoveLink);
+      link.addEventListener('click', (e: MouseEvent) => this.openListener(e));
+      link.addEventListener('auxclick', (e: MouseEvent) =>
+        this.openListener(e)
+      );
 
       li.append(btn);
       li.append(icon);
@@ -198,10 +204,12 @@ export class TabGroupController {
     }
 
     const { tabGroups, ...store } = await getStorage();
-    console.log('enddd', fromIndex, toIndex, fromId, toId);
+    let newGroups = [...tabGroups];
+
     if (hasChangedList) {
       const item = this.data.items[fromIndex];
-      tabGroups.forEach((grp) => {
+
+      newGroups.forEach((grp) => {
         if (grp.id === fromId) {
           grp.items.splice(fromIndex, 1);
           this.data = grp;
@@ -210,7 +218,7 @@ export class TabGroupController {
         }
       });
     } else {
-      tabGroups.forEach((fromGroup) => {
+      newGroups.forEach((fromGroup) => {
         if (fromGroup.id === fromId) {
           fromGroup.items = move(fromGroup.items, fromIndex, toIndex);
           this.data = fromGroup;
@@ -218,12 +226,14 @@ export class TabGroupController {
       });
     }
 
+    newGroups = newGroups.filter((x) => x.items.length > 0 || x.isLocked);
+
     if (hasChangedList) {
-      await groupSync.updateGroups(tabGroups);
+      await groupSync.updateGroups(newGroups);
     } else {
       await browser.storage.sync.set({
         ...store,
-        tabGroups
+        tabGroups: newGroups
       });
     }
   }
@@ -256,6 +266,31 @@ export class TabGroupController {
   private toggleLock() {
     this.data.isLocked = !this.data.isLocked;
     this.updateGroup(this.data);
+  }
+
+  private async openListener(event: MouseEvent) {
+    const isLeft = event.button === 0;
+    const isMiddle = event.button === 1;
+
+    if (!isLeft && !isMiddle) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const element = event.target as HTMLElement;
+    const parent = element.parentElement;
+    const url = parent.getAttribute('data-link');
+
+    await browser.tabs.create({
+      active: false,
+      index: 1000,
+      url
+    });
+
+    if (isLeft) {
+      this.removeListener(event);
+    }
   }
 
   private removeListener(event: MouseEvent) {

@@ -6,6 +6,7 @@ import { MariaAction, PageAction } from '@/consts';
 import { DownloadItem } from '@/types/DownloadItem';
 import getActiveTab from '@/utils/getActiveTab';
 import downloadDriver from '@/utils/downloadDriver';
+import openNewTabStore from '@/utils/openOrFocusTabStore';
 
 function buttonListener(action: MariaAction) {
   return async function () {
@@ -71,10 +72,7 @@ async function run() {
   document
     .getElementById('openTabStore')
     .addEventListener('click', async () => {
-      await browser.tabs.create({
-        url: chrome.extension.getURL('tabStore.html')
-      });
-
+      await openNewTabStore();
       window.close();
     });
 

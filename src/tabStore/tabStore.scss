@@ -68,15 +68,15 @@
   }
 
   &__link {
+    display: contents;
     margin: 0 4px;
-    padding: 2px;
   }
 }
 
 .stored-links__item {
   display: flex;
   align-items: center;
-  padding: 2px 0;
+  padding: 4px 0;
   margin: 1px;
   cursor: grab;
 

@@ -3,6 +3,7 @@ import { browser } from 'webextension-polyfill-ts';
 import getActiveTab from '@/utils/getActiveTab';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import storeTabs from '@/utils/storeTabs';
+import openNewTabStore from '@/utils/openOrFocusTabStore';
 
 enum MariaCommand {
   AddLinks = 'add-links',
@@ -38,9 +39,7 @@ browser.commands.onCommand.addListener(async function (command: MariaCommand) {
     //   break;
 
     case MariaCommand.OpenTabStore:
-      await browser.tabs.create({
-        url: chrome.extension.getURL('tabStore.html')
-      });
+      await openNewTabStore();
       break;
 
     case MariaCommand.StoreTab:
