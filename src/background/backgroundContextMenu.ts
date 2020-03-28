@@ -5,7 +5,7 @@ import handleMagicNumberSelect from '@/utils/handleMagicNumberSelect';
 import openWindow from '@/utils/openWindow';
 import getActiveTab from '@/utils/getActiveTab';
 import storeTabs from '@/utils/storeTabs';
-import openNewTabStore from '@/utils/openOrFocusTabStore';
+import openNewTabStore from '@/utils/openNewTabStore';
 
 enum MariaContextMenuOption {
   MagicNumber = 'magic-number',

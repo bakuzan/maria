@@ -3,7 +3,7 @@ import { browser } from 'webextension-polyfill-ts';
 import getActiveTab from '@/utils/getActiveTab';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import storeTabs from '@/utils/storeTabs';
-import openNewTabStore from '@/utils/openOrFocusTabStore';
+import openNewTabStore from '@/utils/openNewTabStore';
 
 enum MariaCommand {
   AddLinks = 'add-links',

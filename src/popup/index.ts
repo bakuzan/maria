@@ -6,7 +6,7 @@ import { MariaAction, PageAction } from '@/consts';
 import { DownloadItem } from '@/types/DownloadItem';
 import getActiveTab from '@/utils/getActiveTab';
 import downloadDriver from '@/utils/downloadDriver';
-import openNewTabStore from '@/utils/openOrFocusTabStore';
+import openNewTabStore from '@/utils/openNewTabStore';
 
 function buttonListener(action: MariaAction) {
   return async function () {
