@@ -85,10 +85,14 @@
       0px 0px 1px 0px var(--primary-colour);
   }
 
-  &:hover .stored-links__button {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: unset;
+  &:hover {
+    transform: scale(1.01);
+
+    .stored-links__button {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: unset;
+    }
   }
 }
 

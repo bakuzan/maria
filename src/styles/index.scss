@@ -20,8 +20,9 @@
 
 /* Element overrides */
 
-hr {
+.mra-hr {
   border-color: var(--primary-colour);
+  margin-top: 1.25rem;
 }
 
 .mra-input {
@@ -40,7 +41,7 @@ hr {
 }
 
 .maria__title {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 .maria__subtitle {
   font-size: 1rem;
@@ -51,6 +52,7 @@ hr {
 
 .maria__buttons {
   display: flex;
+  margin: 5px 0;
 }
 
 .mra-button {
@@ -66,6 +68,9 @@ hr {
 }
 .mra-button--padding {
   padding: 5px 10px;
+}
+.mra-button--full-width {
+  width: 100%;
 }
 .mra-button:hover {
   background-color: hsl(0, 0%, 95%);

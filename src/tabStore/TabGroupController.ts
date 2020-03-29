@@ -5,8 +5,8 @@ import getViewToggleSVG from './getViewToggleSVG';
 import groupSync from './TabGroupSync';
 
 import { TabGroup } from '@/types/TabGroup';
+import { move } from '@/utils/array';
 import getStorage from '@/utils/getStorage';
-import move from '@/utils/move';
 import getUrlOrigin from '@/utils/getUrlOrigin';
 
 export class TabGroupController {
