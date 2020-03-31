@@ -8,7 +8,7 @@ export default async function getStorage() {
     tabGroups: []
   };
 
-  const store = await browser.storage.sync.get(storageDefaults);
+  const store = await browser.storage.local.get(storageDefaults);
 
   return { ...storageDefaults, ...store } as MariaStore;
 }

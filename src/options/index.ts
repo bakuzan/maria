@@ -17,7 +17,7 @@ async function saveOption(event: InputEvent) {
     curr.delete(value);
   }
 
-  await browser.storage.sync.set({
+  await browser.storage.local.set({
     ...items,
     digitOptions: Array.from(curr)
   });

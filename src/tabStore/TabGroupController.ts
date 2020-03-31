@@ -231,7 +231,7 @@ export class TabGroupController {
     if (hasChangedList) {
       await groupSync.updateGroups(newGroups);
     } else {
-      await browser.storage.sync.set({
+      await browser.storage.local.set({
         ...store,
         tabGroups: newGroups
       });
@@ -308,7 +308,7 @@ export class TabGroupController {
       .map((g) => (g.id !== group.id ? g : group))
       .filter((x) => x.items.length > 0 || x.isLocked);
 
-    await browser.storage.sync.set({
+    await browser.storage.local.set({
       ...store,
       tabGroups: newGroups
     });

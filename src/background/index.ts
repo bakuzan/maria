@@ -9,6 +9,7 @@ import executeContentModule from '@/utils/executeContentModule';
 import userFeedback from '@/utils/userFeedback';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import getErrorMessage from '@/utils/getErrorMessage';
+import getStorage from '@/utils/getStorage';
 
 /* Message handling */
 

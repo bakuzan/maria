@@ -11,7 +11,8 @@
     "contextMenus",
     "downloads",
     "http://*/",
-    "https://*/"
+    "https://*/",
+    "unlimitedStorage"
   ],
   "background": {
     "page": "background.html",

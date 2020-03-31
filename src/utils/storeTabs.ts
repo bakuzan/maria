@@ -41,7 +41,7 @@ export default async function storeTabs(tabs: TabLinks[]) {
     groups.push(newGroup);
   }
 
-  await browser.storage.sync.set({
+  await browser.storage.local.set({
     ...store,
     tabGroups: groups
   });
