@@ -5,7 +5,7 @@ import addHoverListeners from './addHoverListeners';
 import addLinks from './addLinks';
 import addSeries from './addSeries';
 import removeLinks from './removeLinks';
-import initScrapeGalleryItems from './scrapeGalleryItems';
+import initOnMessage from './onMessage';
 import toaster from '../utils/toaster';
 
 const page = window as any;
@@ -18,4 +18,4 @@ page.__Maria__ = {
   toaster
 };
 
-initScrapeGalleryItems();
+initOnMessage();

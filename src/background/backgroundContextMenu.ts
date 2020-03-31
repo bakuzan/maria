@@ -1,6 +1,6 @@
-import { browser } from 'webextension-polyfill-ts';
+import { browser, ContextMenus } from 'webextension-polyfill-ts';
 
-import { BASE_JURI_URL } from '@/consts';
+import { BASE_JURI_URL, PageAction } from '@/consts';
 import handleMagicNumberSelect from '@/utils/handleMagicNumberSelect';
 import openWindow from '@/utils/openWindow';
 import getActiveTab from '@/utils/getActiveTab';
@@ -16,6 +16,7 @@ enum MariaContextMenuOption {
   JuriSearchMangaAdult = 'manga-adult',
   TabStore = 'tab-store',
   TabStoreOpen = 'open-tab-store',
+  TabStoreStoreLink = 'store-link',
   TabStoreStoreTab = 'store-tab',
   TabStoreStoreTabsBefore = 'store-tabs-before',
   TabStoreStoreTabsAfter = 'store-tabs-after'
@@ -66,7 +67,8 @@ juriSearchOptions.forEach((option) => {
 // Tab Store
 browser.contextMenus.create({
   id: MariaContextMenuOption.TabStore,
-  title: `Maria's Tab Store`
+  title: `Maria's Tab Store`,
+  contexts: ['page', 'link']
 });
 
 const tabStoreOptions = [
@@ -74,6 +76,11 @@ const tabStoreOptions = [
   {
     id: MariaContextMenuOption.TabStoreStoreTab,
     title: 'Send current tab to store'
+  },
+  {
+    id: MariaContextMenuOption.TabStoreStoreLink,
+    title: 'Send link to store',
+    contexts: ['link'] as ContextMenus.ContextType[]
   },
   {
     id: MariaContextMenuOption.TabStoreStoreTabsAfter,
@@ -118,6 +125,15 @@ browser.contextMenus.onClicked.addListener(async function (info) {
     switch (menuItemId) {
       case MariaContextMenuOption.TabStoreOpen:
         await openNewTabStore();
+        break;
+
+      case MariaContextMenuOption.TabStoreStoreLink:
+        const linkText = await browser.tabs.sendMessage(activeTab.id, {
+          action: PageAction.GET_LINK_NAME,
+          url: info.linkUrl
+        });
+
+        await storeTabs([{ title: linkText, url: info.linkUrl }]);
         break;
 
       case MariaContextMenuOption.TabStoreStoreTab:

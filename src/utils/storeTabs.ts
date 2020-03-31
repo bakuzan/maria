@@ -4,7 +4,9 @@ import { TabGroup } from '@/types/TabGroup';
 import getStorage from './getStorage';
 import generateUniqueId from './generateUniqueId';
 
-export default async function storeTabs(tabs: Tabs.Tab[]) {
+interface TabLinks extends Pick<Tabs.Tab, 'id' | 'title' | 'url'> {}
+
+export default async function storeTabs(tabs: TabLinks[]) {
   const store = await getStorage();
   const groups = store.tabGroups;
 
@@ -30,7 +32,9 @@ export default async function storeTabs(tabs: Tabs.Tab[]) {
       url: tab.url
     });
 
-    browser.tabs.remove(tab.id);
+    if (tab.id) {
+      browser.tabs.remove(tab.id);
+    }
   });
 
   if (newGroup.items.length !== 0) {

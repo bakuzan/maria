@@ -1,8 +1,9 @@
-import { PageAction } from '@/consts';
 import { browser } from 'webextension-polyfill-ts';
+
+import { PageAction } from '@/consts';
 import getNode from '@/utils/getNode';
 
-export default function initScrapeGalleryItems() {
+export default function initOnMessage() {
   browser.runtime.onMessage.addListener(async function (msg, sender) {
     switch (msg.action) {
       case PageAction.GET_GALLERY: {
@@ -38,6 +39,12 @@ export default function initScrapeGalleryItems() {
         const filename = title.replace(`${suff}-`, '').trim();
 
         return `${filename}-${suff}.zip`;
+      }
+
+      case PageAction.GET_LINK_NAME: {
+        const link = document.querySelector(`a[href='${msg.url}']`);
+
+        return link?.textContent ?? `${window.location.origin} page link`;
       }
 
       default:
