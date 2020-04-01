@@ -1,9 +1,10 @@
 import { browser, Tabs } from 'webextension-polyfill-ts';
 
-import { TabGroup } from '@/types/TabGroup';
+import { TabGroup, StoredTab } from '@/types/TabGroup';
 import getStorage from './getStorage';
 import generateUniqueId from './generateUniqueId';
 import reloadTabStores from './reloadTabStores';
+import { uniqueItemsFilter } from './array';
 
 interface TabLinks extends Pick<Tabs.Tab, 'id' | 'title' | 'url'> {}
 
@@ -41,6 +42,10 @@ export default async function storeTabs(tabs: TabLinks[]) {
   if (newGroup.items.length !== 0) {
     groups.push(newGroup);
   }
+
+  // Make each group contain only unique urls
+  const distinct = uniqueItemsFilter<StoredTab>((x) => x.url);
+  groups.forEach((g) => (g.items = g.items.filter(distinct)));
 
   await browser.storage.local.set({
     ...store,

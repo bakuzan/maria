@@ -15,3 +15,8 @@ export function move(arr: any[], from: number, to: number) {
   const list = removeItem(arr, from);
   return insertItem(list, to, item);
 }
+
+export function uniqueItemsFilter<T>(extractor: (x: T) => any = (x) => x) {
+  return (x: T, i: number, arr: T[]) =>
+    arr.findIndex((a) => extractor(a) === extractor(x)) === i;
+}
