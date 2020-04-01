@@ -8,6 +8,10 @@
   --primary-colour-contrast: #fff;
   --shadow-colour: #ddd;
 
+  --danger-colour: #f00000;
+  --success-colour: #00f000;
+  --warning-colour: #ff8500;
+
   --anchor-shadow: #ccc;
   --anchor-shadow-hover: var(--primary-colour);
 
@@ -20,12 +24,12 @@
 
 /* Element overrides */
 
-.mra-hr {
+.maria-hr {
   border-color: var(--primary-colour);
   margin-top: 1.25rem;
 }
 
-.mra-input {
+.maria-input {
   font-size: var(--font-size);
   font-family: var(--font-family);
 }
@@ -55,7 +59,7 @@
   margin: 5px 0;
 }
 
-.mra-button {
+.maria-button {
   font-family: var(--font-family);
   font-size: var(--font-size);
   background: none;
@@ -66,26 +70,26 @@
   padding: 5px;
   cursor: pointer;
 }
-.mra-button--padding {
+.maria-button--padding {
   padding: 5px 10px;
 }
-.mra-button--full-width {
+.maria-button--full-width {
   width: 100%;
 }
-.mra-button:hover {
+.maria-button:hover {
   background-color: hsl(0, 0%, 95%);
 }
-.mra-button--primary {
+.maria-button--primary {
   background-color: var(--primary-colour);
   color: var(--primary-colour-contrast);
 }
-.mra-button--primary:hover {
+.maria-button--primary:hover {
   background-color: var(--primary-colour-hovered);
 }
 
 /* Tickbox */
 
-.mra-tickbox {
+.maria-tickbox {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -93,7 +97,7 @@
   margin: 2px 0;
   cursor: pointer;
 }
-.mra-tickbox > input[type='checkbox'] {
+.maria-tickbox > input[type='checkbox'] {
   -webkit-appearance: none;
   appearance: none;
   transition: all 0.3s;
@@ -106,33 +110,33 @@
   margin: 0 5px 5px;
 }
 
-.mra-tickbox input:before,
-.mra-tickbox input:checked:before {
+.maria-tickbox input:before,
+.maria-tickbox input:checked:before {
   color: #000;
   transition: all 0.3s;
   cursor: pointer;
   z-index: 1;
 }
 
-.mra-tickbox input:before {
+.maria-tickbox input:before {
   content: '\2610\FE0E';
   font-size: 1.5em;
 }
 
-.mra-tickbox input:disabled:before {
+.maria-tickbox input:disabled:before {
   content: '\274c\FE0E';
   color: #666;
   cursor: default;
 }
 
-.mra-tickbox input:checked:before {
+.maria-tickbox input:checked:before {
   content: '\2611\FE0E';
   color: #0f0;
 }
 
 /* Link */
-.mra-link,
-.mra-link:visited {
+.maria-link,
+.maria-link:visited {
   color: var(--primary-colour);
   text-decoration: none;
 
@@ -155,12 +159,12 @@
   margin: 0 10px;
 }
 
-.mra-label {
+.maria-label {
   font-size: 0.9rem;
 }
 
-.mra-input,
-.mra-select {
+.maria-input,
+.maria-select {
   font-size: inherit;
   padding: 1em 0.25em 0.1em;
   margin-bottom: 2px;
@@ -169,21 +173,21 @@
   border-bottom: 1px solid var(--shadow-colour);
 }
 
-.mra-input::-webkit-input-placeholder,
-.mra-select::-webkit-input-placeholder {
+.maria-input::-webkit-input-placeholder,
+.maria-select::-webkit-input-placeholder {
   opacity: 1;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
 
-.mra-input:placeholder-shown:not(:focus)::-webkit-input-placeholder,
+.maria-input:placeholder-shown:not(:focus)::-webkit-input-placeholder,
 .has-float-label
-  .mra-select:placeholder-shown:not(:focus)::-webkit-input-placeholder {
+  .maria-select:placeholder-shown:not(:focus)::-webkit-input-placeholder {
   opacity: 0;
 }
 
-.mra-input:focus,
-.mra-select:focus {
+.maria-input:focus,
+.maria-select:focus {
   outline: none;
   border-bottom: 2px solid var(--primary-colour);
 }

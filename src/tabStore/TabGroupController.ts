@@ -54,7 +54,7 @@ export class TabGroupController {
 
     const name = document.createElement('input');
     name.type = 'text';
-    name.className = 'mra-input tab-group__name';
+    name.className = 'maria-input tab-group__name';
     name.placeholder = 'Enter a group name...';
     name.value = this.data.name ?? '';
     name.addEventListener('blur', (e: Event) => this.onNameChange(e));
@@ -63,7 +63,7 @@ export class TabGroupController {
     controls.className = 'tab-group__controls';
 
     const patternToggle = document.createElement('button');
-    patternToggle.className = 'mra-button tab-group__view-toggle';
+    patternToggle.className = 'maria-button tab-group__view-toggle';
     patternToggle.title = this.isGroupView
       ? 'Display pattern filters'
       : 'Display group links';
@@ -72,7 +72,7 @@ export class TabGroupController {
     patternToggle.addEventListener('click', () => this.togglePatternView());
 
     const tickbox = document.createElement('label');
-    tickbox.className = 'mra-tickbox';
+    tickbox.className = 'maria-tickbox';
 
     const lock = document.createElement('input');
     lock.type = 'checkbox';
@@ -123,7 +123,7 @@ export class TabGroupController {
       li.setAttribute('data-link', item.url);
 
       const btn = document.createElement('button');
-      btn.className = 'mra-button stored-links__button';
+      btn.className = 'maria-button stored-links__button';
       btn.textContent = '\u274C\uFE0E';
       btn.addEventListener('click', (e: MouseEvent) => this.removeListener(e));
 
@@ -138,7 +138,7 @@ export class TabGroupController {
       };
 
       const link = document.createElement('a');
-      link.className = 'mra-link stored-links__link';
+      link.className = 'maria-link stored-links__link';
       link.textContent = item.title;
       link.setAttribute('href', item.url);
       link.setAttribute('target', '_blank');
@@ -173,7 +173,7 @@ export class TabGroupController {
     container.className = 'tab-group__patterns';
 
     const label = document.createElement('label');
-    label.className = 'mra-label';
+    label.className = 'maria-label';
     label.htmlFor = patternsId;
     label.textContent =
       'Enter one regex per line to catch tabs sent to the store.';

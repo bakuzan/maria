@@ -1,0 +1,35 @@
+.export-import-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 5px;
+}
+
+.maria-container {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.maria-textarea {
+  margin: 5px 0;
+  min-width: 350px;
+  width: calc(100% - 5px);
+  max-width: calc(100% - 5px);
+  height: 500px;
+}
+
+.maria-feedback {
+  font-size: 0.9rem;
+
+  &--error {
+    color: var(--danger-colour);
+  }
+  &--success {
+    color: var(--success-colour);
+  }
+  &--warning {
+    color: var(--warning-colour);
+  }
+}
