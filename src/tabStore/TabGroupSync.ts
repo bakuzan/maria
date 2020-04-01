@@ -19,7 +19,7 @@ export class TabGroupSync {
   public async updateGroups(groups: TabGroup[]) {
     const store = await getStorage();
 
-    await browser.storage.sync.set({
+    await browser.storage.local.set({
       ...store,
       tabGroups: groups
     });

@@ -37,7 +37,7 @@ async function run() {
       isLocked: true
     };
 
-    await browser.storage.sync.set({
+    await browser.storage.local.set({
       ...store,
       tabGroups: [...groups, newGroup]
     });
