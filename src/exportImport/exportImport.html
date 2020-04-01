@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Export/Import | Maria</title>
+  </head>
+  <body class="maria">
+    <header class="maria__heading maria__heading--spaced">
+      <img
+        class="maria__image"
+        width="100"
+        height="100"
+        src="assets/maria_128x128.png"
+        alt="Maria"
+      />
+      <h1 class="maria__title">Export/Import</h1>
+    </header>
+    <main>
+      <div class="export-import-grid">
+        <div class="maria-container">
+          <div class="maria-container__header">
+            <div class="maria-label">Export</div>
+            <button id="copyExport" class="maria-button maria-button--primary">
+              Copy to clipboard
+            </button>
+          </div>
+          <textarea id="export" class="maria-textarea" readonly></textarea>
+        </div>
+        <div class="maria-container">
+          <div class="maria-container__header">
+            <div class="maria-label">Import</div>
+            <button id="runImport" class="maria-button maria-button--primary">
+              Run import
+            </button>
+          </div>
+
+          <textarea
+            id="import"
+            class="maria-textarea"
+            spellcheck="false"
+          ></textarea>
+          <div id="import-feedback" class="maria-feedback"></div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

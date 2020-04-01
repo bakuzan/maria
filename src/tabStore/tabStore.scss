@@ -1,3 +1,12 @@
+.tab-store-actions {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin: 2px 0;
+  }
+}
+
 .tab-group-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));

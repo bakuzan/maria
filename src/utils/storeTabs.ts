@@ -3,6 +3,7 @@ import { browser, Tabs } from 'webextension-polyfill-ts';
 import { TabGroup } from '@/types/TabGroup';
 import getStorage from './getStorage';
 import generateUniqueId from './generateUniqueId';
+import reloadTabStores from './reloadTabStores';
 
 interface TabLinks extends Pick<Tabs.Tab, 'id' | 'title' | 'url'> {}
 
@@ -46,8 +47,5 @@ export default async function storeTabs(tabs: TabLinks[]) {
     tabGroups: groups
   });
 
-  // Reload any open tabStore.html tabs
-  await browser.tabs
-    .query({ url: browser.extension.getURL('tabStore.html') })
-    .then((ts) => ts.forEach(async (t) => await browser.tabs.reload(t.id)));
+  await reloadTabStores();
 }

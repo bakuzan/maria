@@ -127,7 +127,7 @@ export default function addSeries() {
   scraper.className = 'maria maria-mal-add';
 
   const btn = document.createElement('button');
-  btn.className = 'mra-button mra-button--padding mra-button--primary';
+  btn.className = 'maria-button maria-button--padding maria-button--primary';
   btn.style.cssText = `width:99%;`;
   btn.textContent = 'Add series to Erza';
 
