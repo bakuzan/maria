@@ -9,6 +9,8 @@ import { move } from '@/utils/array';
 import getStorage from '@/utils/getStorage';
 import getUrlOrigin from '@/utils/getUrlOrigin';
 
+const LIST_HOVER_CLASS = 'stored-links--is-target';
+
 export class TabGroupController {
   private data: TabGroup;
   private isGroupView: boolean;
@@ -160,6 +162,7 @@ export class TabGroupController {
       sort: true,
       ghostClass: 'stored-links__item--ghost',
       chosenClass: 'stored-links__item--chosen',
+      onMove: (moveEvent) => this.onMove(moveEvent),
       onEnd: (event) => this.onSortableEnd(event)
     });
 
@@ -190,7 +193,15 @@ export class TabGroupController {
     return container;
   }
 
+  private onMove(event: Sortable.MoveEvent) {
+    this.removeIsTargetClassFromLists();
+    event.to.classList.add(LIST_HOVER_CLASS);
+    return true; // Needed so the move goes ahead.
+  }
+
   private async onSortableEnd(event: Sortable.SortableEvent) {
+    this.removeIsTargetClassFromLists();
+
     const hasChangedList = !!event.pullMode;
     const fromId = event.from.getAttribute('data-id');
     const toId = event.to.getAttribute('data-id');
@@ -236,6 +247,12 @@ export class TabGroupController {
         tabGroups: newGroups
       });
     }
+  }
+
+  private removeIsTargetClassFromLists() {
+    Array.from(document.querySelectorAll('.stored-links')).forEach((from) =>
+      from.classList.remove(LIST_HOVER_CLASS)
+    );
   }
 
   private onNameChange(event: Event) {

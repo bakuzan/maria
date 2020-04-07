@@ -16,7 +16,7 @@ if (isProduction) {
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  devtool: isProduction ? 'source-map' : 'inline-source-map',
+  devtool: 'inline-source-map',
   entry: {
     contentscript: join(__dirname, 'src/contentscript', 'index.ts'),
     background: join(__dirname, 'src/background', 'index.ts'),

@@ -14,6 +14,8 @@
 }
 
 .tab-group {
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 2px 1px var(--primary-colour);
   padding: 8px;
 
@@ -51,8 +53,13 @@
 }
 
 .stored-links {
+  flex: 1 1 auto;
   list-style-type: none;
   padding: 8px 0;
+
+  &--is-target {
+    box-shadow: inset 0px 0px 2px 1px var(--primary-colour-hovered);
+  }
 
   &__button {
     font-size: 0.8rem;
