@@ -59,7 +59,7 @@ function commonElements(isAnime: boolean) {
     total,
     isAdult,
     status: 'Planned',
-    tagString: isAdult ? 'hentai' : tagString
+    tagString: isAdult ? '' : tagString
   };
 }
 
@@ -128,7 +128,7 @@ export default function addSeries() {
 
   const btn = document.createElement('button');
   btn.className = 'maria-button maria-button--padding maria-button--primary';
-  btn.style.cssText = `width:99%;`;
+  btn.style.cssText = `width: 99%;`;
   btn.textContent = 'Add series to Erza';
 
   btn.addEventListener('click', function () {
