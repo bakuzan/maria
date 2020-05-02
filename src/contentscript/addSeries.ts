@@ -39,7 +39,10 @@ function commonElements(isAnime: boolean) {
 
   const malId = getMalId();
   const titleNode = getNode(`//*[@id='contentWrapper']//h1/span`);
-  const image = getNode<HTMLImageElement>(`//*[@id='content']//a/img`);
+  const image = document.querySelector<HTMLImageElement>(
+    '#content img.lazyloaded[itemprop]'
+  );
+
   const seriesType = getNode(`//span[text()='Type:']/../a`);
   const total = getNode(`//span[text()='${totalName}:']/..`);
 
@@ -54,7 +57,7 @@ function commonElements(isAnime: boolean) {
   return {
     malId,
     title: cleanTitle(titleNode),
-    image: image.src,
+    image: image?.src ?? '',
     series_type: seriesType.textContent.replace(/-/g, ''),
     total,
     isAdult,
