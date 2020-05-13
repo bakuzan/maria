@@ -77,9 +77,10 @@ function handleAnime() {
     .slice(2, 5);
 
   const monthIndex = monthNames.findIndex((x) => x === mn);
-  const startDate = new Date(
-    Date.UTC(Number(year), monthIndex, Number(day.slice(0, -1)))
-  );
+  const startDate =
+    mn && day && year
+      ? new Date(Date.UTC(Number(year), monthIndex, Number(day.slice(0, -1))))
+      : null;
 
   return {
     ...pass,
