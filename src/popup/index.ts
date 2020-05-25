@@ -43,8 +43,9 @@ async function downloadGallery() {
   for (const item of items) {
     downloadDriver.bumpLoadingCount();
 
-    const response = await fetch(item.url);
-    const img = await response.arrayBuffer();
+    const img = await fetch(item.url).then((response) =>
+      response.arrayBuffer()
+    );
 
     zip.file(item.name, img);
     downloadDriver.bumpLoadedCount();

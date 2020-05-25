@@ -22,23 +22,33 @@ export default function initOnMessage() {
       }
 
       case PageAction.GET_GALLERY_NAME: {
-        const name = document.querySelector('h1')?.textContent;
-        const title = (name ?? 'maria-gallery-download')
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9_\-\[\] ]/gi, '')
-          .trim()
-          .replace(/ /g, '-')
-          .replace(/-{2,}/g, '-');
-
+        // Authour
         const authourTag = getNode(`//a[starts-with(@href, "/artist/")]`);
         const authour =
           authourTag?.textContent.replace(/\(.*$/, '').trim() ?? '';
 
-        const suff = `[${authour.replace(/ /g, '-')}]`;
-        const filename = title.replace(`${suff}-`, '').trim();
+        const pre = `[${authour.replace(/ /g, '-')}]`;
 
-        return `${filename}-${suff}.zip`;
+        // Title
+        const name = document.querySelector('h1')?.textContent;
+        const [lowerName, other] = (name ?? 'maria-gallery-download')
+          .toLowerCase()
+          .trim()
+          .split('|');
+
+        // Collection name
+        const collectionName = other?.match(/\(.*?\)/) ?? '';
+        const suff = collectionName ? `-[${collectionName}]` : '';
+
+        const filename = `${lowerName}${suff}`
+          .replace(/[^a-z0-9_\-\[\] ]/gi, '')
+          .trim()
+          .replace(/ /g, '-')
+          .replace(/-{2,}/g, '-')
+          .replace(`${pre}-`, '')
+          .trim();
+
+        return `${pre}-${filename}.zip`;
       }
 
       case PageAction.GET_LINK_NAME: {
