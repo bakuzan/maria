@@ -16,7 +16,9 @@ export default function initOnMessage() {
 
           return {
             name: `${name}.${ext}`,
-            url: rawUrl.replace('//t.', '//i.').replace(`t.${ext}`, `.${ext}`)
+            url: rawUrl
+              .replace(/\/\/t.?\./g, '//i.')
+              .replace(`t.${ext}`, `.${ext}`)
           };
         });
       }
