@@ -18,7 +18,7 @@ class DateCalculator {
     this.dateOffsetForm.addEventListener('submit', this.listener);
 
     clearTimeout(this.timer);
-    this.timer = window.setTimeout(this.daysInput.focus, 250);
+    this.timer = window.setTimeout(() => this.daysInput.focus(), 250);
   }
 
   public destroy() {
