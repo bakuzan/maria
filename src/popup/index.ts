@@ -1,75 +1,32 @@
 import '../styles/index.scss';
 import './popup.scss';
-import { browser } from 'webextension-polyfill-ts';
 
-import { MariaAction, PageAction } from '@/consts';
-import { DownloadItem } from '@/types/DownloadItem';
+import { MariaAction } from '@/consts';
 import getActiveTab from '@/utils/getActiveTab';
-import downloadDriver from '@/utils/downloadDriver';
 import openNewTabStore from '@/utils/openNewTabStore';
 
-function buttonListener(action: MariaAction) {
-  return async function () {
-    try {
-      const activeTab = await getActiveTab();
+import dateCalculator from './dateCalculator';
+import downloadGallery from './downloadGallery';
+import { buttonListener } from './utils';
 
-      await browser.runtime.sendMessage({
-        tabID: activeTab.id,
-        action
-      });
-    } catch (error) {
-      // TODO
-      // Error handling
-    }
-  };
-}
-
-async function downloadGallery() {
-  const { default: JSZip } = await import(
-    /* webpackChunkName: "jszip" */ 'jszip'
-  );
-
-  const activeTab = await getActiveTab();
-
-  const tabId = activeTab.id;
-  const items: DownloadItem[] = await browser.tabs.sendMessage(tabId, {
-    action: PageAction.GET_GALLERY
-  });
-
-  downloadDriver.init(items.length);
-
-  const zip = new JSZip();
-
-  for (const item of items) {
-    downloadDriver.bumpLoadingCount();
-
-    const img = await fetch(item.url).then((response) =>
-      response.arrayBuffer()
-    );
-
-    zip.file(item.name, img);
-    downloadDriver.bumpLoadedCount();
-  }
-
-  downloadDriver.zipping();
-  zip.generateAsync({ type: 'blob' }).then(async function (content) {
-    const url = URL.createObjectURL(content);
-    const filename = await browser.tabs.sendMessage(tabId, {
-      action: PageAction.GET_GALLERY_NAME
-    });
-
-    await browser.downloads.download({
-      url,
-      filename,
-      saveAs: true
-    });
-
-    downloadDriver.reset();
-    URL.revokeObjectURL(url);
-  });
-}
+const VISIBLE_SIDEBAR_CLASS = 'popup__sidebar--visible';
 
 async function run() {
+  document
+    .getElementById('openDateCalculator')
+    .addEventListener('click', async () => {
+      const sidebar = document.getElementById('popupSidebar');
+      const isVisible = sidebar.className.includes(VISIBLE_SIDEBAR_CLASS);
+
+      if (isVisible) {
+        sidebar.classList.remove(VISIBLE_SIDEBAR_CLASS);
+        dateCalculator.destroy();
+      } else {
+        sidebar.classList.add(VISIBLE_SIDEBAR_CLASS);
+        dateCalculator.init();
+      }
+    });
+
   document
     .getElementById('openTabStore')
     .addEventListener('click', async () => {

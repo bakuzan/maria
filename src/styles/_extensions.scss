@@ -14,3 +14,17 @@
   background: none;
   border: none;
 }
+
+%transition-hidden {
+  min-width: 0px;
+  opacity: 0;
+  padding: 0;
+  visibility: hidden;
+  width: 0px;
+  transition: all 0.5s cubic-bezier(1, 0.01, 0.02, 0.23);
+}
+
+%transition-visible {
+  opacity: 1;
+  visibility: visible;
+}

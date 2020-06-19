@@ -7,62 +7,118 @@
   </head>
   <body class="maria">
     <div class="popup">
-      <div class="maria__heading">
-        <img
-          class="maria__image"
-          width="48"
-          height="48"
-          src="assets/maria_48x48.png"
-          alt="Maria"
-        />
-        <h1 class="maria__title">Maria</h1>
+      <div id="popupSidebar" class="popup__sidebar">
+        <div class="maria__heading maria__heading--spaced">
+          <img
+            class="maria__image"
+            width="48"
+            height="48"
+            src="assets/maria_48x48.png"
+            alt="Maria"
+          />
+          <div class="maria__subtitle">Date Calculator</div>
+        </div>
+        <form id="dateOffsetForm" novalidate autocomplete="off">
+          <div class="maria-control">
+            <label for="days" class="maria-label">Day Offset</label>
+            <input
+              id="days"
+              type="number"
+              class="maria-input"
+              placeholder="Enter number of days offset from today."
+            />
+          </div>
+          <div class="maria__buttons">
+            <button
+              id="calculateDate"
+              type="submit"
+              class="maria-button maria-button--primary maria-button--full-width"
+            >
+              Calculate
+            </button>
+          </div>
+        </form>
+        <div id="messageBox" class="popup__message"></div>
       </div>
 
-      <div id="tabStoreOption">
-        <hr class="maria-hr" />
-        <div class="maria__subtitle">Tab Store</div>
-        <div class="maria__buttons">
-          <button
-            id="openTabStore"
-            class="maria-button maria-button--primary maria-button--full-width"
-          >
-            Open tab store
-          </button>
+      <div class="popup__core">
+        <div class="maria__heading">
+          <img
+            class="maria__image"
+            width="48"
+            height="48"
+            src="assets/maria_48x48.png"
+            alt="Maria"
+          />
+          <h1 class="maria__title">Maria</h1>
         </div>
-      </div>
 
-      <div id="magicNumbersOption">
-        <hr class="maria-hr" />
-        <div class="maria__subtitle">Magic Numbers</div>
-        <div class="maria__buttons">
-          <button
-            id="processNumbers"
-            class="maria-button maria-button--primary"
-          >
-            Process numbers
-          </button>
-          <button id="removeLinks" class="maria-button maria-button--primary">
-            Remove links
-          </button>
+        <div id="dateCalculator">
+          <hr class="maria-hr" />
+          <div class="maria__buttons">
+            <button
+              id="openDateCalculator"
+              type="button"
+              class="maria-button maria-button--primary maria-button--full-width"
+            >
+              Date calculator
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div id="downloadGalleryOption" style="display: none;">
-        <hr class="maria-hr" />
-        <div class="maria__subtitle">Download Gallery</div>
-        <div class="maria__buttons">
-          <button
-            id="downloadGallery"
-            class="maria-button maria-button--primary maria-button--full-width"
-            disabled
-          >
-            Download
-          </button>
+        <div id="tabStoreOption">
+          <hr class="maria-hr" />
+          <div class="maria__subtitle">Tab Store</div>
+          <div class="maria__buttons">
+            <button
+              id="openTabStore"
+              type="button"
+              class="maria-button maria-button--primary maria-button--full-width"
+            >
+              Open tab store
+            </button>
+          </div>
         </div>
-        <div class="maria-progress">
-          <div id="downloadMessage"></div>
-          <div id="filesQueued"></div>
-          <div id="filesLoaded"></div>
+
+        <div id="magicNumbersOption">
+          <hr class="maria-hr" />
+          <div class="maria__subtitle">Magic Numbers</div>
+          <div class="maria__buttons">
+            <button
+              id="processNumbers"
+              type="button"
+              class="maria-button maria-button--primary"
+            >
+              Process numbers
+            </button>
+            <button
+              id="removeLinks"
+              type="button"
+              class="maria-button maria-button--primary"
+            >
+              Remove links
+            </button>
+          </div>
+        </div>
+
+        <div id="downloadGalleryOption" style="display: none;">
+          <hr class="maria-hr" />
+          <div class="maria__subtitle">Download Gallery</div>
+          <div class="maria__buttons">
+            <button
+              id="downloadGallery"
+              type="button"
+              class="maria-button maria-button--primary maria-button--full-width"
+              disabled
+            >
+              Download
+            </button>
+          </div>
+          <div class="maria-progress">
+            <div id="downloadMessage"></div>
+            <div id="filesQueued"></div>
+            <div id="filesLoaded"></div>
+          </div>
         </div>
       </div>
     </div>

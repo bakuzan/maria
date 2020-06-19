@@ -1,7 +1,36 @@
+@import '../styles/_extensions.scss';
+
 .popup {
-  min-width: 200px;
-  min-height: 100px;
-  padding: 10px;
+  --column-min-width: 200px;
+  --column-padding: 10px;
+  display: flex;
+
+  &__core {
+    min-width: var(--column-min-width);
+    min-height: 100px;
+    padding: var(--column-padding);
+  }
+
+  &__sidebar {
+    @extend %transition-hidden;
+    border-right: 1px solid var(--primary-colour);
+    min-height: 100px;
+
+    &--visible {
+      @extend %transition-visible;
+      min-width: var(--column-min-width);
+      padding: var(--column-padding);
+    }
+  }
+
+  &__message {
+    margin: 15px 0;
+    white-space: pre-line;
+
+    &--error {
+      color: var(--danger-colour);
+    }
+  }
 }
 
 .maria-progress {
