@@ -2,20 +2,20 @@ import formatDateForDisplay from '@/utils/formatDateForDisplay';
 
 const ERROR_CLASS = 'popup__message--error';
 
-class DateCalculator {
-  private dateOffsetForm: HTMLFormElement | undefined;
+class DateOffsetCalculator {
+  private form: HTMLFormElement | undefined;
   private daysInput: HTMLInputElement | undefined;
   private messageBox: HTMLDivElement | undefined;
   private listener: (e: Event) => void;
   private timer = 0;
 
   public init() {
-    this.dateOffsetForm = document.querySelector('#dateOffsetForm');
+    this.form = document.querySelector('#dateOffsetForm');
     this.daysInput = document.querySelector('#days');
     this.messageBox = document.querySelector('#messageBox');
     this.listener = (e: Event) => this.handleDateCalculate(e);
 
-    this.dateOffsetForm.addEventListener('submit', this.listener);
+    this.form.addEventListener('submit', this.listener);
 
     clearTimeout(this.timer);
     this.timer = window.setTimeout(() => this.daysInput.focus(), 250);
@@ -25,7 +25,7 @@ class DateCalculator {
     this.daysInput.value = '';
     this.messageBox.textContent = '';
 
-    this.dateOffsetForm.removeEventListener('submit', this.listener);
+    this.form.removeEventListener('submit', this.listener);
   }
 
   // Private
@@ -51,6 +51,6 @@ class DateCalculator {
   }
 }
 
-const service = new DateCalculator();
+const service = new DateOffsetCalculator();
 
 export default service;

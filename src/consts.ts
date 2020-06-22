@@ -65,3 +65,8 @@ export const erzaGQL = {
   }
   `
 };
+
+export enum CalculatorMode {
+  DaysBetween = 'DaysBetween',
+  DaysFrom = 'DaysFrom'
+}

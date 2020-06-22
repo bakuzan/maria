@@ -69,6 +69,11 @@
   margin: 0 2px;
   padding: 5px;
   cursor: pointer;
+
+  &:focus,
+  &:hover {
+    background-color: hsl(0, 0%, 95%);
+  }
 }
 .maria-button--padding {
   padding: 5px 10px;
@@ -76,15 +81,35 @@
 .maria-button--full-width {
   width: 100%;
 }
-.maria-button:hover {
-  background-color: hsl(0, 0%, 95%);
-}
+
 .maria-button--primary {
   background-color: var(--primary-colour);
   color: var(--primary-colour-contrast);
+
+  &:focus,
+  &:hover {
+    background-color: var(--primary-colour-hovered);
+  }
 }
-.maria-button--primary:hover {
-  background-color: var(--primary-colour-hovered);
+
+.maria-radio-group {
+  display: flex;
+  margin: 5px 0;
+}
+.maria-button--radio {
+  flex: 1;
+
+  &:hover,
+  &_active {
+    background-color: var(--primary-colour);
+    color: var(--primary-colour-contrast);
+
+    &:focus,
+    &:hover,
+    &:active {
+      background-color: var(--primary-colour-hovered);
+    }
+  }
 }
 
 /* Tickbox */

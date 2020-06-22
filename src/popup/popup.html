@@ -18,7 +18,29 @@
           />
           <div class="maria__subtitle">Date Calculator</div>
         </div>
-        <form id="dateOffsetForm" novalidate autocomplete="off">
+        <div id="dateModeGroup" class="maria-radio-group">
+          <button
+            type="button"
+            class="maria-button maria-button--radio"
+            data-mode="DaysFrom"
+          >
+            Offset
+          </button>
+          <button
+            type="button"
+            class="maria-button maria-button--radio"
+            data-mode="DaysBetween"
+          >
+            Duration
+          </button>
+        </div>
+        <form
+          id="dateOffsetForm"
+          class="date-form date-form--visible"
+          novalidate
+          autocomplete="off"
+          data-mode="DaysFrom"
+        >
           <div class="maria-control">
             <label for="days" class="maria-label">Day Offset</label>
             <input
@@ -26,6 +48,42 @@
               type="number"
               class="maria-input"
               placeholder="Enter number of days offset from today."
+            />
+          </div>
+          <div class="maria__buttons">
+            <button
+              id="calculateDate"
+              type="submit"
+              class="maria-button maria-button--primary maria-button--full-width"
+            >
+              Calculate
+            </button>
+          </div>
+        </form>
+        <form
+          id="dateDurationForm"
+          class="date-form"
+          novalidate
+          autocomplete="off"
+          data-mode="DaysBetween"
+          aria-hidden="true"
+        >
+          <div class="maria-control">
+            <label for="dayFrom" class="maria-label">From</label>
+            <input
+              id="dayFrom"
+              type="date"
+              class="maria-input"
+              placeholder="From day"
+            />
+          </div>
+          <div class="maria-control">
+            <label for="dayTo" class="maria-label">To</label>
+            <input
+              id="dayTo"
+              type="date"
+              class="maria-input"
+              placeholder="To day"
             />
           </div>
           <div class="maria__buttons">

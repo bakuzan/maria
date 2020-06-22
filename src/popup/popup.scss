@@ -40,3 +40,16 @@
     margin: 2px 0;
   }
 }
+
+.date-form {
+  @extend %transition-hidden;
+
+  &:not(.date-form--visible) {
+    height: 0px !important;
+  }
+
+  &--visible {
+    @extend %transition-visible;
+    margin: 20px 5px;
+  }
+}
