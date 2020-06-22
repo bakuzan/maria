@@ -32,6 +32,8 @@ export default class RadioGroupController {
       const m = btn.getAttribute('data-mode') as CalculatorMode;
       if (m === this.options.defaultValue) {
         btn.classList.add(this.activeClass);
+      } else {
+        btn.classList.remove(this.activeClass);
       }
 
       btn.addEventListener('click', this.listener);

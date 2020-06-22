@@ -28,6 +28,7 @@ class DateCalculatorManager {
       dateOffsetCalculator.destroy();
       dateRangeCalculator.destroy();
       this.modeButtonManager.tearDown();
+      this.toggleTo(CalculatorMode.DaysFrom);
     } else {
       sidebar.classList.add(VISIBLE_SIDEBAR_CLASS);
 

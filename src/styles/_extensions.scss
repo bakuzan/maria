@@ -21,12 +21,12 @@
   padding: 0;
   visibility: hidden;
   width: 0px;
-  transition: opacity 0.5s cubic-bezier(1, 0.01, 0.02, 0.23),
-    visibility 0.5s cubic-bezier(1, 0.01, 0.02, 0.23);
+  transition: all 0.2s ease-out;
 }
 
 %transition-visible {
   opacity: 1;
   visibility: visible;
   width: auto;
+  transition: all 0.75s cubic-bezier(1, 0.01, 0.02, 0.23);
 }

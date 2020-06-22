@@ -1,20 +1,25 @@
 @import '../styles/_extensions.scss';
 
 .popup {
-  --column-min-width: 200px;
+  --column-min-width: 225px;
   --column-padding: 10px;
-  display: flex;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: 0.5fr 0.5fr;
+  grid-template-areas: 'sidebar core';
 
   &__core {
     min-width: var(--column-min-width);
     min-height: 100px;
     padding: var(--column-padding);
+    grid-area: core;
   }
 
   &__sidebar {
     @extend %transition-hidden;
     border-right: 1px solid var(--primary-colour);
     min-height: 100px;
+    grid-area: sidebar;
 
     &--visible {
       @extend %transition-visible;
@@ -24,8 +29,11 @@
   }
 
   &__message {
-    margin: 15px 0;
     white-space: pre-line;
+
+    &:not(:empty) {
+      margin: 15px 0;
+    }
 
     &--error {
       color: var(--danger-colour);
@@ -45,11 +53,11 @@
   @extend %transition-hidden;
 
   &:not(.date-form--visible) {
-    height: 0px !important;
+    height: 0px;
   }
 
   &--visible {
     @extend %transition-visible;
-    margin: 20px 5px;
+    margin: 20px 0;
   }
 }
