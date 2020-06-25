@@ -59,6 +59,14 @@ export default function initOnMessage() {
         return link?.textContent ?? `${window.location.origin} page link`;
       }
 
+      case PageAction.GET_PAGE_RSS_FEED: {
+        const feed = document.querySelector<HTMLLinkElement>(
+          `link[type="application/rss+xml"]`
+        );
+
+        return { hasFeed: !!feed, name: feed?.title, link: feed?.href };
+      }
+
       default:
         return;
     }

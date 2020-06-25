@@ -8,7 +8,8 @@ export enum MariaAction {
 export enum PageAction {
   GET_GALLERY = 1,
   GET_GALLERY_NAME = 2,
-  GET_LINK_NAME = 3
+  GET_LINK_NAME = 3,
+  GET_PAGE_RSS_FEED = 4
 }
 
 export const PROXY_URL = 'https://proxy.duckduckgo.com/iu/?u=';

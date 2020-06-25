@@ -1,13 +1,18 @@
 import '../styles/index.scss';
 import './popup.scss';
+import { browser } from 'webextension-polyfill-ts';
 
-import { MariaAction } from '@/consts';
+import { FeedCheck } from '@/types/FeedCheck';
+
+import { MariaAction, PageAction } from '@/consts';
 import getActiveTab from '@/utils/getActiveTab';
 import openNewTabStore from '@/utils/openNewTabStore';
+import openRSSViewer from '@/utils/openRSSViewer';
 
 import downloadGallery from './downloadGallery';
 import { buttonListener } from './utils';
 import dateCalculatorManager from './dateCalculator';
+import getStorage from '@/utils/getStorage';
 
 async function run() {
   dateCalculatorManager.init();
@@ -16,6 +21,13 @@ async function run() {
     .getElementById('openTabStore')
     .addEventListener('click', async () => {
       await openNewTabStore();
+      window.close();
+    });
+
+  document
+    .getElementById('openRSSViewer')
+    .addEventListener('click', async () => {
+      await openRSSViewer();
       window.close();
     });
 
@@ -42,6 +54,44 @@ async function run() {
 
     downloadButton.disabled = false;
     downloadButton.addEventListener('click', downloadGallery);
+  }
+
+  // RSS feed...
+  const tabId = activeTab.id;
+  const pageCheck: FeedCheck = await browser.tabs.sendMessage(tabId, {
+    action: PageAction.GET_PAGE_RSS_FEED
+  });
+
+  if (pageCheck.hasFeed) {
+    const { feeds } = await getStorage();
+
+    if (feeds.some((x) => x.link === pageCheck.link)) {
+      return;
+    }
+
+    document.getElementById('subscribeToFeed').style.display = 'block';
+
+    const feedSubButton = document.querySelector<HTMLButtonElement>(
+      '#feedSubscribe'
+    );
+
+    feedSubButton.disabled = false;
+    feedSubButton.textContent = `Subscribe to ${pageCheck.name}`;
+    feedSubButton.addEventListener('click', async (event) => {
+      const store = await getStorage();
+
+      await browser.storage.local.set({
+        ...store,
+        feeds: [...store.feeds, { name: pageCheck.name, link: pageCheck.link }]
+      });
+
+      await browser.browserAction.setBadgeText({ text: '', tabId });
+
+      const btn = event.target as HTMLButtonElement;
+      btn.disabled = true;
+
+      document.getElementById('subscribeToFeed').style.display = 'none';
+    });
   }
 }
 

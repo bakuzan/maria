@@ -1,0 +1,47 @@
+.rss-viewer {
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+  grid-template-areas: 'feeds feeds content content content content content content';
+  min-height: calc(100vh - 135px);
+
+  &__options {
+    grid-area: feeds;
+    list-style-type: none;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: var(--rss-viewer-sidebar-background-colour);
+  }
+
+  &__content {
+    grid-area: content;
+  }
+}
+
+.feed__item {
+  display: flex;
+  align-items: center;
+
+  &--active {
+  }
+}
+
+.remove-button {
+  font-size: 0.75rem;
+  padding: 2px;
+}
+
+.feed-button {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.feed-icon {
+  width: 1rem;
+  margin: 0 5px;
+}
+
+.feed-name {
+  text-align: left;
+}

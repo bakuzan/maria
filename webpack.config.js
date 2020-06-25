@@ -23,7 +23,8 @@ module.exports = {
     popup: join(__dirname, 'src/popup', 'index.ts'),
     options: join(__dirname, 'src/options', 'index.ts'),
     tabStore: join(__dirname, 'src/tabStore', 'index.ts'),
-    exportImport: join(__dirname, 'src/exportImport', 'index.ts')
+    exportImport: join(__dirname, 'src/exportImport', 'index.ts'),
+    rssViewer: join(__dirname, 'src/rssViewer', 'index.ts')
   },
   output: {
     path: join(__dirname, 'dist'),
@@ -50,7 +51,14 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css'
     }),
-    ...['background', 'options', 'popup', 'tabStore', 'exportImport'].map(
+    ...[
+      'background',
+      'options',
+      'popup',
+      'tabStore',
+      'exportImport',
+      'rssViewer'
+    ].map(
       (name) =>
         new HtmlWebpackPlugin({
           template: join('src', name, `${name}.html`),

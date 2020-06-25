@@ -2,8 +2,10 @@ import './backgroundCommands';
 import './backgroundContextMenu';
 import { browser } from 'webextension-polyfill-ts';
 
-import { MariaAction, erzaGQL } from '@/consts';
+import { MariaAction, erzaGQL, PageAction } from '@/consts';
 import { BackgroundAction } from '@/types/BackgroundAction';
+import { FeedCheck } from '@/types/FeedCheck';
+
 import fetch from '@/utils/fetch';
 import executeContentModule from '@/utils/executeContentModule';
 import userFeedback from '@/utils/userFeedback';
@@ -75,6 +77,7 @@ chrome.runtime.onMessage.addListener(function (
 
       return true;
     }
+
     default:
       return;
   }
@@ -91,7 +94,7 @@ chrome.tabs.onUpdated.addListener(async function (
   const isSeriesPage = new RegExp(re).test(tab.url);
 
   if (isComplete && isSeriesPage) {
-    executeContentModule(tabId, 'addSeries');
+    await executeContentModule(tabId, 'addSeries');
 
     await browser.tabs.executeScript(tabId, {
       code: `(async () => {
@@ -100,5 +103,25 @@ chrome.tabs.onUpdated.addListener(async function (
           .forEach((inp) => inp.setAttribute("autocomplete", "off"))
       })();`
     });
+  }
+
+  // RSS feed detection...
+  const pageCheck: FeedCheck = await browser.tabs.sendMessage(tabId, {
+    action: PageAction.GET_PAGE_RSS_FEED
+  });
+
+  if (pageCheck.hasFeed) {
+    const { feeds } = await getStorage();
+
+    if (feeds.some((x) => x.link === pageCheck.link)) {
+      return;
+    }
+
+    await browser.browserAction.setBadgeBackgroundColor({
+      color: `#ffa500`,
+      tabId
+    });
+
+    await browser.browserAction.setBadgeText({ text: '!', tabId });
   }
 });
