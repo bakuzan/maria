@@ -20,8 +20,6 @@ export default async function storeTabs(tabs: TabLinks[]) {
   };
 
   tabs.forEach((tab) => {
-    console.log(tab.url, tab.title);
-
     const matchedGroup = groups.find(
       (x) =>
         x.patterns.length &&

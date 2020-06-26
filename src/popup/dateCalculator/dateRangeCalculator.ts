@@ -54,7 +54,7 @@ class DateRangeCalculator {
     const diff = formatDuration(days);
     const f = formatDateForDisplay(from);
     const t = formatDateForDisplay(to);
-    console.log(days, diff);
+
     this.messageBox.classList.remove(ERROR_CLASS);
     this.messageBox.textContent = `${diff}\r\nfrom ${f}\r\nto ${t}`;
   }

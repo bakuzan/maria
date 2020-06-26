@@ -5,12 +5,22 @@
   grid-template-areas: 'feeds feeds content content content content content content';
   min-height: calc(100vh - 135px);
 
+  &__title {
+    font-size: 1.5rem;
+    margin: 5px 0;
+  }
+
   &__options {
     grid-area: feeds;
-    list-style-type: none;
     padding: 5px;
     margin: 5px 0;
     background-color: var(--rss-viewer-sidebar-background-colour);
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 5px 0;
+    }
   }
 
   &__content {
@@ -23,6 +33,12 @@
   align-items: center;
 
   &--active {
+    &,
+    .remove-button,
+    .feed-button {
+      background-color: var(--primary-colour);
+      color: var(--primary-colour-contrast);
+    }
   }
 }
 
@@ -44,4 +60,37 @@
 
 .feed-name {
   text-align: left;
+}
+
+.rss-feed {
+  padding: 0 5px;
+
+  &__title {
+    font-size: 1.5rem;
+    margin: 5px 0;
+  }
+
+  &__subtitle {
+    font-size: 0.8rem;
+    color: var(--faded-out);
+  }
+}
+
+.rss-feed-entry {
+  padding: 0 5px;
+  margin-bottom: 10px;
+
+  &__date {
+    font-size: 0.8rem;
+    color: var(--faded-out);
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  &__content {
+    padding: 5px 0;
+  }
 }
