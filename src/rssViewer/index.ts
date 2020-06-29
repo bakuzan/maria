@@ -15,10 +15,10 @@ async function onRemoveFeed(event: Event) {
   const link = parent.getAttribute('data-link');
 
   const store = await getStorage();
-
+  const feeds = store.feeds.filter((f) => f.link !== link);
   await browser.storage.local.set({
     ...store,
-    feeds: store.feeds.filter((f) => f.link !== link)
+    feeds
   });
 
   parent.parentNode.removeChild(parent);
@@ -35,6 +35,11 @@ async function onFeedSelect(event: Event) {
     .forEach((li) => {
       if (li.getAttribute('data-link') === link) {
         li.classList.add(ACTIVE_FEED_CLASS);
+
+        const updateIcon = li.querySelector('.feed-update');
+        if (updateIcon) {
+          li.removeChild(updateIcon);
+        }
       } else {
         li.classList.remove(ACTIVE_FEED_CLASS);
       }
@@ -43,10 +48,21 @@ async function onFeedSelect(event: Event) {
   const data = await feedReader.parseURL(link);
   const viewer = document.getElementById('content');
   viewer.innerHTML = renderFeed(data);
+
+  const store = await getStorage();
+  const feeds = store.feeds.map((f) =>
+    f.link !== link ? f : { ...f, hasUnread: false }
+  );
+
+  await browser.storage.local.set({
+    ...store,
+    feeds
+  });
 }
 
 async function run() {
   const { feeds } = await getStorage();
+  await browser.browserAction.setBadgeText({ text: '' });
 
   const feedList = document.getElementById('feeds');
   feedList.innerHTML = feeds

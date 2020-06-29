@@ -1,10 +1,12 @@
 import './backgroundCommands';
 import './backgroundContextMenu';
 import { browser } from 'webextension-polyfill-ts';
+import Parser from 'rss-parser';
 
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
 import { BackgroundAction } from '@/types/BackgroundAction';
 import { FeedCheck } from '@/types/FeedCheck';
+import { Feed } from '@/types/Feed';
 
 import fetch from '@/utils/fetch';
 import executeContentModule from '@/utils/executeContentModule';
@@ -12,6 +14,7 @@ import userFeedback from '@/utils/userFeedback';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import getErrorMessage from '@/utils/getErrorMessage';
 import getStorage from '@/utils/getStorage';
+import daysBetweenDates from '@/utils/daysBetweenDates';
 
 /* Message handling */
 
@@ -123,5 +126,58 @@ chrome.tabs.onUpdated.addListener(async function (
     });
 
     await browser.browserAction.setBadgeText({ text: '!', tabId });
+  }
+});
+
+/* When the extension starts up... */
+chrome.runtime.onStartup.addListener(async function () {
+  const { feeds, ...store } = await getStorage();
+  const feedReader = new Parser();
+  const today = new Date();
+  const detectedUpdates: Feed[] = [];
+
+  const waitForIt = () =>
+    new Promise((resolve) => window.setTimeout(resolve, 500));
+
+  for (const item of feeds) {
+    const date = new Date(item.lastUpdate);
+
+    if (item.lastUpdate && daysBetweenDates(today, date) < 1) {
+      continue;
+    }
+
+    await waitForIt();
+    const data = await feedReader.parseURL(item.link);
+    const mostRecentDate = data.items.pop()?.pubDate;
+
+    if (
+      !mostRecentDate ||
+      (item.lastUpdate && daysBetweenDates(mostRecentDate, date) < 1)
+    ) {
+      continue;
+    }
+
+    detectedUpdates.push({
+      ...item,
+      lastUpdate: new Date(mostRecentDate).getTime(),
+      hasUnread: true
+    });
+  }
+
+  const updatedCount = detectedUpdates.length;
+
+  if (updatedCount) {
+    await browser.storage.local.set({
+      ...store,
+      feeds: feeds.map(
+        (x) => detectedUpdates.find((u) => u.link === x.link) ?? x
+      )
+    });
+
+    await browser.browserAction.setBadgeBackgroundColor({
+      color: `#0070ff`
+    });
+
+    await browser.browserAction.setBadgeText({ text: `${updatedCount}` });
   }
 });

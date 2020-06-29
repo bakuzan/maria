@@ -7,13 +7,12 @@
 
   &__title {
     font-size: 1.5rem;
-    margin: 5px 0;
+    margin: 5px;
   }
 
   &__options {
     grid-area: feeds;
     padding: 5px;
-    margin: 5px 0;
     background-color: var(--rss-viewer-sidebar-background-colour);
 
     ul {
@@ -25,10 +24,12 @@
 
   &__content {
     grid-area: content;
+    border: 1px solid var(--rss-viewer-sidebar-background-colour);
   }
 }
 
 .feed__item {
+  position: relative;
   display: flex;
   align-items: center;
 
@@ -45,21 +46,38 @@
 .remove-button {
   font-size: 0.75rem;
   padding: 2px;
+  margin: 0 5px;
+
+  &:not(:hover) {
+    box-shadow: none;
+  }
 }
 
 .feed-button {
   display: flex;
   flex: 1;
   align-items: center;
+  box-shadow: none;
 }
-
 .feed-icon {
   width: 1rem;
   margin: 0 5px;
 }
-
 .feed-name {
   text-align: left;
+}
+.feed-update {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  padding: 1px;
+  border-radius: 1rem;
+  font-size: 1rem;
+  background-color: var(--information-colour);
+  color: var(--primary-colour-contrast);
+  text-align: center;
 }
 
 .rss-feed {
@@ -67,7 +85,7 @@
 
   &__title {
     font-size: 1.5rem;
-    margin: 5px 0;
+    margin: 8px 0;
   }
 
   &__subtitle {

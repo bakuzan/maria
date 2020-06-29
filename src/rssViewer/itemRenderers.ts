@@ -6,6 +6,7 @@ import formatDateForDisplay from '@/utils/formatDateForDisplay';
 
 export function createFeedItem(item: Feed) {
   const favicon = `${getUrlOrigin(item.link)}/favicon.ico`;
+  const hasUpdate = item.hasUnread ? `<div class="feed-update">!</div>` : '';
 
   return `
   <li class="feed__item" data-link="${item.link}">
@@ -22,6 +23,7 @@ export function createFeedItem(item: Feed) {
       <img class="feed-icon" src="${favicon}" />
       <span class="feed-name">${item.name}</span>
     </button>
+    ${hasUpdate}
   </li>`;
 }
 

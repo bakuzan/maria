@@ -79,10 +79,15 @@ async function run() {
     feedSubButton.textContent = `Subscribe to ${pageCheck.name}`;
     feedSubButton.addEventListener('click', async (event) => {
       const store = await getStorage();
+      const newFeedEntry = {
+        name: pageCheck.name,
+        link: pageCheck.link,
+        hasUnread: false
+      };
 
       await browser.storage.local.set({
         ...store,
-        feeds: [...store.feeds, { name: pageCheck.name, link: pageCheck.link }]
+        feeds: [...store.feeds, newFeedEntry]
       });
 
       await browser.browserAction.setBadgeText({ text: '', tabId });
