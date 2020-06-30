@@ -148,7 +148,7 @@ chrome.runtime.onStartup.addListener(async function () {
 
     await waitForIt();
     const data = await feedReader.parseURL(item.link);
-    const mostRecentDate = data.items.pop()?.pubDate;
+    const mostRecentDate = data.items[0]?.pubDate;
 
     if (
       !mostRecentDate ||

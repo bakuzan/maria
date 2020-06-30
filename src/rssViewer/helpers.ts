@@ -45,7 +45,7 @@ export async function checkForFeedUpdates() {
 
     await waitForIt();
     const data = await feedReader.parseURL(item.link);
-    const mostRecentDate = data.items.pop()?.pubDate;
+    const mostRecentDate = data.items[0]?.pubDate;
     const lastUpdate = new Date(mostRecentDate ?? new Date()).getTime();
 
     if (!mostRecentDate || (item.lastUpdate && lastUpdate === time)) {
