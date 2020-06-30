@@ -60,11 +60,20 @@ export default function initOnMessage() {
       }
 
       case PageAction.GET_PAGE_RSS_FEED: {
-        const feed = document.querySelector<HTMLLinkElement>(
+        const feed = document.querySelector<HTMLLinkElement | null>(
           `link[type="application/rss+xml"]`
         );
 
-        return { hasFeed: !!feed, name: feed?.title, link: feed?.href };
+        if (feed === null) {
+          return { hasFeed: false, name: '', link: '' };
+        }
+
+        const pageName = `${window.document.title} RSS`;
+        const feedName = (feed.title || pageName).trim();
+        const isBadRSSName = feedName.toLowerCase() === 'rss';
+        const name = isBadRSSName ? pageName : feedName;
+
+        return { hasFeed: true, name, link: feed.href };
       }
 
       default:

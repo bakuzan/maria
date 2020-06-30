@@ -157,9 +157,11 @@ chrome.runtime.onStartup.addListener(async function () {
       continue;
     }
 
+    const lastUpdate = new Date(mostRecentDate ?? new Date()).getTime();
+
     detectedUpdates.push({
       ...item,
-      lastUpdate: new Date(mostRecentDate).getTime(),
+      lastUpdate,
       hasUnread: true
     });
   }

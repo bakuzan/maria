@@ -1,3 +1,12 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .rss-viewer {
   display: grid;
   grid-auto-rows: 1fr;
@@ -11,6 +20,7 @@
   }
 
   &__options {
+    position: relative;
     grid-area: feeds;
     padding: 5px;
     background-color: var(--rss-viewer-sidebar-background-colour);
@@ -25,6 +35,31 @@
   &__content {
     grid-area: content;
     border: 1px solid var(--rss-viewer-sidebar-background-colour);
+  }
+}
+
+.check-updates-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 5px;
+  margin: 13px 5px;
+  font-size: 1rem;
+
+  &:focus,
+  &:hover,
+  &:active {
+    background-color: var(--primary-colour);
+    color: var(--primary-colour-contrast);
+  }
+
+  & span {
+    animation: spin 0.5s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+
+  &--loading span {
+    animation-play-state: running;
   }
 }
 
