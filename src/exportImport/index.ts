@@ -4,6 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import getStorage from '@/utils/getStorage';
 import reloadTabStores from '@/utils/reloadTabStores';
+import { uniqueItemsFilter } from '@/utils/array';
 import processImportedValue from './processImportedValue';
 
 const ERROR_CLASS = 'maria-feedback--error';
@@ -16,7 +17,7 @@ async function run() {
   console.log('Export/Import page > ', data);
 
   // Export
-  const exportValue = JSON.stringify(data.tabGroups, null, 2);
+  const exportValue = JSON.stringify(data, null, 2);
   const exportArea = document.getElementById('export') as HTMLTextAreaElement;
   exportArea.value = exportValue;
 
@@ -44,32 +45,41 @@ async function run() {
 
     try {
       const parsed = JSON.parse(importValue);
-
       const processed = processImportedValue(parsed);
+
       if (processed.success) {
-        const activeClass = processed.message ? WARNING_CLASS : SUCCESS_CLASS;
-        const inactiveClass = !processed.message
-          ? WARNING_CLASS
-          : SUCCESS_CLASS;
+        const hasMessage = processed.messages.length > 0;
+        const activeClass = hasMessage ? WARNING_CLASS : SUCCESS_CLASS;
+        const inactiveClass = !hasMessage ? WARNING_CLASS : SUCCESS_CLASS;
 
         feedback.classList.remove(ERROR_CLASS);
         feedback.classList.remove(inactiveClass);
         feedback.classList.add(activeClass);
-        feedback.textContent = processed.message || 'Done.';
+        feedback.textContent = processed.messages.join('\r\n') || 'Done.';
 
-        const { tabGroups, ...store } = await getStorage();
-        const newGroups = [...tabGroups, ...processed.data].filter(
+        const { digitOptions, feeds, tabGroups, ...store } = await getStorage();
+        const newDigitOptions = processed.data.digitOptions.length
+          ? processed.data.digitOptions
+          : digitOptions;
+
+        const newGroups = [...tabGroups, ...processed.data.tabGroups].filter(
           (x) => x.items.length > 0 || x.isLocked
+        );
+
+        const newFeeds = [...feeds, ...processed.data.feeds].filter(
+          uniqueItemsFilter((x) => x.link)
         );
 
         await browser.storage.local.set({
           ...store,
+          digitOptions: newDigitOptions,
+          feeds: newFeeds,
           tabGroups: newGroups
         });
 
         await reloadTabStores();
       } else {
-        throw new Error(processed.message);
+        throw new Error(processed.messages.join('\r\n'));
       }
     } catch (e) {
       feedback.classList.add(ERROR_CLASS);
