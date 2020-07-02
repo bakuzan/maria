@@ -27,7 +27,10 @@ export default function initOnMessage() {
         // Authour
         const authourTag = getNode(`//a[starts-with(@href, "/artist/")]`);
         const authour =
-          authourTag?.textContent.replace(/\(.*$/, '').trim() ?? '';
+          authourTag
+            ?.querySelector('.name')
+            ?.textContent.replace(/\(.*$/, '')
+            .trim() ?? '';
 
         const pre = `[${authour.replace(/ /g, '-')}]`;
 
