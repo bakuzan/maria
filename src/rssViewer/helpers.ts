@@ -1,12 +1,9 @@
-import { browser } from 'webextension-polyfill-ts';
-import Parser from 'rss-parser';
-
 import { Feed } from '@/types/Feed';
+import { checkFeedsForUpdates } from '@/utils/rssFeedChecks';
+
 import { onFeedSelect, onRemoveFeed } from './feedActions';
 import { createFeedItem } from './itemRenderers';
-import getStorage from '@/utils/getStorage';
 
-const feedReader = new Parser();
 const UPDATE_LOADING_CLASS = 'check-updates-button--loading';
 
 export const getCheckUpdateButton = () =>
@@ -30,47 +27,14 @@ export function renderFeedList(feeds: Feed[]) {
 }
 
 export async function checkForFeedUpdates() {
-  const { feeds, ...store } = await getStorage();
-  const detectedUpdates: Feed[] = [];
-
   const updateButton = getCheckUpdateButton();
   updateButton.disabled = true;
   updateButton.classList.add(UPDATE_LOADING_CLASS);
 
-  const waitForIt = () =>
-    new Promise((resolve) => window.setTimeout(resolve, 500));
-
-  for (const item of feeds) {
-    const time = new Date(item.lastUpdate).getTime();
-
-    await waitForIt();
-    const data = await feedReader.parseURL(item.link);
-    const mostRecentDate = data.items[0]?.pubDate;
-    const lastUpdate = new Date(mostRecentDate ?? new Date()).getTime();
-
-    if (!mostRecentDate || (item.lastUpdate && lastUpdate === time)) {
-      continue;
-    }
-
-    detectedUpdates.push({
-      ...item,
-      lastUpdate,
-      hasUnread: true
-    });
-  }
-
-  const updatedCount = detectedUpdates.length;
+  const updatedFeeds = await checkFeedsForUpdates();
+  const updatedCount = updatedFeeds.length;
 
   if (updatedCount) {
-    const updatedFeeds = feeds.map(
-      (x) => detectedUpdates.find((u) => u.link === x.link) ?? x
-    );
-
-    await browser.storage.local.set({
-      ...store,
-      feeds: updatedFeeds
-    });
-
     renderFeedList(updatedFeeds);
   }
 
