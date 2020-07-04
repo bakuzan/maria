@@ -27,9 +27,15 @@ class DateRangeCalculator {
   }
 
   public destroy() {
-    this.dayFromInput.value = '';
-    this.dayToInput.value = '';
-    this.messageBox.textContent = '';
+    if (this.dayFromInput) {
+      this.dayFromInput.value = '';
+    }
+    if (this.dayToInput) {
+      this.dayToInput.value = '';
+    }
+    if (this.messageBox) {
+      this.messageBox.textContent = '';
+    }
 
     this.form.removeEventListener('submit', this.listener);
   }

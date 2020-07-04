@@ -3,6 +3,7 @@ import Parser from 'rss-parser';
 
 import { renderFeed } from './itemRenderers';
 import getStorage from '@/utils/getStorage';
+import { getLastUpdateDate } from '@/utils/rssFeedChecks';
 
 const feedReader = new Parser();
 const ACTIVE_FEED_CLASS = 'feed__item--active';
@@ -49,7 +50,9 @@ export async function onFeedSelect(event: Event) {
 
   const store = await getStorage();
   const feeds = store.feeds.map((f) =>
-    f.link !== link ? f : { ...f, hasUnread: false }
+    f.link !== link
+      ? f
+      : { ...f, lastUpdate: getLastUpdateDate(data), hasUnread: false }
   );
 
   await browser.storage.local.set({

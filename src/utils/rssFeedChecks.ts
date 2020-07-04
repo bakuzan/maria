@@ -21,6 +21,15 @@ export async function updateBadge(updates: Feed[]) {
   });
 }
 
+export function getLastUpdateDate(data: Parser.Output) {
+  const mostRecentDate = data.items[0]?.pubDate;
+
+  return {
+    hasDate: !!mostRecentDate,
+    lastUpdate: new Date(mostRecentDate ?? new Date()).getTime()
+  };
+}
+
 export async function checkFeedsForUpdates() {
   const { feeds, ...store } = await getStorage();
   const detectedUpdates: Feed[] = [];
@@ -30,16 +39,18 @@ export async function checkFeedsForUpdates() {
 
     await waitForIt();
     const data = await feedReader.parseURL(item.link);
-    const mostRecentDate = data.items[0]?.pubDate;
-    const lastUpdate = new Date(mostRecentDate ?? new Date()).getTime();
+    const recentUpdate = getLastUpdateDate(data);
+    const noUpdate =
+      !recentUpdate.hasDate ||
+      (item.lastUpdate && recentUpdate.lastUpdate === time);
 
-    if (!mostRecentDate || (item.lastUpdate && lastUpdate === time)) {
+    if (noUpdate) {
       continue;
     }
 
     detectedUpdates.push({
       ...item,
-      lastUpdate,
+      lastUpdate: recentUpdate.lastUpdate,
       hasUnread: true
     });
   }
