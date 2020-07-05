@@ -48,7 +48,7 @@ export async function onFeedSelect(event: Event) {
   const mostRecent = getLastUpdateDate(data);
   const viewer = document.getElementById('content');
   viewer.innerHTML = renderFeed(data);
-
+  console.log('Feed: ', data);
   const store = await getStorage();
   const feeds = store.feeds.map((f) => {
     if (f.link !== link) {

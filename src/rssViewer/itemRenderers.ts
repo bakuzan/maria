@@ -29,6 +29,7 @@ export function createFeedItem(item: Feed) {
 
 function createFeedEntry(item: Parser.Item) {
   const published = formatDateForDisplay(item.pubDate, true);
+  const link = item.link ?? item.enclosure?.url;
   const content = item.contentSnippet
     ? `<div class="rss-feed-entry__content">${item.contentSnippet}</div>`
     : '';
@@ -39,7 +40,8 @@ function createFeedEntry(item: Parser.Item) {
       <div class="rss-feed-entry__title">
         <a 
           class="rss-feed-entry__link maria-link" 
-          href=${item.link} target="_blank" 
+          href=${link} 
+          target="_blank" 
           rel="noopener noreferrer nofollow">
           ${item.title}
         </a>
