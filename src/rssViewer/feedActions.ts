@@ -45,15 +45,22 @@ export async function onFeedSelect(event: Event) {
     });
 
   const data = await feedReader.parseURL(link);
+  const mostRecent = getLastUpdateDate(data);
   const viewer = document.getElementById('content');
   viewer.innerHTML = renderFeed(data);
 
   const store = await getStorage();
-  const feeds = store.feeds.map((f) =>
-    f.link !== link
-      ? f
-      : { ...f, lastUpdate: getLastUpdateDate(data), hasUnread: false }
-  );
+  const feeds = store.feeds.map((f) => {
+    if (f.link !== link) {
+      return f;
+    } else {
+      return {
+        ...f,
+        lastUpdate: mostRecent.lastUpdate,
+        hasUnread: false
+      };
+    }
+  });
 
   await browser.storage.local.set({
     ...store,
