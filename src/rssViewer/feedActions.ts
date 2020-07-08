@@ -24,10 +24,26 @@ export async function onRemoveFeed(event: Event) {
   parent.parentNode.removeChild(parent);
 }
 
+function renderDelayedLoader(element: HTMLElement) {
+  return window.setTimeout(() => {
+    element.innerHTML = `
+      <div class="maria-loading">
+        <div class="maria-loading__box">
+          <div class="maria-loading__orb"></div>
+          <div class="maria-loading__orb"></div>
+          <div class="maria-loading__orb"></div>
+        </div>
+      </div>
+    `;
+  }, 1000);
+}
+
 export async function onFeedSelect(event: Event) {
   const t = this as HTMLButtonElement;
   const parent = t.parentElement;
   const link = parent.getAttribute('data-link');
+  const viewer = document.getElementById('content');
+  const timer = renderDelayedLoader(viewer);
 
   document
     .getElementById('feeds')
@@ -47,21 +63,21 @@ export async function onFeedSelect(event: Event) {
 
   const data = await feedReader.parseURL(link);
   const mostRecent = getLastUpdateDate(data);
-  const viewer = document.getElementById('content');
-  viewer.innerHTML = renderFeed(data);
+
   log('Feed: ', data);
+  clearTimeout(timer);
+  viewer.innerHTML = renderFeed(data);
+
   const store = await getStorage();
-  const feeds = store.feeds.map((f) => {
-    if (f.link !== link) {
-      return f;
-    } else {
-      return {
-        ...f,
-        lastUpdate: mostRecent.lastUpdate,
-        hasUnread: false
-      };
-    }
-  });
+  const feeds = store.feeds.map((f) =>
+    f.link !== link
+      ? { ...f }
+      : {
+          ...f,
+          lastUpdate: mostRecent.lastUpdate,
+          hasUnread: false
+        }
+  );
 
   await browser.storage.local.set({
     ...store,
