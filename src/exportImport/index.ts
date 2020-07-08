@@ -6,6 +6,7 @@ import getStorage from '@/utils/getStorage';
 import reloadTabStores from '@/utils/reloadTabStores';
 import { uniqueItemsFilter } from '@/utils/array';
 import processImportedValue from './processImportedValue';
+import { log } from '@/log';
 
 const ERROR_CLASS = 'maria-feedback--error';
 const SUCCESS_CLASS = 'maria-feedback--success';
@@ -14,7 +15,7 @@ let timer = 0;
 
 async function run() {
   const data = await getStorage();
-  console.log('Export/Import page > ', data);
+  log('Export/Import page > ', data);
 
   // Export
   const exportValue = JSON.stringify(data, null, 2);

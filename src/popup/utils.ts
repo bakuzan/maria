@@ -2,6 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { MariaAction } from '@/consts';
 import getActiveTab from '@/utils/getActiveTab';
+import { reportError } from '@/log';
 
 export function buttonListener(action: MariaAction) {
   return async function () {
@@ -13,8 +14,7 @@ export function buttonListener(action: MariaAction) {
         action
       });
     } catch (error) {
-      // TODO
-      // Error handling
+      reportError(error);
     }
   };
 }

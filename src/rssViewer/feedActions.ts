@@ -3,7 +3,8 @@ import Parser from 'rss-parser';
 
 import { renderFeed } from './itemRenderers';
 import getStorage from '@/utils/getStorage';
-import { getLastUpdateDate } from '@/utils/rssFeedChecks';
+import { getLastUpdateDate, updateBadge } from '@/utils/rssFeedChecks';
+import { log } from '@/log';
 
 const feedReader = new Parser();
 const ACTIVE_FEED_CLASS = 'feed__item--active';
@@ -48,7 +49,7 @@ export async function onFeedSelect(event: Event) {
   const mostRecent = getLastUpdateDate(data);
   const viewer = document.getElementById('content');
   viewer.innerHTML = renderFeed(data);
-  console.log('Feed: ', data);
+  log('Feed: ', data);
   const store = await getStorage();
   const feeds = store.feeds.map((f) => {
     if (f.link !== link) {
@@ -66,4 +67,6 @@ export async function onFeedSelect(event: Event) {
     ...store,
     feeds
   });
+
+  await updateBadge(feeds);
 }

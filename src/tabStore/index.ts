@@ -15,8 +15,6 @@ async function run() {
     (x) => new TabGroupController(rootContainer, x)
   );
 
-  console.log('Tab store controller...', tabGroups, controllers);
-
   document.getElementById('exportImport').addEventListener(
     'click',
     async () =>

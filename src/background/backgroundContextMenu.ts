@@ -6,6 +6,7 @@ import openWindow from '@/utils/openWindow';
 import getActiveTab from '@/utils/getActiveTab';
 import storeTabs from '@/utils/storeTabs';
 import openNewTabStore from '@/utils/openNewTabStore';
+import { log } from '@/log';
 
 enum MariaContextMenuOption {
   MagicNumber = 'magic-number',
@@ -102,7 +103,7 @@ tabStoreOptions.forEach((option) => {
 // ContextMenu click handler
 browser.contextMenus.onClicked.addListener(async function (info) {
   const { menuItemId, parentMenuItemId, selectionText: search } = info;
-  console.log('Context menu click : ', info);
+  log('Context menu click : ', info);
 
   if (menuItemId === MariaContextMenuOption.MagicNumber) {
     handleMagicNumberSelect(search);

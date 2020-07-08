@@ -4,6 +4,7 @@ import getActiveTab from '@/utils/getActiveTab';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import storeTabs from '@/utils/storeTabs';
 import openNewTabStore from '@/utils/openNewTabStore';
+import { log } from '@/log';
 
 enum MariaCommand {
   AddLinks = 'add-links',
@@ -14,7 +15,7 @@ enum MariaCommand {
 }
 
 browser.commands.onCommand.addListener(async function (command: MariaCommand) {
-  console.log('Command:', command);
+  log('Command: ', command);
 
   const activeTab = await getActiveTab();
 

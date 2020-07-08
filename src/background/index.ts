@@ -18,6 +18,7 @@ import {
   updateBadge,
   getUnreadFeeds
 } from '@/utils/rssFeedChecks';
+import { log } from '@/log';
 
 /* Message handling */
 
@@ -26,7 +27,7 @@ chrome.runtime.onMessage.addListener(function (
   sender: chrome.runtime.MessageSender,
   sendResponse: (action: BackgroundAction) => void
 ) {
-  console.log(
+  log(
     sender.tab
       ? 'from a content script:' + sender.tab.url
       : 'from the extension'

@@ -2,6 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { ToasterType } from '@/types/ToasterType';
 import getActiveTab from './getActiveTab';
+import { reportError } from '@/log';
 
 export default async function userFeedback(type: ToasterType, message: string) {
   try {
@@ -11,8 +12,6 @@ export default async function userFeedback(type: ToasterType, message: string) {
       code: `(async () => window.__Maria__.toaster("${type}", \`${message}\`))();`
     });
   } catch (error) {
-    console.log(error);
-    // TODO
-    // Error handling
+    reportError(error);
   }
 }

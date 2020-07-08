@@ -1,6 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import getActiveTab from './getActiveTab';
+import { reportError } from '@/log';
 
 export default async function openWindow(tabUrl: string) {
   try {
@@ -12,8 +13,6 @@ export default async function openWindow(tabUrl: string) {
             })();`
     });
   } catch (error) {
-    console.log(error);
-    // TODO
-    // Error handling
+    reportError(error);
   }
 }

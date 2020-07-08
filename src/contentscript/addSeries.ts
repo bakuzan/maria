@@ -112,8 +112,6 @@ async function postSeries(isAnime: boolean, series: SeriesPayload) {
       series
     });
 
-    console.log('post response', response);
-
     if (response.success) {
       toaster('success', `Posted ${response.data.title}.`);
     }

@@ -67,6 +67,9 @@ export default function initOnMessage() {
           `link[type="application/rss+xml"]`
         );
 
+        // TODO
+        // Detect if current page is a feed
+
         if (feed === null) {
           return { hasFeed: false, name: '', link: '' };
         }
