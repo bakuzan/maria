@@ -22,10 +22,12 @@ class DateOffsetCalculator {
   }
 
   public destroy() {
-    this.daysInput.value = '';
-    this.messageBox.textContent = '';
+    if (this.messageBox) {
+      this.messageBox.textContent = '';
+    }
 
-    this.form.removeEventListener('submit', this.listener);
+    this.daysInput?.setAttribute('value', '');
+    this.form?.removeEventListener('submit', this.listener);
   }
 
   // Private

@@ -53,6 +53,7 @@
   @extend %transition-hidden;
 
   &:not(.date-form--visible) {
+    position: absolute;
     height: 0px;
   }
 
