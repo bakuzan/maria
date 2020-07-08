@@ -67,19 +67,37 @@ export default function initOnMessage() {
           `link[type="application/rss+xml"]`
         );
 
-        // TODO
-        // Detect if current page is a feed
+        const feedContainer = document.querySelector<HTMLPreElement | null>(
+          'pre'
+        );
 
-        if (feed === null) {
-          return { hasFeed: false, name: '', link: '' };
+        if (feed) {
+          const pageName = `${window.document.title} RSS`;
+          const feedName = (feed.title || pageName).trim();
+          const isBadRSSName = feedName.toLowerCase() === 'rss';
+          const name = isBadRSSName ? pageName : feedName;
+
+          return { hasFeed: true, name, link: feed.href };
+        } else if (
+          feedContainer &&
+          feedContainer.textContent.includes('type="application/rss+xml"')
+        ) {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(
+            feedContainer.textContent,
+            'text/xml'
+          );
+
+          const title = xmlDoc.querySelector('channel').querySelector('title');
+          const link = xmlDoc
+            .querySelector('channel')
+            .querySelector('link')
+            .getAttribute('href');
+
+          return { hasFeed: true, name: title.textContent, link };
         }
 
-        const pageName = `${window.document.title} RSS`;
-        const feedName = (feed.title || pageName).trim();
-        const isBadRSSName = feedName.toLowerCase() === 'rss';
-        const name = isBadRSSName ? pageName : feedName;
-
-        return { hasFeed: true, name, link: feed.href };
+        return { hasFeed: false, name: '', link: '' };
       }
 
       default:
