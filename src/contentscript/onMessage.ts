@@ -91,7 +91,7 @@ export default function initOnMessage() {
           const title = xmlDoc.querySelector('channel').querySelector('title');
           const link = xmlDoc
             .querySelector('channel')
-            .querySelector('link')
+            .querySelector('link[rel="self"]')
             .getAttribute('href');
 
           return { hasFeed: true, name: title.textContent, link };
