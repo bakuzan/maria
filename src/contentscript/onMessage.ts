@@ -30,6 +30,7 @@ export default function initOnMessage() {
           authourTag
             ?.querySelector('.name')
             ?.textContent.replace(/\(.*$/, '')
+            .replace(/\|.*$/, '')
             .trim() ?? '';
 
         const pre = `[${authour.replace(/ /g, '-')}]`;

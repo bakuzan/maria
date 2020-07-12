@@ -2,7 +2,9 @@ export enum MariaAction {
   PROCESS_NUMBERS = 1,
   REMOVE_LINKS = 2,
   FETCH_NUMBER_DETAIL = 3,
-  POST_MAL_SERIES = 4
+  POST_MAL_SERIES = 4,
+  DOWNLOAD_GALLERY = 5,
+  DOWNLOAD_GALLERY_STATUS = 6
 }
 
 export enum PageAction {

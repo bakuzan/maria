@@ -20,3 +20,9 @@ export function uniqueItemsFilter<T>(extractor: (x: T) => any = (x) => x) {
   return (x: T, i: number, arr: T[]) =>
     arr.findIndex((a) => extractor(a) === extractor(x)) === i;
 }
+
+export function chunk(arr: any[], size: number) {
+  return Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+}

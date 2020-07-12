@@ -2,7 +2,9 @@ import './backgroundCommands';
 import './backgroundContextMenu';
 import { browser } from 'webextension-polyfill-ts';
 
+import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
+import { log } from '@/log';
 import { BackgroundAction } from '@/types/BackgroundAction';
 import { FeedCheck } from '@/types/FeedCheck';
 
@@ -12,17 +14,16 @@ import userFeedback from '@/utils/userFeedback';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import getErrorMessage from '@/utils/getErrorMessage';
 import getStorage from '@/utils/getStorage';
-
+import { chunk } from '@/utils/array';
 import {
   checkFeedsForUpdates,
   updateBadge,
   getUnreadFeeds
 } from '@/utils/rssFeedChecks';
-import { log } from '@/log';
 
 /* Message handling */
 
-chrome.runtime.onMessage.addListener(function (
+chrome.runtime.onMessage.addListener(async function (
   request: any,
   sender: chrome.runtime.MessageSender,
   sendResponse: (action: BackgroundAction) => void
@@ -42,7 +43,7 @@ chrome.runtime.onMessage.addListener(function (
       removeLinks(request.tabID, sendResponse);
       break;
 
-    case MariaAction.FETCH_NUMBER_DETAIL:
+    case MariaAction.FETCH_NUMBER_DETAIL: {
       fetch(`https://nhentai.net/api/gallery/${request.seriesId}`).then(
         (response) => {
           if (!response.success) {
@@ -56,7 +57,9 @@ chrome.runtime.onMessage.addListener(function (
           });
         }
       );
+
       return true;
+    }
 
     case MariaAction.POST_MAL_SERIES: {
       fetch(`http://localhost:9003/graphql`, {
@@ -84,6 +87,55 @@ chrome.runtime.onMessage.addListener(function (
 
       return true;
     }
+
+    case MariaAction.DOWNLOAD_GALLERY: {
+      const { default: JSZip } = await import(
+        /* webpackChunkName: "jszip" */ 'jszip'
+      );
+
+      downloadContext.init(request.items.length, request.filename);
+
+      const zip = new JSZip();
+      const chunks = chunk(request.items, 5);
+
+      for (const hunk of chunks) {
+        const queue = [];
+
+        for (const item of hunk) {
+          downloadContext.bumpQueuedCount();
+
+          queue.push(
+            window
+              .fetch(item.url)
+              .then((response) => response.arrayBuffer())
+              .then((img) => zip.file(item.name, img))
+              .then(() => downloadContext.bumpLoadedCount())
+          );
+        }
+
+        await Promise.all(queue);
+      }
+
+      downloadContext.zipping();
+      zip.generateAsync({ type: 'blob' }).then(async function (content) {
+        const url = window.URL.createObjectURL(content);
+
+        await browser.downloads.download({
+          url,
+          filename: request.filename,
+          saveAs: true
+        });
+
+        downloadContext.reset();
+        window.URL.revokeObjectURL(url);
+      });
+
+      return;
+    }
+
+    case MariaAction.DOWNLOAD_GALLERY_STATUS:
+      downloadContext.report();
+      return;
 
     default:
       return;
@@ -124,12 +176,11 @@ chrome.tabs.onUpdated.addListener(async function (
       return;
     }
 
+    await browser.browserAction.setBadgeText({ text: '!', tabId });
     await browser.browserAction.setBadgeBackgroundColor({
       color: `#ffa500`,
       tabId
     });
-
-    await browser.browserAction.setBadgeText({ text: '!', tabId });
   } else {
     const unreadFeeds = await getUnreadFeeds();
     await updateBadge(unreadFeeds);
@@ -138,6 +189,9 @@ chrome.tabs.onUpdated.addListener(async function (
 
 /* When the extension starts up... */
 chrome.runtime.onStartup.addListener(async function () {
+  const greeting = new Audio(chrome.runtime.getURL('../assets/greeting.mp3'));
+  greeting.play();
+
   const updatedFeeds = await checkFeedsForUpdates();
   await updateBadge(updatedFeeds);
 });

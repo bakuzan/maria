@@ -9,7 +9,7 @@ import getActiveTab from '@/utils/getActiveTab';
 import openNewTabStore from '@/utils/openNewTabStore';
 import openRSSViewer from '@/utils/openRSSViewer';
 
-import downloadGallery from './downloadGallery';
+import { setupDownloadGallery } from './downloadGallery';
 import { buttonListener } from './utils';
 import dateCalculatorManager from './dateCalculator';
 import getStorage from '@/utils/getStorage';
@@ -39,24 +39,16 @@ async function run() {
     .getElementById('removeLinks')
     .addEventListener('click', buttonListener(MariaAction.REMOVE_LINKS));
 
-  // Condition specific options...
+  /**
+   * Condition specific options...below here
+   *
+   */
 
-  const activeTab = await getActiveTab();
-  const re = /nhentai.net\/g\/\d{1,}\/$/;
-  const isGalleryPage = new RegExp(re).test(activeTab.url);
-
-  if (isGalleryPage) {
-    document.getElementById('downloadGalleryOption').style.display = 'block';
-
-    const downloadButton = document.querySelector<HTMLButtonElement>(
-      '#downloadGallery'
-    );
-
-    downloadButton.disabled = false;
-    downloadButton.addEventListener('click', downloadGallery);
-  }
+  // Download gallery...
+  setupDownloadGallery();
 
   // RSS feed...
+  const activeTab = await getActiveTab();
   const tabId = activeTab.id;
   const pageCheck: FeedCheck = await browser.tabs.sendMessage(tabId, {
     action: PageAction.GET_PAGE_RSS_FEED
