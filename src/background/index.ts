@@ -182,8 +182,12 @@ chrome.tabs.onUpdated.addListener(async function (
       tabId
     });
   } else {
-    const unreadFeeds = await getUnreadFeeds();
-    await updateBadge(unreadFeeds);
+    const text = await browser.browserAction.getBadgeText({});
+
+    if (!text) {
+      const unreadFeeds = await getUnreadFeeds();
+      await updateBadge(unreadFeeds);
+    }
   }
 });
 
