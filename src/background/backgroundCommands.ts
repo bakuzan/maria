@@ -28,17 +28,6 @@ browser.commands.onCommand.addListener(async function (command: MariaCommand) {
       removeLinks(activeTab.id);
       break;
 
-    // Retired, limited to 4 chrome shortcuts
-    // case MariaCommand.ViewMagicNumber:
-    //   chrome.tabs.executeScript(
-    //     activeTab.id,
-    //     {
-    //       code: `window.getSelection().toString();`
-    //     },
-    //     (text: any) => handleMagicNumberSelect(text, false)
-    //   );
-    //   break;
-
     case MariaCommand.OpenTabStore:
       await openNewTabStore();
       break;

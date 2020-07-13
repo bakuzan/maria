@@ -10,6 +10,6 @@ export default async function openNewTabStore() {
 
   await browser.tabs.create({
     index: 0,
-    url: chrome.extension.getURL('tabStore.html')
+    url: browser.extension.getURL('tabStore.html')
   });
 }

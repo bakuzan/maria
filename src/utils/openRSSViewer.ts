@@ -10,6 +10,6 @@ export default async function openRSSViewer() {
 
   await browser.tabs.create({
     index: 0,
-    url: chrome.extension.getURL('rssViewer.html')
+    url: browser.extension.getURL('rssViewer.html')
   });
 }

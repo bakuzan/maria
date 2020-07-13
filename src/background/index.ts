@@ -1,6 +1,6 @@
 import './backgroundCommands';
 import './backgroundContextMenu';
-import { browser } from 'webextension-polyfill-ts';
+import { browser, Tabs } from 'webextension-polyfill-ts';
 
 import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
@@ -143,16 +143,21 @@ chrome.runtime.onMessage.addListener(async function (
 });
 
 /* Update tabs watch */
-chrome.tabs.onUpdated.addListener(async function (
+browser.tabs.onUpdated.addListener(async function (
   tabId: number,
-  changeInfo: any,
+  changeInfo: Tabs.OnUpdatedChangeInfoType,
   tab: any
 ) {
   const isComplete = changeInfo.status === 'complete';
+  if (!isComplete) {
+    return;
+  }
+
+  // Mal Add series...
   const re = /^https:\/\/myanimelist.net\/anime\/.*|^https:\/\/myanimelist.net\/manga\/.*/;
   const isSeriesPage = new RegExp(re).test(tab.url);
 
-  if (isComplete && isSeriesPage) {
+  if (isSeriesPage) {
     await executeContentModule(tabId, 'addSeries');
 
     await browser.tabs.executeScript(tabId, {
@@ -192,8 +197,8 @@ chrome.tabs.onUpdated.addListener(async function (
 });
 
 /* When the extension starts up... */
-chrome.runtime.onStartup.addListener(async function () {
-  const greeting = new Audio(chrome.runtime.getURL('../assets/greeting.mp3'));
+browser.runtime.onStartup.addListener(async function () {
+  const greeting = new Audio(browser.runtime.getURL('../assets/greeting.mp3'));
   greeting.play();
 
   const updatedFeeds = await checkFeedsForUpdates();
