@@ -6,6 +6,7 @@ import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
 import { log } from '@/log';
 import { FeedCheck } from '@/types/FeedCheck';
+import { BackgroundAction } from '@/types/BackgroundAction';
 
 import fetch from '@/utils/fetch';
 import executeContentModule from '@/utils/executeContentModule';
@@ -25,11 +26,12 @@ import {
 browser.runtime.onMessage.addListener(async function (
   request: any,
   sender: Runtime.MessageSender
-) {
+): Promise<BackgroundAction> {
   log(
+    request.action,
     sender.tab
-      ? 'from a content script:' + sender.tab.url
-      : 'from the extension'
+      ? ` from a content script: ${sender.tab.url}`
+      : ' from the extension'
   );
 
   switch (request.action) {
@@ -41,23 +43,24 @@ browser.runtime.onMessage.addListener(async function (
       removeLinks(request.tabID);
       break;
 
-    case MariaAction.FETCH_NUMBER_DETAIL:
-      return fetch(`https://nhentai.net/api/gallery/${request.seriesId}`).then(
-        (response) => {
-          if (!response.success) {
-            userFeedback('error', `Failed to fetch '${request.seriesId}'`);
-          }
-
-          return {
-            action: MariaAction.FETCH_NUMBER_DETAIL,
-            message: 'Done',
-            ...response
-          };
-        }
+    case MariaAction.FETCH_NUMBER_DETAIL: {
+      const response = await fetch(
+        `https://nhentai.net/api/gallery/${request.seriesId}`
       );
 
-    case MariaAction.POST_MAL_SERIES:
-      return fetch(`http://localhost:9003/graphql`, {
+      if (!response.success) {
+        userFeedback('error', `Failed to fetch '${request.seriesId}'`);
+      }
+
+      return {
+        action: MariaAction.FETCH_NUMBER_DETAIL,
+        message: 'Done',
+        ...response
+      };
+    }
+
+    case MariaAction.POST_MAL_SERIES: {
+      const response = await fetch(`http://localhost:9003/graphql`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -67,18 +70,19 @@ browser.runtime.onMessage.addListener(async function (
           query: request.isAnime ? erzaGQL.anime : erzaGQL.manga,
           variables: { payload: request.series }
         })
-      }).then((response) => {
-        if (!response.success) {
-          const message = getErrorMessage(response);
-          userFeedback('error', message);
-        }
-
-        return {
-          action: MariaAction.POST_MAL_SERIES,
-          message: 'Done',
-          ...response
-        };
       });
+
+      if (!response.success) {
+        const message = getErrorMessage(response);
+        userFeedback('error', message);
+      }
+
+      return {
+        action: MariaAction.POST_MAL_SERIES,
+        message: 'Done',
+        ...response
+      };
+    }
 
     case MariaAction.DOWNLOAD_GALLERY: {
       const { default: JSZip } = await import(
@@ -109,27 +113,30 @@ browser.runtime.onMessage.addListener(async function (
       }
 
       downloadContext.zipping();
-      zip.generateAsync({ type: 'blob' }).then(async function (content) {
-        const url = window.URL.createObjectURL(content);
+      const content = await zip.generateAsync({ type: 'blob' });
+      const url = window.URL.createObjectURL(content);
 
-        await browser.downloads.download({
-          url,
-          filename: request.filename,
-          saveAs: true
-        });
-
-        downloadContext.reset();
-        window.URL.revokeObjectURL(url);
+      await browser.downloads.download({
+        url,
+        filename: request.filename,
+        saveAs: true
       });
+
+      downloadContext.reset();
+      window.URL.revokeObjectURL(url);
+
+      break;
     }
 
     case MariaAction.DOWNLOAD_GALLERY_STATUS:
       downloadContext.report();
-      return;
+      break;
 
     default:
-      return;
+      break;
   }
+
+  return { action: request.action, message: 'Done' };
 });
 
 /* Update tabs watch */
