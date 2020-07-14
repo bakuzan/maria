@@ -1,11 +1,10 @@
 import './backgroundCommands';
 import './backgroundContextMenu';
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
 
 import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
 import { log } from '@/log';
-import { BackgroundAction } from '@/types/BackgroundAction';
 import { FeedCheck } from '@/types/FeedCheck';
 
 import fetch from '@/utils/fetch';
@@ -23,10 +22,9 @@ import {
 
 /* Message handling */
 
-chrome.runtime.onMessage.addListener(async function (
+browser.runtime.onMessage.addListener(async function (
   request: any,
-  sender: chrome.runtime.MessageSender,
-  sendResponse: (action: BackgroundAction) => void
+  sender: Runtime.MessageSender
 ) {
   log(
     sender.tab
@@ -36,33 +34,30 @@ chrome.runtime.onMessage.addListener(async function (
 
   switch (request.action) {
     case MariaAction.PROCESS_NUMBERS:
-      processLinks(request.tabID, sendResponse);
+      processLinks(request.tabID);
       break;
 
     case MariaAction.REMOVE_LINKS:
-      removeLinks(request.tabID, sendResponse);
+      removeLinks(request.tabID);
       break;
 
-    case MariaAction.FETCH_NUMBER_DETAIL: {
-      fetch(`https://nhentai.net/api/gallery/${request.seriesId}`).then(
+    case MariaAction.FETCH_NUMBER_DETAIL:
+      return fetch(`https://nhentai.net/api/gallery/${request.seriesId}`).then(
         (response) => {
           if (!response.success) {
             userFeedback('error', `Failed to fetch '${request.seriesId}'`);
           }
 
-          sendResponse({
+          return {
             action: MariaAction.FETCH_NUMBER_DETAIL,
             message: 'Done',
             ...response
-          });
+          };
         }
       );
 
-      return true;
-    }
-
-    case MariaAction.POST_MAL_SERIES: {
-      fetch(`http://localhost:9003/graphql`, {
+    case MariaAction.POST_MAL_SERIES:
+      return fetch(`http://localhost:9003/graphql`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -78,15 +73,12 @@ chrome.runtime.onMessage.addListener(async function (
           userFeedback('error', message);
         }
 
-        sendResponse({
+        return {
           action: MariaAction.POST_MAL_SERIES,
           message: 'Done',
           ...response
-        });
+        };
       });
-
-      return true;
-    }
 
     case MariaAction.DOWNLOAD_GALLERY: {
       const { default: JSZip } = await import(
@@ -129,8 +121,6 @@ chrome.runtime.onMessage.addListener(async function (
         downloadContext.reset();
         window.URL.revokeObjectURL(url);
       });
-
-      return;
     }
 
     case MariaAction.DOWNLOAD_GALLERY_STATUS:

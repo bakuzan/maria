@@ -63,6 +63,8 @@ export async function setupDownloadGallery() {
 
     document.querySelector<HTMLDivElement>('#filesLoaded').textContent =
       request.loaded;
+
+    return;
   });
 
   // Show download button if on valid page
