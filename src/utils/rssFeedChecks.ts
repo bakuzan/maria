@@ -3,6 +3,7 @@ import Parser from 'rss-parser';
 
 import { Feed } from '@/types/Feed';
 import getStorage from '@/utils/getStorage';
+import { reportError } from '@/log';
 
 const feedReader = new Parser();
 
@@ -38,21 +39,26 @@ export async function checkFeedsForUpdates() {
     const time = new Date(item.lastUpdate).getTime();
 
     await waitForIt();
-    const data = await feedReader.parseURL(item.link);
-    const recentUpdate = getLastUpdateDate(data);
-    const noUpdate =
-      !recentUpdate.hasDate ||
-      (item.lastUpdate && recentUpdate.lastUpdate === time);
 
-    if (noUpdate) {
-      continue;
+    try {
+      const data = await feedReader.parseURL(item.link);
+      const recentUpdate = getLastUpdateDate(data);
+      const noUpdate =
+        !recentUpdate.hasDate ||
+        (item.lastUpdate && recentUpdate.lastUpdate === time);
+
+      if (noUpdate) {
+        continue;
+      }
+
+      detectedUpdates.push({
+        ...item,
+        lastUpdate: recentUpdate.lastUpdate,
+        hasUnread: true
+      });
+    } catch (e) {
+      reportError(e.message);
     }
-
-    detectedUpdates.push({
-      ...item,
-      lastUpdate: recentUpdate.lastUpdate,
-      hasUnread: true
-    });
   }
 
   const updatedCount = detectedUpdates.length;

@@ -61,28 +61,40 @@ export async function onFeedSelect(event: Event) {
       }
     });
 
-  const data = await feedReader.parseURL(link);
-  const mostRecent = getLastUpdateDate(data);
+  try {
+    const data = await feedReader.parseURL(link);
+    const mostRecent = getLastUpdateDate(data);
 
-  log('Feed: ', data);
-  clearTimeout(timer);
-  viewer.innerHTML = renderFeed(data);
+    log('Feed: ', data);
+    clearTimeout(timer);
+    viewer.innerHTML = renderFeed(data);
 
-  const store = await getStorage();
-  const feeds = store.feeds.map((f) =>
-    f.link !== link
-      ? { ...f }
-      : {
-          ...f,
-          lastUpdate: mostRecent.lastUpdate,
-          hasUnread: false
-        }
-  );
+    const store = await getStorage();
+    const feeds = store.feeds.map((f) =>
+      f.link !== link
+        ? { ...f }
+        : {
+            ...f,
+            lastUpdate: mostRecent.lastUpdate,
+            hasUnread: false
+          }
+    );
 
-  await browser.storage.local.set({
-    ...store,
-    feeds
-  });
+    await browser.storage.local.set({
+      ...store,
+      feeds
+    });
 
-  await updateBadge(feeds);
+    await updateBadge(feeds);
+  } catch (e) {
+    clearTimeout(timer);
+    viewer.innerHTML = `
+      <div>
+        <p>Failed to load feed.</p>
+        <pre>
+          ${e.message}
+        </pre>
+      </div>
+    `;
+  }
 }
