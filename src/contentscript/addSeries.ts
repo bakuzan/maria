@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { MariaAction, monthNames, excludedTags } from '@/consts';
+import { MariaAction, monthNames, excludedTags, LoaderHTML } from '@/consts';
 import { ContentResponse } from '@/types/ContentResponse';
 import { SeriesPayload } from '@/types/SeriesPayload';
 import toaster from '@/utils/toaster';
@@ -120,9 +120,17 @@ async function postSeries(isAnime: boolean, series: SeriesPayload) {
   }
 }
 
+function renderDelayedLoader(element: HTMLElement) {
+  return window.setTimeout(
+    () => element.insertAdjacentHTML('beforeend', LoaderHTML),
+    1000
+  );
+}
+
 /* Setup elements */
 
 export default function addSeries() {
+  let timer = 0;
   const location = document.querySelector('#profileRows');
 
   const scraper = document.createElement('div');
@@ -133,7 +141,14 @@ export default function addSeries() {
   btn.style.cssText = `width: 99%;`;
   btn.textContent = 'Add series to Erza';
 
-  btn.addEventListener('click', function () {
+  btn.addEventListener('click', async function () {
+    if (btn.disabled) {
+      return;
+    }
+
+    btn.disabled = true;
+    timer = renderDelayedLoader(scraper);
+
     const isAnime = !window.location.href.includes('manga');
     let result = null;
 
@@ -143,7 +158,16 @@ export default function addSeries() {
       result = handleManga();
     }
 
-    postSeries(isAnime, result);
+    await postSeries(isAnime, result);
+
+    clearTimeout(timer);
+
+    const loader = scraper.querySelector('#mariaLoader');
+    if (loader) {
+      scraper.removeChild(loader);
+    }
+
+    btn.disabled = false;
   });
 
   scraper.appendChild(btn);

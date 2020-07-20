@@ -2,9 +2,10 @@ import { browser } from 'webextension-polyfill-ts';
 import Parser from 'rss-parser';
 
 import { renderFeed } from './itemRenderers';
+import { LoaderHTML } from '@/consts';
+import { log } from '@/log';
 import getStorage from '@/utils/getStorage';
 import { getLastUpdateDate, updateBadge } from '@/utils/rssFeedChecks';
-import { log } from '@/log';
 
 const feedReader = new Parser();
 const ACTIVE_FEED_CLASS = 'feed__item--active';
@@ -25,17 +26,7 @@ export async function onRemoveFeed(event: Event) {
 }
 
 function renderDelayedLoader(element: HTMLElement) {
-  return window.setTimeout(() => {
-    element.innerHTML = `
-      <div class="maria-loading">
-        <div class="maria-loading__box">
-          <div class="maria-loading__orb"></div>
-          <div class="maria-loading__orb"></div>
-          <div class="maria-loading__orb"></div>
-        </div>
-      </div>
-    `;
-  }, 1000);
+  return window.setTimeout(() => (element.innerHTML = LoaderHTML), 1000);
 }
 
 export async function onFeedSelect(event: Event) {

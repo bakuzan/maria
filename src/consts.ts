@@ -73,3 +73,13 @@ export enum CalculatorMode {
   DaysBetween = 'DaysBetween',
   DaysFrom = 'DaysFrom'
 }
+
+export const LoaderHTML = `
+  <div id="mariaLoader" class="maria-loading">
+    <div class="maria-loading__box">
+      <div class="maria-loading__orb"></div>
+      <div class="maria-loading__orb"></div>
+      <div class="maria-loading__orb"></div>
+    </div>
+  </div>
+`;
