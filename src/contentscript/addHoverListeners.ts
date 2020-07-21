@@ -6,6 +6,7 @@ import {
   PROXY_URL,
   extensionType
 } from '@/consts';
+import { reportError } from '@/log';
 import { ContentResponse } from '@/types/ContentResponse';
 import { TooltipContent } from '@/types/TooltipContent';
 import dimensions from '@/utils/dimensions';
@@ -99,6 +100,9 @@ export default function addHoverListeners<T extends Node>(node: T) {
 
     const { success, data: rawData } = response;
     if (!success) {
+      reportError(
+        `Something went wrong on fetching series detail (${seriesId})`
+      );
       return;
     }
 

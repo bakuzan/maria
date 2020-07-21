@@ -6,9 +6,9 @@ import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
 import { log } from '@/log';
 import { FeedCheck } from '@/types/FeedCheck';
-import { BackgroundAction } from '@/types/BackgroundAction';
+import { ContentResponse } from '@/types/ContentResponse';
 
-import fetch from '@/utils/fetch';
+import fetcher from '@/utils/fetch';
 import executeContentModule from '@/utils/executeContentModule';
 import userFeedback from '@/utils/userFeedback';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
@@ -26,7 +26,7 @@ import {
 browser.runtime.onMessage.addListener(async function (
   request: any,
   sender: Runtime.MessageSender
-): Promise<BackgroundAction> {
+): Promise<ContentResponse> {
   log(
     request.action,
     sender.tab
@@ -44,11 +44,11 @@ browser.runtime.onMessage.addListener(async function (
       break;
 
     case MariaAction.FETCH_NUMBER_DETAIL: {
-      const response = await fetch(
+      const response = await fetcher(
         `https://nhentai.net/api/gallery/${request.seriesId}`
       );
 
-      if (!response.success) {
+      if (!response || !response.success) {
         userFeedback('error', `Failed to fetch '${request.seriesId}'`);
       }
 
@@ -60,7 +60,7 @@ browser.runtime.onMessage.addListener(async function (
     }
 
     case MariaAction.POST_MAL_SERIES: {
-      const response = await fetch(`http://localhost:9003/graphql`, {
+      const response = await fetcher(`http://localhost:9003/graphql`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ browser.runtime.onMessage.addListener(async function (
         })
       });
 
-      if (!response.success) {
+      if (!response || !response.success) {
         const message = getErrorMessage(response);
         userFeedback('error', message);
       }
@@ -109,7 +109,9 @@ browser.runtime.onMessage.addListener(async function (
           );
         }
 
-        await Promise.all(queue);
+        await Promise.all(queue).catch((error) =>
+          userFeedback('error', error.message)
+        );
       }
 
       downloadContext.zipping();
@@ -136,7 +138,7 @@ browser.runtime.onMessage.addListener(async function (
       break;
   }
 
-  return { action: request.action, message: 'Done' };
+  return { action: request.action, message: 'Done', success: true };
 });
 
 /* Update tabs watch */

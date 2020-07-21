@@ -1,6 +1,10 @@
 import { FetchResponse } from '@/types/FetchResponse';
 
 export default function getErrorMessage(response: FetchResponse) {
+  if (!response) {
+    return `No response.`;
+  }
+
   if (response.error) {
     return response.error.message;
   }
