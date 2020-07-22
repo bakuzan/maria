@@ -23,7 +23,7 @@ import {
 
 /* Message handling */
 
-async function onMessageHandler(request: any) {
+async function onMessageHandler(request: any): Promise<ContentResponse> {
   switch (request.action) {
     case MariaAction.PROCESS_NUMBERS:
       processLinks(request.tabID);
