@@ -141,7 +141,7 @@ export default function addSeries() {
   btn.style.cssText = `width: 99%;`;
   btn.textContent = 'Add series to Erza';
 
-  btn.addEventListener('click', async function () {
+  btn.addEventListener('click', function () {
     if (btn.disabled) {
       return;
     }
@@ -158,16 +158,16 @@ export default function addSeries() {
       result = handleManga();
     }
 
-    await postSeries(isAnime, result);
+    postSeries(isAnime, result).then(() => {
+      clearTimeout(timer);
 
-    clearTimeout(timer);
+      const loader = scraper.querySelector('#mariaLoader');
+      if (loader) {
+        scraper.removeChild(loader);
+      }
 
-    const loader = scraper.querySelector('#mariaLoader');
-    if (loader) {
-      scraper.removeChild(loader);
-    }
-
-    btn.disabled = false;
+      btn.disabled = false;
+    });
   });
 
   scraper.appendChild(btn);
