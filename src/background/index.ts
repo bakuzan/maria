@@ -23,17 +23,7 @@ import {
 
 /* Message handling */
 
-browser.runtime.onMessage.addListener(async function (
-  request: any,
-  sender: Runtime.MessageSender
-): Promise<ContentResponse> {
-  log(
-    request.action,
-    sender.tab
-      ? ` from a content script: ${sender.tab.url}`
-      : ' from the extension'
-  );
-
+async function onMessageHandler(request: any) {
   switch (request.action) {
     case MariaAction.PROCESS_NUMBERS:
       processLinks(request.tabID);
@@ -139,6 +129,22 @@ browser.runtime.onMessage.addListener(async function (
   }
 
   return { action: request.action, message: 'Done', success: true };
+}
+
+chrome.runtime.onMessage.addListener(function (
+  request: any,
+  sender: chrome.runtime.MessageSender,
+  sendResponse: (response?: any) => void
+) {
+  log(
+    request.action,
+    sender.tab
+      ? ` from a content script: ${sender.tab.url}`
+      : ' from the extension'
+  );
+
+  onMessageHandler(request).then(sendResponse);
+  return true;
 });
 
 /* Update tabs watch */
