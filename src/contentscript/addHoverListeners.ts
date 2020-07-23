@@ -71,60 +71,62 @@ function addDetailContainer(
   node.setAttribute('data-maria-has-detail', uid);
 }
 
+async function onEnter(event: MouseEvent) {
+  const { target, clientX, clientY } = event;
+
+  const link = target as HTMLElement;
+  const seriesId = link.getAttribute('data-maria-link');
+
+  if (link.hasAttribute('data-maria-has-detail')) {
+    const uid = link.getAttribute('data-maria-has-detail');
+    const detail: HTMLElement = document.body.querySelector(
+      `[data-maria-detail="${uid}"]`
+    );
+
+    if (detail) {
+      detail.style.cssText = displayStyle(link, clientX, clientY);
+    }
+
+    return;
+  }
+
+  const response: ContentResponse = await browser.runtime.sendMessage({
+    action: MariaAction.FETCH_NUMBER_DETAIL,
+    seriesId
+  });
+
+  const { success, data: rawData } = response;
+  if (!success) {
+    reportError(`Something went wrong on fetching series detail (${seriesId})`);
+    return;
+  }
+
+  const data: TooltipContent = rawData;
+
+  let extension = data.images.cover.t;
+  extension = extensionType[extension];
+  const tags = data.tags.filter((x) => x.type === 'tag').map((x) => x.name);
+  const title = data.title.english;
+  const imgId = data.media_id;
+  const image = `${PROXY_URL}${BASE_IMAGE_URL}`
+    .replace('{id}', imgId)
+    .replace('{ext}', extension);
+
+  addDetailContainer(link, {
+    seriesId,
+    clientX,
+    clientY,
+    title,
+    tags,
+    image
+  });
+}
+
 export default function addHoverListeners<T extends Node>(node: T) {
   // Trigger detail tooltip
   const element: HTMLElement = node as any;
-  element.addEventListener('mouseenter', async function (event) {
-    const { target, clientX, clientY } = event;
-
-    const link = target as HTMLElement;
-    const seriesId = link.getAttribute('data-maria-link');
-
-    if (link.hasAttribute('data-maria-has-detail')) {
-      const uid = link.getAttribute('data-maria-has-detail');
-      const detail: HTMLElement = document.body.querySelector(
-        `[data-maria-detail="${uid}"]`
-      );
-
-      if (detail) {
-        detail.style.cssText = displayStyle(link, clientX, clientY);
-      }
-
-      return;
-    }
-
-    const response: ContentResponse = await browser.runtime.sendMessage({
-      action: MariaAction.FETCH_NUMBER_DETAIL,
-      seriesId
-    });
-
-    const { success, data: rawData } = response;
-    if (!success) {
-      reportError(
-        `Something went wrong on fetching series detail (${seriesId})`
-      );
-      return;
-    }
-
-    const data: TooltipContent = rawData;
-
-    let extension = data.images.cover.t;
-    extension = extensionType[extension];
-    const tags = data.tags.filter((x) => x.type === 'tag').map((x) => x.name);
-    const title = data.title.english;
-    const imgId = data.media_id;
-    const image = `${PROXY_URL}${BASE_IMAGE_URL}`
-      .replace('{id}', imgId)
-      .replace('{ext}', extension);
-
-    addDetailContainer(link, {
-      seriesId,
-      clientX,
-      clientY,
-      title,
-      tags,
-      image
-    });
+  element.addEventListener('mouseenter', function (event) {
+    onEnter(event);
   });
 
   // Handle hiding the detail tooltip
