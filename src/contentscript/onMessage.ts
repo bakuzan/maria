@@ -1,7 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { PageAction } from '@/consts';
-import { log } from '@/log';
 import getNode from '@/utils/getNode';
 
 export default function initOnMessage() {
@@ -101,7 +100,7 @@ export default function initOnMessage() {
           return { hasFeed: true, name: title.textContent, link };
         } else if (rssElement) {
           const title = rssElement.querySelector('title');
-          log('RSS ? ', rssElement, title);
+
           return {
             hasFeed: true,
             name: title.textContent,
