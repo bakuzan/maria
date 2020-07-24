@@ -1,6 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { PageAction } from '@/consts';
+import { log } from '@/log';
 import getNode from '@/utils/getNode';
 
 export default function initOnMessage() {
@@ -72,6 +73,8 @@ export default function initOnMessage() {
           'pre'
         );
 
+        const rssElement = document.querySelector<Element | null>('rss');
+
         if (feed) {
           const pageName = `${window.document.title} RSS`;
           const feedName = (feed.title || pageName).trim();
@@ -96,6 +99,14 @@ export default function initOnMessage() {
             .getAttribute('href');
 
           return { hasFeed: true, name: title.textContent, link };
+        } else if (rssElement) {
+          const title = rssElement.querySelector('title');
+          log('RSS ? ', rssElement, title);
+          return {
+            hasFeed: true,
+            name: title.textContent,
+            link: window.location.href
+          };
         }
 
         return { hasFeed: false, name: '', link: '' };
