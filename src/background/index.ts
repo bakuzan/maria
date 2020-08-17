@@ -203,8 +203,13 @@ browser.tabs.onUpdated.addListener(async function (
 
 /* When the extension starts up... */
 browser.runtime.onStartup.addListener(async function () {
-  const greeting = new Audio(browser.runtime.getURL('../assets/greeting.mp3'));
-  greeting.play();
+  const store = await getStorage();
+
+  if (store.shouldPlayGreeting) {
+    const greetingUrl = browser.runtime.getURL('../assets/greeting.mp3');
+    const greeting = new Audio(greetingUrl);
+    greeting.play();
+  }
 
   const updatedFeeds = await checkFeedsForUpdates();
   await updateBadge(updatedFeeds);

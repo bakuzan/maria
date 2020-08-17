@@ -3,6 +3,7 @@ import { TabGroup } from './TabGroup';
 
 export interface MariaStore {
   digitOptions: number[];
-  tabGroups: TabGroup[];
   feeds: Feed[];
+  shouldPlayGreeting: boolean;
+  tabGroups: TabGroup[];
 }

@@ -4,6 +4,16 @@ import { browser } from 'webextension-polyfill-ts';
 
 import getStorage from '@/utils/getStorage';
 
+async function saveGreeting(event: InputEvent) {
+  const items = await getStorage();
+  const target = event.target as HTMLInputElement;
+
+  await browser.storage.local.set({
+    ...items,
+    shouldPlayGreeting: target.checked
+  });
+}
+
 async function saveOption(event: InputEvent) {
   const items = await getStorage();
   const target = event.target as HTMLInputElement;
@@ -25,6 +35,12 @@ async function saveOption(event: InputEvent) {
 
 async function restoreOptions() {
   const items = await getStorage();
+  const greeting = document.querySelector<HTMLInputElement>(
+    `[name='greeting']`
+  );
+
+  greeting.checked = items.shouldPlayGreeting;
+
   const inputs = document.querySelectorAll<HTMLInputElement>(`[name='digits']`);
 
   Array.from(inputs).forEach(
@@ -34,6 +50,10 @@ async function restoreOptions() {
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
+document
+  .querySelector(`[name='greeting']`)
+  .addEventListener('change', saveGreeting);
+
 Array.from(document.querySelectorAll(`[name='digits']`)).forEach((node) =>
   node.addEventListener('change', saveOption)
 );
