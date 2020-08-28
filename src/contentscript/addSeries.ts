@@ -21,11 +21,12 @@ function getMalId() {
   return Number(mid.value);
 }
 
-function cleanTitle(node: Node) {
+function getCleanTitle(...selectors: string[]) {
+  const node = selectors.map((x) => getNode(x)).find((x) => x !== null);
   let title = node.textContent;
-  const engNode: HTMLInputElement | null = getNode(
-    `//*[@id="contentWrapper"]/div[1]/h1//span[@class="title-english"]`
-  );
+
+  const engSelector = `//*[@id="contentWrapper"]//span[@class="title-english"]`;
+  const engNode = getNode<HTMLInputElement | null>(engSelector);
 
   if (engNode) {
     title = title.replace(engNode.textContent, '');
@@ -38,7 +39,6 @@ function commonElements(isAnime: boolean) {
   const totalName = isAnime ? 'Episodes' : 'Chapters';
 
   const malId = getMalId();
-  const titleNode = getNode(`//*[@id='contentWrapper']//h1/span`);
   const image = document.querySelector<HTMLImageElement>(
     '#content img.lazyloaded[itemprop]'
   );
@@ -56,7 +56,10 @@ function commonElements(isAnime: boolean) {
 
   return {
     malId,
-    title: cleanTitle(titleNode),
+    title: getCleanTitle(
+      `//*[@id='contentWrapper']//h1/span`,
+      `//*[@id='contentWrapper']//h1`
+    ),
     image: image?.src ?? '',
     series_type: seriesType.textContent.replace(/-/g, ''),
     total,
