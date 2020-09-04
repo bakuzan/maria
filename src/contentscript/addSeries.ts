@@ -109,11 +109,13 @@ function handleManga() {
 
 async function postSeries(isAnime: boolean, series: SeriesPayload) {
   try {
-    const response: ContentResponse = await browser.runtime.sendMessage({
+    const res = await browser.runtime.sendMessage({
       action: MariaAction.POST_MAL_SERIES,
       isAnime,
       series
     });
+
+    const response = res as ContentResponse;
 
     if (response.success) {
       toaster('success', `Posted ${response.data.title}.`);

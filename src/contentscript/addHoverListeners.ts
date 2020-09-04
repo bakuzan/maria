@@ -10,6 +10,7 @@ import { reportError } from '@/log';
 import { ContentResponse } from '@/types/ContentResponse';
 import { TooltipContent } from '@/types/TooltipContent';
 import dimensions from '@/utils/dimensions';
+import userFeedback from '@/utils/userFeedback';
 
 const IMG_WIDTH = 150;
 const IMG_HEIGHT = undefined;
@@ -90,18 +91,21 @@ async function onEnter(event: MouseEvent) {
     return;
   }
 
-  const response: ContentResponse = await browser.runtime.sendMessage({
+  const res = await browser.runtime.sendMessage({
     action: MariaAction.FETCH_NUMBER_DETAIL,
     seriesId
   });
 
+  const response = res as ContentResponse;
   const { success, data: rawData } = response;
+
   if (!success) {
     reportError(`Something went wrong on fetching series detail (${seriesId})`);
+    userFeedback('error', `Failed to fetch series details '${seriesId}'`);
     return;
   }
 
-  const data: TooltipContent = rawData;
+  const data = rawData as TooltipContent;
 
   let extension = data.images.cover.t;
   extension = extensionType[extension];
