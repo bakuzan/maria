@@ -1,4 +1,5 @@
 import { FetchResponse } from '@/types/FetchResponse';
+import { BASE_ERZA_URL } from '@/consts';
 
 export default async function fetcher(
   url: string,
@@ -26,7 +27,7 @@ export default async function fetcher(
         success:
           (hasErza && data.data.erzaResponse) ||
           (!hasErza && hasData && data.data),
-        ...nData
+        ...(nData.hasOwnProperty('data') ? nData : { data: nData })
       };
     }
 
@@ -34,4 +35,18 @@ export default async function fetcher(
   } catch (error) {
     return { success: false, error };
   }
+}
+
+export async function callErza(query: string, variables: any) {
+  return await fetcher(`${BASE_ERZA_URL}graphql`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: `POST`,
+    body: JSON.stringify({
+      query,
+      variables
+    })
+  });
 }

@@ -4,6 +4,7 @@ type ContentScriptFunction =
   | 'addHoverListeners'
   | 'addLinks'
   | 'addSeries'
+  | 'openSeriesInErza'
   | 'removeLinks';
 
 export default async function injectContentModule(

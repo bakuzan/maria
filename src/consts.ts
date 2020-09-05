@@ -4,7 +4,8 @@ export enum MariaAction {
   FETCH_NUMBER_DETAIL = 3,
   POST_MAL_SERIES = 4,
   DOWNLOAD_GALLERY = 5,
-  DOWNLOAD_GALLERY_STATUS = 6
+  DOWNLOAD_GALLERY_STATUS = 6,
+  OPEN_IN_ERZA = 7
 }
 
 export enum PageAction {
@@ -17,6 +18,7 @@ export enum PageAction {
 export const PROXY_URL = 'https://proxy.duckduckgo.com/iu/?u=';
 export const BASE_LINK_URL = 'https://nhentai.net/g/';
 export const BASE_JURI_URL = 'http://localhost:9000/juri';
+export const BASE_ERZA_URL = 'http://localhost:9003/';
 export const BASE_IMAGE_URL =
   'https://t.nhentai.net/galleries/{id}/cover.{ext}';
 
@@ -55,6 +57,14 @@ export const erzaGQL = {
     }
   }
   `,
+  animeExists: `
+  query MariaAnimeExists($malId: Int) {
+    erzaResponse: animeExists(malId: $malId) {
+      exists
+      id
+    }
+  }
+  `,
   manga: `
   mutation MariaMangaPost($payload: MangaCreateInput!) {
     erzaResponse: mangaCreate(payload: $payload) {
@@ -64,6 +74,14 @@ export const erzaGQL = {
         id
         title
       }
+    }
+  }
+  `,
+  mangaExists: `
+  query MariaMangaExists($malId: Int) {
+    erzaResponse: mangaExists(malId: $malId) {
+      exists
+      id
     }
   }
   `

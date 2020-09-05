@@ -6,6 +6,7 @@ import { SeriesPayload } from '@/types/SeriesPayload';
 import toaster from '@/utils/toaster';
 import getNode from '@/utils/getNode';
 import isValidDate from '@/utils/isValidDate';
+import seriesPageButton from './shared/seriesPageButton';
 
 /* Functions */
 function getMalId() {
@@ -136,17 +137,8 @@ function renderDelayedLoader(element: HTMLElement) {
 
 export default function addSeries() {
   let timer = 0;
-  const location = document.querySelector('#profileRows');
 
-  const scraper = document.createElement('div');
-  scraper.className = 'maria maria-mal-add';
-
-  const btn = document.createElement('button');
-  btn.className = 'maria-button maria-button--padding maria-button--primary';
-  btn.style.cssText = `width: 99%;`;
-  btn.textContent = 'Add series to Erza';
-
-  btn.addEventListener('click', function () {
+  seriesPageButton('Add series to Erza', function (scraper, btn) {
     if (btn.disabled) {
       return;
     }
@@ -174,9 +166,4 @@ export default function addSeries() {
       btn.disabled = false;
     });
   });
-
-  scraper.appendChild(btn);
-
-  // Add to page
-  location.insertAdjacentElement('afterend', scraper);
 }

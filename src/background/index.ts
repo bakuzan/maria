@@ -1,6 +1,6 @@
 import './backgroundCommands';
 import './backgroundContextMenu';
-import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
+import { browser, Tabs } from 'webextension-polyfill-ts';
 
 import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
@@ -8,13 +8,14 @@ import { log } from '@/log';
 import { FeedCheck } from '@/types/FeedCheck';
 import { ContentResponse } from '@/types/ContentResponse';
 
-import fetcher from '@/utils/fetch';
+import fetcher, { callErza } from '@/utils/fetch';
 import executeContentModule from '@/utils/executeContentModule';
 import userFeedback from '@/utils/userFeedback';
 import { processLinks, removeLinks } from '@/utils/linksProcessing';
 import getErrorMessage from '@/utils/getErrorMessage';
 import getStorage from '@/utils/getStorage';
 import { chunk } from '@/utils/array';
+import openWindow from '@/utils/openWindow';
 import {
   checkFeedsForUpdates,
   updateBadge,
@@ -50,17 +51,10 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
     }
 
     case MariaAction.POST_MAL_SERIES: {
-      const response = await fetcher(`http://localhost:9003/graphql`, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: `POST`,
-        body: JSON.stringify({
-          query: request.isAnime ? erzaGQL.anime : erzaGQL.manga,
-          variables: { payload: request.series }
-        })
-      });
+      const response = await callErza(
+        request.isAnime ? erzaGQL.anime : erzaGQL.manga,
+        { payload: request.series }
+      );
 
       if (!response || !response.success) {
         const message = getErrorMessage(response);
@@ -69,6 +63,22 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
 
       return {
         action: MariaAction.POST_MAL_SERIES,
+        message: 'Done',
+        ...response
+      };
+    }
+
+    case MariaAction.OPEN_IN_ERZA: {
+      console.log('..', request);
+      const response = await callErza(
+        request.isAnime ? erzaGQL.animeExists : erzaGQL.mangaExists,
+        { malId: request.malId }
+      );
+
+      await openWindow(request.url.replace('{seriesId}', response.data.id));
+
+      return {
+        action: MariaAction.OPEN_IN_ERZA,
         message: 'Done',
         ...response
       };
@@ -159,12 +169,13 @@ browser.tabs.onUpdated.addListener(async function (
   }
 
   // Mal Add series...
-  const re = /^https:\/\/myanimelist.net\/anime\/.*|^https:\/\/myanimelist.net\/manga\/.*/;
-  const isSeriesPage = new RegExp(re).test(tab.url);
+  const reA = /^https:\/\/myanimelist.net\/anime\/.*/;
+  const reM = /^https:\/\/myanimelist.net\/manga\/.*/;
+  const isAnime = new RegExp(reA).test(tab.url);
+  const isManga = new RegExp(reM).test(tab.url);
+  const isSeriesPage = isAnime || isManga;
 
   if (isSeriesPage) {
-    await executeContentModule(tabId, 'addSeries');
-
     await browser.tabs.executeScript(tabId, {
       code: `(async () => {
         Array
@@ -172,6 +183,23 @@ browser.tabs.onUpdated.addListener(async function (
           .forEach((inp) => inp.setAttribute("autocomplete", "off"))
       })();`
     });
+
+    const [idSlug] = tab.url.match(/\/\d+\/|\/\d+$/);
+    const malId = Number(idSlug.replace(/\D/g, ''));
+
+    const response = await callErza(
+      isAnime ? erzaGQL.animeExists : erzaGQL.mangaExists,
+      { malId }
+    );
+
+    if (!response || !response.success) {
+      const message = getErrorMessage(response);
+      userFeedback('error', message);
+    } else if (response.data && response.data.exists) {
+      await executeContentModule(tabId, 'openSeriesInErza');
+    } else {
+      await executeContentModule(tabId, 'addSeries');
+    }
   }
 
   // RSS feed detection...
