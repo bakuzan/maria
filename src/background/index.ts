@@ -1,6 +1,6 @@
 import './backgroundCommands';
 import './backgroundContextMenu';
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import { browser, Tabs, Runtime } from 'webextension-polyfill-ts';
 
 import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL, PageAction } from '@/consts';
@@ -141,10 +141,9 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
   return { action: request.action, message: 'Done', success: true };
 }
 
-chrome.runtime.onMessage.addListener(function (
+browser.runtime.onMessage.addListener(function (
   request: any,
-  sender: chrome.runtime.MessageSender,
-  sendResponse: (response?: any) => void
+  sender: Runtime.MessageSender
 ) {
   log(
     request.action,
@@ -153,8 +152,7 @@ chrome.runtime.onMessage.addListener(function (
       : ' from the extension'
   );
 
-  onMessageHandler(request).then(sendResponse);
-  return true;
+  return onMessageHandler(request);
 });
 
 /* Update tabs watch */
