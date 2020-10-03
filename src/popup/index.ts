@@ -33,11 +33,13 @@ async function run() {
 
   document
     .getElementById('processNumbers')
-    .addEventListener('click', buttonListener(MariaAction.PROCESS_NUMBERS));
+    .addEventListener('click', () =>
+      buttonListener(MariaAction.PROCESS_NUMBERS)
+    );
 
   document
     .getElementById('removeLinks')
-    .addEventListener('click', buttonListener(MariaAction.REMOVE_LINKS));
+    .addEventListener('click', () => buttonListener(MariaAction.REMOVE_LINKS));
 
   /**
    * Condition specific options...below here
