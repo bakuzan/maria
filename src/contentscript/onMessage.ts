@@ -58,9 +58,11 @@ export default function initOnMessage() {
       }
 
       case PageAction.GET_LINK_NAME: {
-        const link = document.querySelector(`a[href='${msg.url}']`);
+        const origin = window.location.origin;
+        const linkEnding = msg.url.replace(window.location.origin, '');
+        const link = document.querySelector(`a[href$='${linkEnding}']`);
 
-        return link?.textContent ?? `${window.location.origin} page link`;
+        return link?.textContent ?? `${origin} page link`;
       }
 
       case PageAction.GET_PAGE_RSS_FEED: {
