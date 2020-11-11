@@ -2,6 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { PageAction } from '@/consts';
 import getNode from '@/utils/getNode';
+import isElementHidden from '@/utils/isElementHidden';
 
 export default function initOnMessage() {
   browser.runtime.onMessage.addListener(async function (msg, sender) {
@@ -60,7 +61,10 @@ export default function initOnMessage() {
       case PageAction.GET_LINK_NAME: {
         const origin = window.location.origin;
         const linkEnding = msg.url.replace(window.location.origin, '');
-        const link = document.querySelector(`a[href$='${linkEnding}']`);
+        const links = document.querySelectorAll(`a[href$='${linkEnding}']`);
+        const link = Array.from(links).find(
+          (x: HTMLElement) => !isElementHidden(x)
+        );
 
         return link?.textContent ?? `${origin} page link`;
       }
