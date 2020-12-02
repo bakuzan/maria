@@ -5,11 +5,9 @@ import './backgroundOnUpdated';
 import { browser } from 'webextension-polyfill-ts';
 
 import getStorage from '@/utils/getStorage';
-
 import { checkFeedsForUpdates, updateBadge } from '@/utils/rssFeedChecks';
 
-/* When the extension starts up... */
-browser.runtime.onStartup.addListener(async function () {
+async function startup() {
   const store = await getStorage();
 
   if (store.shouldPlayGreeting) {
@@ -20,4 +18,9 @@ browser.runtime.onStartup.addListener(async function () {
 
   const updatedFeeds = await checkFeedsForUpdates();
   await updateBadge(updatedFeeds);
+}
+
+/* When the extension starts up... */
+browser.runtime.onStartup.addListener(function () {
+  startup();
 });
