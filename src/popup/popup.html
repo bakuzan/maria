@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: min-content;">
+<html lang="en" style="height: min-content">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=250" />
@@ -101,13 +101,19 @@
 
       <div class="popup__core">
         <div class="maria__heading">
-          <img
-            class="maria__image"
-            width="48"
-            height="48"
-            src="assets/maria_48x48.png"
-            alt="Maria"
-          />
+          <button
+            id="activateVoice"
+            type="button"
+            class="maria-voice-activator"
+          >
+            <img
+              class="maria__image"
+              width="48"
+              height="48"
+              src="assets/maria_48x48.png"
+              alt="Maria"
+            />
+          </button>
           <h1 class="maria__title">Maria</h1>
         </div>
 
@@ -172,7 +178,7 @@
           </div>
         </div>
 
-        <div id="downloadGalleryOption" style="display: none;">
+        <div id="downloadGalleryOption" style="display: none">
           <hr class="maria-hr" />
           <div class="maria__subtitle">Download Gallery</div>
           <div class="maria__buttons">
@@ -192,7 +198,7 @@
           </div>
         </div>
 
-        <div id="subscribeToFeed" style="display: none;">
+        <div id="subscribeToFeed" style="display: none">
           <hr class="maria-hr" />
           <div class="maria__buttons">
             <button

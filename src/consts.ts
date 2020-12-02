@@ -101,3 +101,13 @@ export const LoaderHTML = `
     </div>
   </div>
 `;
+
+export enum MariaAssetFileNames {
+  Greeting = 'greeting.mp3',
+  GoodMorning = 'good-morning.mp3',
+  HelpYou = 'ill-help-you.mp3',
+  GoodDay = 'im-sure-itll-be-a-good-day.mp3',
+  Lovely = 'its-lovely.mp3',
+  Preparations = 'preparations-complete.mp3',
+  UseAsYouLike = 'use-as-you-like.mp3'
+}

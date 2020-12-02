@@ -4,7 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { FeedCheck } from '@/types/FeedCheck';
 
-import { MariaAction, PageAction } from '@/consts';
+import { MariaAction, MariaAssetFileNames, PageAction } from '@/consts';
 import getActiveTab from '@/utils/getActiveTab';
 import openNewTabStore from '@/utils/openNewTabStore';
 import openRSSViewer from '@/utils/openRSSViewer';
@@ -13,9 +13,20 @@ import { setupDownloadGallery } from './downloadGallery';
 import { buttonListener } from './utils';
 import dateCalculatorManager from './dateCalculator';
 import getStorage from '@/utils/getStorage';
+import getAssetUrl from '@/utils/getAssetUrl';
+import randomValueOfEnum from '@/utils/getRandomEnum';
 
 async function run() {
   dateCalculatorManager.init();
+
+  document
+    .getElementById('activateVoice')
+    .addEventListener('click', async () => {
+      const filename = randomValueOfEnum(MariaAssetFileNames);
+      const assetUrl = getAssetUrl(filename);
+      const voice = new Audio(assetUrl);
+      voice.play();
+    });
 
   document
     .getElementById('openTabStore')
