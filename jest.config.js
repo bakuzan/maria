@@ -12,5 +12,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
-  setupFilesAfterEnv: ['./src/setupTests.ts']
+  setupFilesAfterEnv: ['./src/setupTests.ts'],
+  collectCoverage: true,
+  collectCoverageFrom: ['./src/**/*.ts']
 };
