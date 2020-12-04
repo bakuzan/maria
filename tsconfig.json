@@ -4,7 +4,7 @@
     "target": "es5",
     "module": "esnext",
     "sourceMap": false,
-    "types": ["@types/chrome", "node"],
+    "types": ["@types/chrome", "node", "jest"],
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -16,5 +16,5 @@
     }
   },
   "include": ["src/"],
-  "exclude": ["dist/"]
+  "exclude": ["dist/", "__tests__", "coverage"]
 }

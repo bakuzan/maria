@@ -24,9 +24,10 @@ export default async function fetcher(
           : data.data || data;
 
       return {
-        success:
+        success: !!(
           (hasErza && data.data.erzaResponse) ||
-          (!hasErza && hasData && data.data),
+          (!hasErza && hasData && data.data)
+        ),
         ...(nData.hasOwnProperty('data') ? nData : { data: nData })
       };
     }
