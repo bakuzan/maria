@@ -1,6 +1,6 @@
 import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
 
-import openWindow from '../../src/utils/openWindow';
+import userFeedback from '../../src/utils/userFeedback';
 
 beforeEach(() => mockBrowserNode.enable());
 
@@ -16,8 +16,8 @@ const tabExample = {
   incognito: false
 };
 
-it('should execute window.open in active tab', async () => {
-  const inputUrl = 'https://duckduckgo.com';
+it('should execute toaster call in active tab', async () => {
+  const input = 'my error feedback';
   const spyFn = jest.fn();
 
   mockBrowser.tabs.query
@@ -27,16 +27,16 @@ it('should execute window.open in active tab', async () => {
 
   mockBrowser.tabs.executeScript.spy(spyFn).times(1);
 
-  await openWindow(inputUrl);
+  await userFeedback('error', input);
 
   const [call] = mockBrowser.tabs.executeScript.getMockCalls();
 
   expect(call).toEqual([testTabId, expect.anything()]);
-  expect(call.pop().code.includes('window.open')).toBeTruthy();
+  expect(call.pop().code.includes('.toaster(')).toBeTruthy();
 });
 
 it('should log failure', async () => {
-  const inputUrl = 'https://duckduckgo.com';
+  const input = 'my error feedback';
   const expected = new Error('This is a test error');
   const spyFn = jest.spyOn(console, 'log').mockImplementation(() => null);
 
@@ -49,7 +49,7 @@ it('should log failure', async () => {
     throw expected;
   });
 
-  await openWindow(inputUrl);
+  await userFeedback('error', input);
 
   expect(spyFn).toHaveBeenCalledTimes(1);
   expect(spyFn).toHaveBeenCalledWith(
