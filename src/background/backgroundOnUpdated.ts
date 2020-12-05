@@ -80,13 +80,17 @@ browser.tabs.onUpdated.addListener(function (
   changeInfo: Tabs.OnUpdatedChangeInfoType,
   tab: Tabs.Tab
 ) {
-  log(`Tab Update (TabId: ${tabId}) > `, tab.title ?? '<no title>', changeInfo);
-
   const isComplete = changeInfo.status === 'complete';
 
   if (!isComplete) {
     return;
   }
+
+  log(
+    `Tab Complete Update (TabId: ${tabId}) > `,
+    tab.title ?? '<no title>',
+    changeInfo
+  );
 
   malPageProcessing(tabId, tab);
   rssFeedProcessing(tabId);

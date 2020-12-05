@@ -3,7 +3,7 @@ import Parser from 'rss-parser';
 
 import { Feed } from '@/types/Feed';
 import getStorage from '@/utils/getStorage';
-import { reportError } from '@/log';
+import { log, reportError } from '@/log';
 
 const feedReader = new Parser();
 
@@ -48,6 +48,7 @@ export async function checkFeedsForUpdates() {
         (item.lastUpdate && recentUpdate.lastUpdate === time);
 
       if (noUpdate) {
+        log(`RSS Feed ${item.name} has no update.`);
         continue;
       }
 
@@ -56,6 +57,8 @@ export async function checkFeedsForUpdates() {
         lastUpdate: recentUpdate.lastUpdate,
         hasUnread: true
       });
+
+      log(`RSS Feed ${item.name} updated!`);
     } catch (e) {
       reportError(e.message);
     }
