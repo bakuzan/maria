@@ -30,7 +30,7 @@ xit('should open window if selection is valid', async () => {
 
   handleMagicNumberSelect(input);
 
-  const [call] = mockBrowser.tabs.executeScript.getMockCalls(); // is returning undefined?
+  const [call] = mockBrowser.tabs.executeScript.getMockCalls(); // TODO is returning undefined?
   const outputCode = call.pop().code;
 
   expect(call).toEqual([testTabId, expect.anything()]);
@@ -51,7 +51,7 @@ xit('should send user feedback if not valid selection', async () => {
 
   handleMagicNumberSelect(input);
 
-  const [call] = mockBrowser.tabs.executeScript.getMockCalls(); // is returning undefined?
+  const [call] = mockBrowser.tabs.executeScript.getMockCalls(); // TODO is returning undefined?
   const outputCode = call.pop().code;
 
   expect(call).toEqual([testTabId, expect.anything()]);

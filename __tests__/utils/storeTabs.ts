@@ -80,10 +80,7 @@ it('should store tab links', async () => {
 });
 
 it('should store tab links that match an existing pattern group', async () => {
-  const input = [
-    { id: 1, title: 'hello world', url: 'https://something.com' },
-    { id: 2, title: 'goodbye world', url: 'https://anything.com' }
-  ];
+  const input = [{ id: 1, title: 'hello world', url: 'https://something.com' }];
 
   setup(
     {
@@ -96,7 +93,7 @@ it('should store tab links that match an existing pattern group', async () => {
         }
       ]
     },
-    2
+    1
   );
 
   await storeTabs(input);
@@ -104,13 +101,10 @@ it('should store tab links that match an existing pattern group', async () => {
   const [call] = mockBrowser.storage.local.set.getMockCalls();
   const { tabGroups } = call[0];
   const currentGroup = tabGroups[0];
-  const newGroup = tabGroups[1];
 
   expect(getRandomValues).toHaveBeenCalled();
-  expect(tabGroups.length).toEqual(2);
+  expect(tabGroups.length).toEqual(1);
   expect(currentGroup.items.length).toEqual(1);
-  expect(newGroup.items.length).toEqual(1);
 
   expect(currentGroup.items[0].url).toEqual(input[0].url);
-  expect(newGroup.items[0].url).toEqual(input[1].url);
 });
