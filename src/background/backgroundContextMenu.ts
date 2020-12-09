@@ -7,9 +7,13 @@ import getActiveTab from '@/utils/getActiveTab';
 import storeTabs from '@/utils/storeTabs';
 import openNewTabStore from '@/utils/openNewTabStore';
 import { log } from '@/log';
+import timezoneConversion from '@/utils/timezoneConversion';
+import openTimezoneConverter from '@/utils/openTimezoneConverter';
+import userFeedback from '@/utils/userFeedback';
 
 enum MariaContextMenuOption {
   MagicNumber = 'magic-number',
+  TimeZoneConversion = 'timezone-conversion',
   JuriSearch = 'juri-search',
   JuriSearchAnime = 'anime-all_ages',
   JuriSearchManga = 'manga-all_ages',
@@ -27,6 +31,13 @@ enum MariaContextMenuOption {
 browser.contextMenus.create({
   id: MariaContextMenuOption.MagicNumber,
   title: 'View magic number "%s"',
+  contexts: ['selection']
+});
+
+// Timezone conversion
+browser.contextMenus.create({
+  id: MariaContextMenuOption.TimeZoneConversion,
+  title: 'Convert to local timezone "%s"',
   contexts: ['selection']
 });
 
@@ -107,6 +118,20 @@ browser.contextMenus.onClicked.addListener(async function (info) {
 
   if (menuItemId === MariaContextMenuOption.MagicNumber) {
     handleMagicNumberSelect(search);
+    return;
+  } else if (menuItemId === MariaContextMenuOption.TimeZoneConversion) {
+    const output = timezoneConversion(search);
+
+    if (output.success) {
+      await openTimezoneConverter(
+        output.source,
+        output.date,
+        output.utcOffset,
+        search
+      );
+    } else {
+      await userFeedback('warning', output.errorMessage);
+    }
     return;
   }
 

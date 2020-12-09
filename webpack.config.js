@@ -24,7 +24,8 @@ module.exports = {
     options: join(__dirname, 'src/options', 'index.ts'),
     tabStore: join(__dirname, 'src/tabStore', 'index.ts'),
     exportImport: join(__dirname, 'src/exportImport', 'index.ts'),
-    rssViewer: join(__dirname, 'src/rssViewer', 'index.ts')
+    rssViewer: join(__dirname, 'src/rssViewer', 'index.ts'),
+    timezoneConverter: join(__dirname, 'src/timezoneConverter', 'index.ts')
   },
   output: {
     path: join(__dirname, 'dist'),
@@ -57,7 +58,8 @@ module.exports = {
       'popup',
       'tabStore',
       'exportImport',
-      'rssViewer'
+      'rssViewer',
+      'timezoneConverter'
     ].map(
       (name) =>
         new HtmlWebpackPlugin({
