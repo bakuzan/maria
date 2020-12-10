@@ -6,15 +6,6 @@ const COLON = /^\d{0,2}:\d{0,2} \w{3,}$/; // e.g. 10:00 PST or 1:00 CST
 const AMPM = /^\d{0,2} ?\w{2} \w{3,}$/; // e.g. 5 PM EST or 9PM CET
 const AMPMCOLON = /^\d{0,2}:\d{0,2} ?\w{2} \w{3,}$/; // e.g. 1:00 PM JST or 1:00PM VLAT
 
-/* EXAMPLES WITH CONFIRMED CONVERSIONS
-    10:00 PST    -> 18:00 GMT
-    1:00 CST     -> 07:00 GMT
-    5 PM EST     -> 22:00 GMT
-    9PM CET      -> 20:00 GMT
-    1:00 PM JST  -> 04:00 GMT
-    1:00PM VLAT  -> 03:00 GMT
-*/
-
 function parseTimeWithZoneString(inputString: string) {
   const trimmed = inputString.trim();
   const withColonNoAMPM = trimmed.match(COLON);
@@ -24,7 +15,7 @@ function parseTimeWithZoneString(inputString: string) {
   if (!withColonNoAMPM && !withNoColonAMPM && !withColonAMPM) {
     return {
       success: false,
-      errorMessage: `Invalid input. Input (${inputString}) did not match accepted formats.`
+      errorMessage: `Invalid format. Input (${inputString}) did not match accepted formats.`
     };
   }
 
@@ -82,7 +73,6 @@ function parseTimeWithZoneString(inputString: string) {
 }
 
 export default function timezoneConversion(inputString: string) {
-  console.log('Input: ', inputString);
   if (!inputString || !inputString.trim()) {
     return {
       success: false,
