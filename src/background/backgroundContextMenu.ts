@@ -139,7 +139,9 @@ browser.contextMenus.onClicked.addListener(async function (info) {
     const itemId = menuItemId as string;
     const [type, age] = itemId.replace(/_/g, ' ').split('-');
     const optionUrl = `${BASE_JURI_URL}?type=${type}&age=${age}`;
-    const juriSearchUrl = `${optionUrl}&searchString=${search}`;
+
+    const searchText = search.trim();
+    const juriSearchUrl = `${optionUrl}&searchString=${searchText}`;
 
     await openWindow(juriSearchUrl);
     return;
