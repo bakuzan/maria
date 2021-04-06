@@ -60,7 +60,10 @@ export default function initOnMessage() {
 
       case PageAction.GET_LINK_NAME: {
         const origin = window.location.origin;
-        const linkEnding = msg.url.replace(window.location.origin, '');
+        const linkEnding = msg.url
+          .replace(window.location.origin, '')
+          .replace(window.location.protocol, '');
+
         const links = document.querySelectorAll(`a[href$='${linkEnding}']`);
         const link = Array.from(links).find(
           (x: HTMLElement) => !isElementHidden(x)
