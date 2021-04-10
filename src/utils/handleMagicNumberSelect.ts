@@ -6,10 +6,11 @@ export default function handleMagicNumberSelect(
   selectionText = '',
   showAlert = true
 ) {
-  const selectionIsValid = /^\d+$/.test(selectionText);
+  const text = selectionText.trim();
+  const selectionIsValid = /^\d+$/.test(text);
 
   if (selectionIsValid) {
-    openWindow(`${BASE_LINK_URL}${selectionText}`);
+    openWindow(`${BASE_LINK_URL}${text}`);
   } else if (showAlert) {
     userFeedback(
       'warning',
