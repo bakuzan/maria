@@ -9,5 +9,5 @@ export default function toaster(type: ToasterType, message: string) {
   log(`Toast(Type: ${type}) => ${message}`);
 
   document.body.appendChild(toast);
-  setTimeout(() => document.body.removeChild(toast), 3000);
+  setTimeout(() => document.body.removeChild(toast), 5000);
 }

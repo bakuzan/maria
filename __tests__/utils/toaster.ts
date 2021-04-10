@@ -13,7 +13,7 @@ it('should create element and append to body', () => {
   expect(spyBodyAppend).toHaveBeenCalledTimes(1);
 
   // Fast-forward until all timers have been executed
-  jest.advanceTimersByTime(3000);
+  jest.advanceTimersByTime(5000);
 
   expect(spyBodyRemove).toHaveBeenCalledTimes(1);
 });
