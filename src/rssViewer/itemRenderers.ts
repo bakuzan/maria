@@ -1,20 +1,35 @@
 import Parser from 'rss-parser';
 
+import { LoaderHTMLMini } from '@/consts';
 import { Feed } from '@/types/Feed';
 import getUrlOrigin from '@/utils/getUrlOrigin';
 import formatDateForDisplay from '@/utils/formatDateForDisplay';
 
-export function createFeedItem(item: Feed) {
+function feedItemIcon(isUnread: boolean, isLoading: boolean) {
+  if (isLoading)
+    return `<div 
+      class="feed-loading" 
+      aria-label="Checking feed for update" 
+      title="Checking feed for update"
+    >
+      ${LoaderHTMLMini}
+    </div>`;
+
+  if (isUnread)
+    return `<div 
+      class="feed-update" 
+      aria-label="Has unread update" 
+      title="Has unread update"
+    >
+      <span aria-hidden="true">!</span>
+    </div>`;
+
+  return '';
+}
+
+export function createFeedItem(item: Feed, isLoading = false) {
   const favicon = `${getUrlOrigin(item.link)}/favicon.ico`;
-  const hasUpdate = item.hasUnread
-    ? `<div 
-        class="feed-update" 
-        aria-label="Has unread update" 
-        title="Has unread update"
-      >
-        <span aria-hidden="true">!</span>
-      </div>`
-    : '';
+  const hasUpdate = feedItemIcon(item.hasUnread, isLoading);
 
   return `
   <li class="feed__item" data-link="${item.link}">

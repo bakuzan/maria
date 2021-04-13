@@ -16,7 +16,7 @@
 
   &__title {
     font-size: 1.5rem;
-    margin: 5px;
+    margin: 5px 0;
   }
 
   &__options {
@@ -30,6 +30,10 @@
       padding: 0;
       margin: 5px 0;
     }
+  }
+
+  &__meta {
+    font-size: 0.8rem;
   }
 
   &__content {
@@ -105,7 +109,9 @@
 .feed-name {
   text-align: left;
 }
-.feed-update {
+
+.feed-update,
+.feed-error {
   position: absolute;
   top: 0;
   right: 0;
@@ -117,6 +123,10 @@
   background-color: var(--information-colour);
   color: var(--primary-colour-contrast);
   text-align: center;
+}
+
+.feed-error {
+  background-color: var(--danger-colour);
 }
 
 .rss-feed {

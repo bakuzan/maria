@@ -31,7 +31,10 @@ export function getLastUpdateDate(data: Parser.Output) {
   };
 }
 
-export async function checkFeedsForUpdates() {
+export async function checkFeedsForUpdates(
+  // tslint:disable-next-line no-empty
+  callback: (processed: Feed, error?: boolean) => void = () => {}
+) {
   const { feeds, ...store } = await getStorage();
   const detectedUpdates: Feed[] = [];
 
@@ -49,18 +52,22 @@ export async function checkFeedsForUpdates() {
 
       if (noUpdate) {
         log(`RSS Feed ${item.name} has no update.`);
+        callback(item);
         continue;
       }
 
-      detectedUpdates.push({
+      const updated = {
         ...item,
         lastUpdate: recentUpdate.lastUpdate,
         hasUnread: true
-      });
+      };
+      detectedUpdates.push(updated);
 
       log(`RSS Feed ${item.name} updated!`);
+      callback(updated);
     } catch (e) {
       reportError(e.message);
+      callback(item, true);
     }
   }
 

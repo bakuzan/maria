@@ -102,6 +102,11 @@ export const LoaderHTML = `
   </div>
 `;
 
+export const LoaderHTMLMini = LoaderHTML.replace(
+  'maria-loading',
+  'maria-loading maria-loading--mini'
+).replace('id="mariaLoader"', '');
+
 export enum MariaAssetFileNames {
   Greeting = 'greeting.mp3',
   GoodMorning = 'good-morning.mp3',
