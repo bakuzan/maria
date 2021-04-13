@@ -40,10 +40,12 @@ async function malPageProcessing(tabId: number, tab: Tabs.Tab) {
     if (!response || !response.success) {
       const message = getErrorMessage(response);
       userFeedback('error', message);
-    } else if (response.data && response.data.exists) {
-      await executeContentModule(tabId, 'openSeriesInErza');
     } else {
-      await executeContentModule(tabId, 'addSeries');
+      await executeContentModule(
+        tabId,
+        'activateErzaSeries',
+        response.data && response.data.exists ? 'openSeriesInErza' : 'addSeries'
+      );
     }
   }
 }

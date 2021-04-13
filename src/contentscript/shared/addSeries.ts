@@ -3,10 +3,12 @@ import { browser } from 'webextension-polyfill-ts';
 import { MariaAction, monthNames, excludedTags, LoaderHTML } from '@/consts';
 import { ContentResponse } from '@/types/ContentResponse';
 import { SeriesPayload } from '@/types/SeriesPayload';
+
 import toaster from '@/utils/toaster';
 import getNode from '@/utils/getNode';
 import isValidDate from '@/utils/isValidDate';
-import seriesPageButton from './shared/seriesPageButton';
+
+import seriesPageButton from './seriesPageButton';
 
 /* Functions */
 function getMalId() {
@@ -116,13 +118,16 @@ async function postSeries(isAnime: boolean, series: SeriesPayload) {
       series
     });
 
-    const response = res as ContentResponse;
+    const response = (res as unknown) as ContentResponse;
 
-    if (response.success) {
+    if (response && response.success) {
       toaster('success', `Posted ${response.data.title}.`);
     }
+
+    return response.success;
   } catch (error) {
     toaster('error', error.message);
+    return false;
   }
 }
 
@@ -135,7 +140,7 @@ function renderDelayedLoader(element: HTMLElement) {
 
 /* Setup elements */
 
-export default function addSeries() {
+export default function addSeries(onSuccess: () => void) {
   let timer = 0;
 
   seriesPageButton('Add series to Erza', function (scraper, btn) {
@@ -155,12 +160,16 @@ export default function addSeries() {
       result = handleManga();
     }
 
-    postSeries(isAnime, result).then(() => {
+    postSeries(isAnime, result).then((success) => {
       clearTimeout(timer);
 
       const loader = scraper.querySelector('#mariaLoader');
       if (loader) {
         scraper.removeChild(loader);
+      }
+
+      if (success) {
+        onSuccess();
       }
 
       btn.disabled = false;

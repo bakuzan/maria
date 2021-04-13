@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import seriesPageButton from './shared/seriesPageButton';
+import seriesPageButton from './seriesPageButton';
 import { BASE_ERZA_URL, MariaAction } from '@/consts';
 
 const ERZA_URL = `${BASE_ERZA_URL}erza/{seriesType}-view/{seriesId}`;
