@@ -3,7 +3,7 @@ import { Feed } from '@/types/Feed';
 import { checkFeedsForUpdates } from '@/utils/rssFeedChecks';
 import getStorage from '@/utils/getStorage';
 
-import { onFeedSelect, onRemoveFeed } from './feedActions';
+import { onFeedSelect, onRemoveFeed, updateFeedMetaData } from './feedActions';
 import { createFeedItem } from './itemRenderers';
 
 const UPDATE_LOADING_CLASS = 'check-updates-button--loading';
@@ -18,11 +18,7 @@ export function renderFeedList(feeds: Feed[], isLoading = false) {
     .map((x) => createFeedItem(x, isLoading))
     .join('');
 
-  const feedMeta = document.getElementById('rssViewerMeta');
-  const feedCount = feeds.length;
-  const unreadCount = feeds.filter((x) => x.hasUnread).length;
-  const unreadText = unreadCount ? `, with ${unreadCount} updates.` : '.';
-  feedMeta.innerHTML = `Showing ${feedCount} feeds${unreadText}`;
+  updateFeedMetaData(feeds);
 
   Array.from(feedList.querySelectorAll('.remove-button')).forEach((btn) =>
     btn.addEventListener('click', onRemoveFeed)

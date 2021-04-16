@@ -1,6 +1,8 @@
 import { browser } from 'webextension-polyfill-ts';
 import Parser from 'rss-parser';
 
+import { Feed } from '@/types/Feed';
+
 import { renderFeed } from './itemRenderers';
 import { LoaderHTML } from '@/consts';
 import { log } from '@/log';
@@ -10,6 +12,14 @@ import { getLastUpdateDate, updateBadge } from '@/utils/rssFeedChecks';
 const feedReader = new Parser();
 const ACTIVE_FEED_CLASS = 'feed__item--active';
 
+export function updateFeedMetaData(feeds: Feed[]) {
+  const feedMeta = document.getElementById('rssViewerMeta');
+  const feedCount = feeds.length;
+  const unreadCount = feeds.filter((x) => x.hasUnread).length;
+  const unreadText = unreadCount ? `, with ${unreadCount} updates.` : '.';
+  feedMeta.innerHTML = `Showing ${feedCount} feeds${unreadText}`;
+}
+
 export async function onRemoveFeed(event: Event) {
   const t = this as HTMLButtonElement;
   const parent = t.parentElement;
@@ -17,6 +27,8 @@ export async function onRemoveFeed(event: Event) {
 
   const store = await getStorage();
   const feeds = store.feeds.filter((f) => f.link !== link);
+
+  updateFeedMetaData(feeds);
   await browser.storage.local.set({
     ...store,
     feeds
@@ -71,6 +83,7 @@ export async function onFeedSelect(event: Event) {
           }
     );
 
+    updateFeedMetaData(feeds);
     await browser.storage.local.set({
       ...store,
       feeds
