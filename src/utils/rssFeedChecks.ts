@@ -22,7 +22,7 @@ export async function updateBadge(updates: Feed[]) {
   });
 }
 
-export function getLastUpdateDate(data: Parser.Output) {
+export function getLastUpdateDate(data: Parser.Output<Parser.Item>) {
   const mostRecentDate = data.items[0]?.pubDate;
 
   return {
