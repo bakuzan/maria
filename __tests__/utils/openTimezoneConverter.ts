@@ -25,7 +25,7 @@ it('should open timezoneConverter.html', async () => {
   const newTabUrl = `chrome://extension/${input}`;
   const params = `?r=&f=${d}${utcOff}&t=${d}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(newTabUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(newTabUrl).times(1);
   mockBrowser.tabs.query.expect({ url: newTabUrl }).andResolve([]).times(1);
   mockBrowser.tabs.remove.expect([]).times(1);
   mockBrowser.tabs.create.expect({ url: `${newTabUrl}${params}` }).times(1);
@@ -41,7 +41,7 @@ it('should open timezoneConverter.html with raw', async () => {
   const newTabUrl = `chrome://extension/${input}`;
   const params = `?r=test&f=${d}${utcOff}&t=${d}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(newTabUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(newTabUrl).times(1);
   mockBrowser.tabs.query.expect({ url: newTabUrl }).andResolve([]).times(1);
   mockBrowser.tabs.remove.expect([]).times(1);
   mockBrowser.tabs.create.expect({ url: `${newTabUrl}${params}` }).times(1);
@@ -57,7 +57,7 @@ it('should open timezoneConverter.html closing currently open timezoneConverter.
   const newTabUrl = `chrome://extension/${input}`;
   const params = `?r=&f=${d}${utcOff}&t=${d}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(newTabUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(newTabUrl).times(1);
   mockBrowser.tabs.query
     .expect({ url: newTabUrl })
     .andResolve([tabExample])

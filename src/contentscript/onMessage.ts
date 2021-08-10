@@ -92,7 +92,8 @@ export default function initOnMessage() {
           return { hasFeed: true, name, link: feed.href };
         } else if (
           feedContainer &&
-          feedContainer.textContent.includes('type="application/rss+xml"')
+          (feedContainer.textContent.includes('type="application/rss+xml"') ||
+            feedContainer.textContent.includes('<rss'))
         ) {
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(

@@ -88,11 +88,13 @@ export default function timezoneConversion(inputString: string) {
     };
   }
 
-  const fromObj = DateTime.fromObject({
-    hour: result.hour,
-    minute: result.minute,
-    zone: result.zone
-  });
+  const fromObj = DateTime.fromObject(
+    {
+      hour: result.hour,
+      minute: result.minute
+    },
+    { zone: result.zone }
+  );
 
   if (!fromObj.isValid) {
     return {

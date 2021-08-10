@@ -17,7 +17,7 @@ it('should reload all tab store instances', async () => {
   const tabName = 'tabStore.html';
   const resolvedTabName = `chrome://extension/${tabName}`;
 
-  mockBrowser.extension.getURL
+  mockBrowser.runtime.getURL
     .expect(tabName)
     .andReturn(resolvedTabName)
     .times(1);

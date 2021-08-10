@@ -7,7 +7,7 @@ export default async function openTimezoneConverter(
   utcOffset: number,
   raw: string = ''
 ) {
-  const targetTabUrl = browser.extension.getURL('timezoneConverter.html');
+  const targetTabUrl = browser.runtime.getURL('timezoneConverter.html');
 
   const stores = await browser.tabs.query({
     url: targetTabUrl

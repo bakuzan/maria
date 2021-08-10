@@ -1,4 +1,4 @@
-import { browser, ContextMenus } from 'webextension-polyfill-ts';
+import { browser, Menus } from 'webextension-polyfill-ts';
 
 import { BASE_JURI_URL, PageAction } from '@/consts';
 import handleMagicNumberSelect from '@/utils/handleMagicNumberSelect';
@@ -92,7 +92,7 @@ const tabStoreOptions = [
   {
     id: MariaContextMenuOption.TabStoreStoreLink,
     title: 'Send link to store',
-    contexts: ['link'] as ContextMenus.ContextType[]
+    contexts: ['link'] as Menus.ContextType[]
   },
   {
     id: MariaContextMenuOption.TabStoreStoreTabsAfter,

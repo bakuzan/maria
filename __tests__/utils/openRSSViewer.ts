@@ -20,7 +20,7 @@ it('should open rssViewer.html', async () => {
   const input = 'rssViewer.html';
   const tabStoreUrl = `chrome://extension/${input}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(tabStoreUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(tabStoreUrl).times(1);
 
   mockBrowser.tabs.query
     .expect({
@@ -45,7 +45,7 @@ it('should open rssViewer.html closing currently open rssViewer.htmls', async ()
   const input = 'rssViewer.html';
   const tabStoreUrl = `chrome://extension/${input}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(tabStoreUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(tabStoreUrl).times(1);
 
   mockBrowser.tabs.query
     .expect({

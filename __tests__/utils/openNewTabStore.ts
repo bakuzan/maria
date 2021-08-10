@@ -20,7 +20,7 @@ it('should open tabStore.html', async () => {
   const input = 'tabStore.html';
   const tabStoreUrl = `chrome://extension/${input}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(tabStoreUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(tabStoreUrl).times(1);
 
   mockBrowser.tabs.query
     .expect({
@@ -45,7 +45,7 @@ it('should open tabStore.html closing currently open tabStore.htmls', async () =
   const input = 'tabStore.html';
   const tabStoreUrl = `chrome://extension/${input}`;
 
-  mockBrowser.extension.getURL.expect(input).andReturn(tabStoreUrl).times(1);
+  mockBrowser.runtime.getURL.expect(input).andReturn(tabStoreUrl).times(1);
 
   mockBrowser.tabs.query
     .expect({

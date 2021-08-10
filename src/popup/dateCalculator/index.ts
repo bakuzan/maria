@@ -3,7 +3,6 @@ import RadioGroupController from '@/utils/RadioGroupController';
 
 import dateOffsetCalculator from './dateOffsetCalculator';
 import dateRangeCalculator from './dateRangeCalculator';
-import { request } from 'http';
 
 const VISIBLE_SIDEBAR_CLASS = 'popup__sidebar--visible';
 const ACTIVE_FORM_CLASS = 'date-form--visible';

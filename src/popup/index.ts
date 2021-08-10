@@ -76,9 +76,8 @@ async function run() {
 
     document.getElementById('subscribeToFeed').style.display = 'block';
 
-    const feedSubButton = document.querySelector<HTMLButtonElement>(
-      '#feedSubscribe'
-    );
+    const feedSubButton =
+      document.querySelector<HTMLButtonElement>('#feedSubscribe');
 
     feedSubButton.disabled = false;
     feedSubButton.textContent = `Subscribe to ${pageCheck.name}`;

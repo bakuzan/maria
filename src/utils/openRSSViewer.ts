@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 export default async function openRSSViewer() {
-  const targetTabUrl = browser.extension.getURL('rssViewer.html');
+  const targetTabUrl = browser.runtime.getURL('rssViewer.html');
 
   const stores = await browser.tabs.query({
     url: targetTabUrl

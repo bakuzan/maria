@@ -48,7 +48,7 @@ function setup(storeValues: { [s: string]: any }, removeTabCount: number) {
   const tabName = 'tabStore.html';
   const resolvedTabName = `chrome://extension/${tabName}`;
 
-  mockBrowser.extension.getURL
+  mockBrowser.runtime.getURL
     .expect(tabName)
     .andReturn(resolvedTabName)
     .times(1);

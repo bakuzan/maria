@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 export default async function openNewTabStore() {
-  const targetTabUrl = browser.extension.getURL('tabStore.html');
+  const targetTabUrl = browser.runtime.getURL('tabStore.html');
 
   const stores = await browser.tabs.query({
     url: targetTabUrl

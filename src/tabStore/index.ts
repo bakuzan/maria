@@ -20,7 +20,7 @@ async function run() {
     async () =>
       await browser.tabs.create({
         index: 0,
-        url: browser.extension.getURL('exportImport.html')
+        url: browser.runtime.getURL('exportImport.html')
       })
   );
 

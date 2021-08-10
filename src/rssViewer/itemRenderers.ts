@@ -74,7 +74,7 @@ function createFeedEntry(item: Parser.Item) {
   `;
 }
 
-export function renderFeed(data: Parser.Output) {
+export function renderFeed(data: Parser.Output<Parser.Item>) {
   const items = data.items.map(createFeedEntry).join('');
 
   return `
