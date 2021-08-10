@@ -1,6 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { optimize } = require('webpack');
 const { join } = require('path');
 
@@ -35,9 +35,13 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
         exclude: /node_modules/,
-        test: /\.ts?$/,
-        use: 'awesome-typescript-loader?{configFileName: "tsconfig.json"}'
+        options: {
+          // disable type checker - we will use it in fork plugin
+          transpileOnly: true
+        }
       },
       {
         test: /\.scss$/,
@@ -46,7 +50,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CheckerPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
     ...prodPlugins,
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -74,6 +78,14 @@ module.exports = {
     extensions: ['.ts', '.js'],
     alias: {
       '@': join(__dirname, 'src')
+    },
+    fallback: {
+      timers: require.resolve('timers-browserify'),
+      stream: require.resolve('stream-browserify'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      url: require.resolve('url/'),
+      buffer: require.resolve('buffer/')
     }
   }
 };
