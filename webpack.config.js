@@ -8,10 +8,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 let prodPlugins = [];
 
 if (isProduction) {
-  prodPlugins.push(
-    new optimize.AggressiveMergingPlugin(),
-    new optimize.OccurrenceOrderPlugin()
-  );
+  prodPlugins.push(new optimize.AggressiveMergingPlugin());
 }
 
 module.exports = {
