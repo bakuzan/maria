@@ -10,12 +10,6 @@ let prodPlugins = [];
 
 if (isProduction) {
   prodPlugins.push(new optimize.AggressiveMergingPlugin());
-  prodPlugins.push(
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-      Buffer: ['buffer', 'Buffer']
-    })
-  );
 }
 
 module.exports = {
@@ -55,6 +49,10 @@ module.exports = {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer']
+    }),
     ...prodPlugins,
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -88,8 +86,7 @@ module.exports = {
       stream: require.resolve('stream-browserify'),
       http: require.resolve('stream-http'),
       https: require.resolve('https-browserify'),
-      url: require.resolve('url/'),
-      buffer: require.resolve('buffer/')
+      url: require.resolve('url/')
     }
   }
 };

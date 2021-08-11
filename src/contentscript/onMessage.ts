@@ -105,9 +105,13 @@ export default function initOnMessage() {
           const link = xmlDoc
             .querySelector('channel')
             .querySelector('link[rel="self"]')
-            .getAttribute('href');
+            ?.getAttribute('href');
 
-          return { hasFeed: true, name: title.textContent, link };
+          return {
+            hasFeed: true,
+            name: title.textContent,
+            link: link ?? window.location.href
+          };
         } else if (rssElement) {
           const title = rssElement.querySelector('title');
 
