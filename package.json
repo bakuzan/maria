@@ -64,6 +64,7 @@
     "node-fetch": "^2.6.1",
     "node-sass": "^6.0.1",
     "prettier": "^2.3.2",
+    "process": "^0.11.10",
     "sass-loader": "^12.1.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
