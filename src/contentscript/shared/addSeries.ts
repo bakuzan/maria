@@ -49,7 +49,7 @@ function commonElements(isAnime: boolean) {
   const seriesType = getNode(`//span[text()='Type:']/../a`);
   const total = getNode(`//span[text()='${totalName}:']/..`);
 
-  const tags = getNode(`//span[text()='Genres:']/../a`, true);
+  const tags = getNode(`//span[starts-with(text(),'Genre')]/../a`, true);
   const tagString = tags
     .map((x: Node) => x.textContent.trim().toLowerCase())
     .filter((x) => !excludedTags.includes(x))
