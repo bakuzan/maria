@@ -51,7 +51,8 @@ export function createFeedItem(item: Feed, isLoading = false) {
 }
 
 function createFeedEntry(item: Parser.Item) {
-  const published = formatDateForDisplay(item.pubDate, true);
+  const date = item.pubDate ?? item.isoDate;
+  const published = formatDateForDisplay(date, true);
   const link = item.link ?? item.enclosure?.url;
   const content = item.contentSnippet
     ? `<div class="rss-feed-entry__content">${item.contentSnippet}</div>`
@@ -59,7 +60,7 @@ function createFeedEntry(item: Parser.Item) {
 
   return `
     <li class="rss-feed-entry">
-      <time class="rss-feed-entry__date" dateTime="${item.pubDate}">${published}</time>
+      <time class="rss-feed-entry__date" dateTime="${date}">${published}</time>
       <div class="rss-feed-entry__title">
         <a 
           class="rss-feed-entry__link maria-link" 

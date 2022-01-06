@@ -8,7 +8,7 @@ import { log, reportError } from '@/log';
 const feedReader = new Parser();
 
 const waitForIt = () =>
-  new Promise((resolve) => window.setTimeout(resolve, 250));
+  new Promise((resolve) => window.setTimeout(resolve, 100));
 
 export async function updateBadge(updates: Feed[]) {
   const unreadCount = updates.filter((x) => x.hasUnread).length;
@@ -23,7 +23,8 @@ export async function updateBadge(updates: Feed[]) {
 }
 
 export function getLastUpdateDate(data: Parser.Output<Parser.Item>) {
-  const mostRecentDate = data.items[0]?.pubDate;
+  const item = data.items[0];
+  const mostRecentDate = item?.pubDate ?? item?.isoDate;
 
   return {
     hasDate: !!mostRecentDate,
