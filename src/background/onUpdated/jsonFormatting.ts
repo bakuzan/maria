@@ -4,8 +4,11 @@ export default async function jsonFormatting(tabId: number) {
   await browser.tabs.executeScript(tabId, {
     code: `(async () => {
           const indentation = 2;
-          const pre = document.querySelector('body pre:only-child');
-          if(!pre) {
+          const [pre] = Array.from(
+            document.querySelectorAll("body > *:not([id^='userscript'])")
+          );
+          const isPreTag = pre.tagName === 'PRE';
+          if(!isPreTag) {
             return; 
           }
   
