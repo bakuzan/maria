@@ -68,7 +68,7 @@ export async function checkForFeedUpdates() {
     renderFeedList(updatedFeeds);
 
     const marButton = getMarkAllReadButton();
-    marButton.classList.add('no-updates');
+    marButton.classList.remove('no-updates');
   }
 
   updateButton.disabled = false;
@@ -89,4 +89,5 @@ export async function markAllRead() {
   });
 
   marButton.disabled = false;
+  marButton.classList.add('no-updates');
 }
