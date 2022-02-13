@@ -7,8 +7,8 @@ import { log, reportError } from '@/log';
 
 const feedReader = new Parser();
 
-const waitForIt = () =>
-  new Promise((resolve) => window.setTimeout(resolve, 100));
+const waitForIt = (delay: number = 100) =>
+  new Promise((resolve) => window.setTimeout(resolve, delay));
 
 export async function updateBadge(updates: Feed[]) {
   const unreadCount = updates.filter((x) => x.hasUnread).length;
@@ -36,7 +36,7 @@ export async function checkFeedsForUpdates(
   // tslint:disable-next-line no-empty
   callback: (processed: Feed, error?: boolean) => void = () => {}
 ) {
-  const { feeds, ...store } = await getStorage();
+  const { feeds } = await getStorage();
   const detectedUpdates: Feed[] = [];
 
   for (const item of feeds) {
@@ -75,12 +75,13 @@ export async function checkFeedsForUpdates(
   const updatedCount = detectedUpdates.length;
 
   if (updatedCount) {
-    const updatedFeeds = feeds.map(
+    const latestStore = await getStorage();
+    const updatedFeeds = latestStore.feeds.map(
       (x) => detectedUpdates.find((u) => u.link === x.link) ?? x
     );
 
     await browser.storage.local.set({
-      ...store,
+      ...latestStore,
       feeds: updatedFeeds
     });
 

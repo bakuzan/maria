@@ -1,3 +1,4 @@
+import { browser } from 'webextension-polyfill-ts';
 import { Feed } from '@/types/Feed';
 
 import { checkFeedsForUpdates } from '@/utils/rssFeedChecks';
@@ -10,6 +11,9 @@ const UPDATE_LOADING_CLASS = 'check-updates-button--loading';
 
 export const getCheckUpdateButton = () =>
   document.querySelector<HTMLButtonElement>('#checkUpdates');
+
+export const getMarkAllReadButton = () =>
+  document.querySelector<HTMLButtonElement>('#markAllRead');
 
 export function renderFeedList(feeds: Feed[], isLoading = false) {
   const feedList = document.getElementById('feeds');
@@ -62,8 +66,27 @@ export async function checkForFeedUpdates() {
 
   if (updatedFeeds.length) {
     renderFeedList(updatedFeeds);
+
+    const marButton = getMarkAllReadButton();
+    marButton.classList.add('no-updates');
   }
 
   updateButton.disabled = false;
   updateButton.classList.remove(UPDATE_LOADING_CLASS);
+}
+
+export async function markAllRead() {
+  const marButton = getMarkAllReadButton();
+  marButton.disabled = true;
+
+  const { feeds, ...store } = await getStorage();
+  feeds.forEach((f) => (f.hasUnread = false));
+  renderFeedList(feeds);
+
+  await browser.storage.local.set({
+    ...store,
+    feeds
+  });
+
+  marButton.disabled = false;
 }

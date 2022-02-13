@@ -110,7 +110,7 @@ describe('checkFeedsForUpdates', () => {
     mockBrowser.storage.local.get
       .expect(storageDefaults)
       .andResolve({ ...storageDefaults, feeds })
-      .times(1);
+      .times(2);
 
     mockBrowser.storage.local.set.expect(expect.anything()).times(1);
 
