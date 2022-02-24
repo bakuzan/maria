@@ -15,15 +15,6 @@ async function run() {
     (x) => new TabGroupController(rootContainer, x)
   );
 
-  document.getElementById('exportImport').addEventListener(
-    'click',
-    async () =>
-      await browser.tabs.create({
-        index: 0,
-        url: browser.runtime.getURL('exportImport.html')
-      })
-  );
-
   document.getElementById('addNewGroup').addEventListener('click', async () => {
     const store = await getStorage();
     const groups = store.tabGroups;

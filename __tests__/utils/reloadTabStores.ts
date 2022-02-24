@@ -1,6 +1,6 @@
 import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
 
-import reloadTabStores from '../../src/utils/reloadTabStores';
+import { reloadTabStores } from '../../src/utils/reloadMariaPages';
 
 beforeEach(() => mockBrowserNode.enable());
 

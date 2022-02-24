@@ -4,16 +4,18 @@ import { Feed } from '@/types/Feed';
 import { checkFeedsForUpdates } from '@/utils/rssFeedChecks';
 import getStorage from '@/utils/getStorage';
 
-import { onFeedSelect, onRemoveFeed, updateFeedMetaData } from './feedActions';
+import {
+  getMarkAllReadButton,
+  onFeedSelect,
+  onRemoveFeed,
+  updateFeedMetaData
+} from './feedActions';
 import { createFeedItem } from './itemRenderers';
 
 const UPDATE_LOADING_CLASS = 'check-updates-button--loading';
 
 export const getCheckUpdateButton = () =>
   document.querySelector<HTMLButtonElement>('#checkUpdates');
-
-export const getMarkAllReadButton = () =>
-  document.querySelector<HTMLButtonElement>('#markAllRead');
 
 export function renderFeedList(feeds: Feed[], isLoading = false) {
   const feedList = document.getElementById('feeds');
@@ -75,7 +77,7 @@ export async function checkForFeedUpdates() {
   updateButton.classList.remove(UPDATE_LOADING_CLASS);
 }
 
-export async function markAllRead() {
+async function markAllRead() {
   const marButton = getMarkAllReadButton();
   marButton.disabled = true;
 
@@ -90,4 +92,13 @@ export async function markAllRead() {
 
   marButton.disabled = false;
   marButton.classList.add('no-updates');
+}
+
+export function setupMarkAllReadButton(hasUnread: boolean) {
+  const marButton = getMarkAllReadButton();
+  marButton.addEventListener('click', markAllRead);
+
+  if (!hasUnread) {
+    marButton.classList.add('no-updates');
+  }
 }

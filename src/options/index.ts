@@ -3,6 +3,7 @@ import './options.scss';
 import { browser } from 'webextension-polyfill-ts';
 
 import getStorage from '@/utils/getStorage';
+import { reloadImportAndExport } from '@/utils/reloadMariaPages';
 
 async function saveGreeting(event: InputEvent) {
   const items = await getStorage();
@@ -12,6 +13,8 @@ async function saveGreeting(event: InputEvent) {
     ...items,
     shouldPlayGreeting: target.checked
   });
+
+  await reloadImportAndExport();
 }
 
 async function saveOption(event: InputEvent) {
@@ -31,13 +34,14 @@ async function saveOption(event: InputEvent) {
     ...items,
     digitOptions: Array.from(curr)
   });
+
+  await reloadImportAndExport();
 }
 
 async function restoreOptions() {
   const items = await getStorage();
-  const greeting = document.querySelector<HTMLInputElement>(
-    `[name='greeting']`
-  );
+  const greeting =
+    document.querySelector<HTMLInputElement>(`[name='greeting']`);
 
   greeting.checked = items.shouldPlayGreeting;
 
@@ -49,11 +53,24 @@ async function restoreOptions() {
   );
 }
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
-document
-  .querySelector(`[name='greeting']`)
-  .addEventListener('change', saveGreeting);
+async function run() {
+  document.addEventListener('DOMContentLoaded', restoreOptions);
+  document
+    .querySelector(`[name='greeting']`)
+    .addEventListener('change', saveGreeting);
 
-Array.from(document.querySelectorAll(`[name='digits']`)).forEach((node) =>
-  node.addEventListener('change', saveOption)
-);
+  Array.from(document.querySelectorAll(`[name='digits']`)).forEach((node) =>
+    node.addEventListener('change', saveOption)
+  );
+
+  document.getElementById('exportImport').addEventListener(
+    'click',
+    async () =>
+      await browser.tabs.create({
+        index: 0,
+        url: browser.runtime.getURL('exportImport.html')
+      })
+  );
+}
+
+run();

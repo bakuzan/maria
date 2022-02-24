@@ -3,7 +3,7 @@ import { browser, Tabs } from 'webextension-polyfill-ts';
 import { TabGroup, StoredTab } from '@/types/TabGroup';
 import getStorage from './getStorage';
 import generateUniqueId from './generateUniqueId';
-import reloadTabStores from './reloadTabStores';
+import { reloadTabStores } from './reloadMariaPages';
 import { uniqueItemsFilter } from './array';
 
 interface TabLinks extends Pick<Tabs.Tab, 'id' | 'title' | 'url'> {}

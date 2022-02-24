@@ -12,12 +12,23 @@ import { getLastUpdateDate, updateBadge } from '@/utils/rssFeedChecks';
 const feedReader = new Parser();
 const ACTIVE_FEED_CLASS = 'feed__item--active';
 
+export const getMarkAllReadButton = () =>
+  document.querySelector<HTMLButtonElement>('#markAllRead');
+
 export function updateFeedMetaData(feeds: Feed[]) {
+  // Feed text
   const feedMeta = document.getElementById('rssViewerMeta');
   const feedCount = feeds.length;
   const unreadCount = feeds.filter((x) => x.hasUnread).length;
   const unreadText = unreadCount ? `, with ${unreadCount} updates.` : '.';
   feedMeta.innerHTML = `Showing ${feedCount} feeds${unreadText}`;
+
+  // Mark unread button
+  const marButton = getMarkAllReadButton();
+  const hasUnread = unreadCount > 0;
+  hasUnread
+    ? marButton.classList.remove('no-updates')
+    : marButton.classList.add('no-updates');
 }
 
 export async function onRemoveFeed(event: Event) {

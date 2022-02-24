@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="assets/maria_16x16.png" />
-    <title>Export/Import | Maria</title>
+    <title>Import and Export | Maria</title>
   </head>
   <body class="maria">
     <header class="maria__heading maria__heading--spaced">
@@ -15,25 +15,46 @@
         src="assets/maria_128x128.png"
         alt="Maria"
       />
-      <h1 class="maria__title">Export/Import</h1>
+      <h1 class="maria__title">Maria's Import and Export</h1>
     </header>
     <main>
       <div class="export-import-grid">
         <div class="maria-container">
           <div class="maria-container__header">
-            <div class="maria-label">Export</div>
-            <button id="copyExport" class="maria-button maria-button--primary">
-              Copy to clipboard
-            </button>
+            <div class="maria-container__title">Export</div>
+            <div>
+              <button
+                id="exportFile"
+                class="maria-button maria-button--primary"
+              >
+                Export to file
+              </button>
+              <button
+                id="copyExport"
+                class="maria-button maria-button--primary"
+              >
+                Copy to clipboard
+              </button>
+            </div>
           </div>
           <textarea id="export" class="maria-textarea" readonly></textarea>
         </div>
         <div class="maria-container">
           <div class="maria-container__header">
-            <div class="maria-label">Import</div>
-            <button id="runImport" class="maria-button maria-button--primary">
-              Run import
-            </button>
+            <div class="maria-container__title">Import</div>
+            <div>
+              <input
+                id="importFile"
+                type="file"
+                name="file"
+                title="Import from file"
+                aria-label="Import from file"
+                accept=".json"
+              />
+              <button id="runImport" class="maria-button maria-button--primary">
+                Run import
+              </button>
+            </div>
           </div>
 
           <textarea

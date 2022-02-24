@@ -8,3 +8,12 @@
 .options-section {
   margin: 20px 0;
 }
+
+.actions {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin: 2px 0;
+  }
+}

@@ -6,8 +6,7 @@ import {
   renderFeedList,
   checkForFeedUpdates,
   getCheckUpdateButton,
-  getMarkAllReadButton,
-  markAllRead
+  setupMarkAllReadButton
 } from './helpers';
 import getStorage from '@/utils/getStorage';
 
@@ -16,12 +15,7 @@ async function run() {
   await browser.browserAction.setBadgeText({ text: '' });
 
   const hasUnread = feeds.some((f) => f.hasUnread);
-  const marButton = getMarkAllReadButton();
-  marButton.addEventListener('click', markAllRead);
-
-  if (!hasUnread) {
-    marButton.classList.add('no-updates');
-  }
+  setupMarkAllReadButton(hasUnread);
 
   getCheckUpdateButton().addEventListener('click', checkForFeedUpdates);
   renderFeedList(feeds);

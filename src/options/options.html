@@ -15,9 +15,17 @@
         src="assets/maria_128x128.png"
         alt="Maria"
       />
-      <h1 class="maria__title">
-        Maria options
-      </h1>
+      <h1 class="maria__title">Maria options</h1>
+      <div class="flex-spacer"></div>
+      <div class="actions">
+        <button
+          id="exportImport"
+          type="button"
+          class="maria-button maria-button--primary"
+        >
+          Import and Export
+        </button>
+      </div>
     </header>
     <main>
       <div class="options-section">
@@ -28,7 +36,7 @@
         </label>
       </div>
       <div class="options-section">
-        Select number lengths to process
+        On magic number select, process lengths of
         <div class="digit-options">
           <label class="maria-tickbox">
             <input type="checkbox" name="digits" value="6" />
