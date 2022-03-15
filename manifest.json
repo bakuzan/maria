@@ -38,20 +38,6 @@
   "web_accessible_resources": ["assets/*"],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "commands": {
-    "add-links": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+0"
-      },
-      "description": "Add processed Links",
-      "global": true
-    },
-    "remove-links": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+9"
-      },
-      "description": "Remove processed Links",
-      "global": true
-    },
     "open-tab-store": {
       "suggested_key": {
         "default": "Alt+Shift+1"
@@ -61,9 +47,16 @@
     },
     "store-tab": {
       "suggested_key": {
-        "default": "Alt+Shift+0"
+        "default": "Alt+Shift+S"
       },
-      "description": "Send current store to tab store",
+      "description": "Send current tab to tab store",
+      "global": true
+    },
+    "store-tabs-after": {
+      "suggested_key": {
+        "default": "Alt+Shift+A"
+      },
+      "description": "Send tabs after current to tab store",
       "global": true
     }
   },

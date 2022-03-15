@@ -4,7 +4,7 @@ import { BASE_JURI_URL, PageAction } from '@/consts';
 import handleMagicNumberSelect from '@/utils/handleMagicNumberSelect';
 import openWindow from '@/utils/openWindow';
 import getActiveTab from '@/utils/getActiveTab';
-import storeTabs from '@/utils/storeTabs';
+import storeTabs, { storeTabsAfter, storeTabsBefore } from '@/utils/storeTabs';
 import openNewTabStore from '@/utils/openNewTabStore';
 import { log } from '@/log';
 import timezoneConversion from '@/utils/timezoneConversion';
@@ -169,21 +169,11 @@ browser.contextMenus.onClicked.addListener(async function (info) {
         break;
 
       case MariaContextMenuOption.TabStoreStoreTabsAfter:
-        const tabsAfterCurrent = await browser.tabs.query({}).then((tabs) => {
-          const index = tabs.findIndex((t) => t.id === activeTab.id);
-          return tabs.slice(index + 1);
-        });
-
-        await storeTabs(tabsAfterCurrent);
+        await storeTabsAfter(activeTab);
         break;
 
       case MariaContextMenuOption.TabStoreStoreTabsBefore:
-        const tabsBeforeCurrent = await browser.tabs.query({}).then((tabs) => {
-          const index = tabs.findIndex((t) => t.id === activeTab.id);
-          return tabs.slice(0, index);
-        });
-
-        await storeTabs(tabsBeforeCurrent);
+        await storeTabsBefore(activeTab);
         break;
 
       default:

@@ -52,3 +52,21 @@ export default async function storeTabs(tabs: TabLinks[]) {
 
   await reloadTabStores();
 }
+
+export async function storeTabsAfter(activeTab: TabLinks) {
+  const tabsAfterCurrent = await browser.tabs.query({}).then((tabs) => {
+    const index = tabs.findIndex((t) => t.id === activeTab.id);
+    return tabs.slice(index + 1);
+  });
+
+  await storeTabs(tabsAfterCurrent);
+}
+
+export async function storeTabsBefore(activeTab: TabLinks) {
+  const tabsBeforeCurrent = await browser.tabs.query({}).then((tabs) => {
+    const index = tabs.findIndex((t) => t.id === activeTab.id);
+    return tabs.slice(0, index);
+  });
+
+  await storeTabs(tabsBeforeCurrent);
+}
