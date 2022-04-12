@@ -64,6 +64,41 @@
           </label>
         </div>
       </div>
+      <div class="options-section">
+        Redirect settings
+        <div>
+          <ul id="redirectSettings" class="redirect-settings"></ul>
+          <div class="add-redirect-box">
+            <div class="add-redirect-box__title">Add new redirect</div>
+            <input
+              id="fromPattern"
+              type="text"
+              name="fromPattern"
+              placeholder="Enter a match pattern"
+            />
+            ->
+            <input
+              id="toPattern"
+              type="text"
+              name="toPattern"
+              placeholder="Enter a redirect to pattern"
+            />
+            <div
+              id="addRedirectMessages"
+              class="add-redirect-box__messages"
+            ></div>
+            <div class="add-redirect-box__buttons">
+              <button
+                id="addRedirect"
+                type="button"
+                class="maria-button maria-button--primary"
+              >
+                Add redirect
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>
