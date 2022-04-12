@@ -1,5 +1,6 @@
 import { Feed } from '@/types/Feed';
 import { MariaStore } from '@/types/MariaStore';
+import { Redirect } from '@/types/Redirect';
 import { TabGroup, StoredTab } from '@/types/TabGroup';
 
 import generateUniqueId from '@/utils/generateUniqueId';
@@ -19,7 +20,7 @@ export default function processImportedValue(input: Partial<MariaStore>) {
   const feeds: Feed[] = [];
 
   for (const item of inputFeeds) {
-    if (!item.link || !item.name) {
+    if (!item.link || !item.link.trim() || !item.name || !item.name.trim()) {
       messages.push('Skipped a feed as it did not have a name or url.');
       continue;
     }
@@ -28,6 +29,28 @@ export default function processImportedValue(input: Partial<MariaStore>) {
       name: item.name,
       link: item.link,
       hasUnread: false
+    });
+  }
+
+  // Redirects processing
+  const inputRedirects = input.redirects ?? [];
+  const redirects: Redirect[] = [];
+
+  for (const item of inputRedirects) {
+    if (
+      !item.fromPattern ||
+      !item.fromPattern.trim() ||
+      !item.toPattern ||
+      !item.toPattern.trim()
+    ) {
+      messages.push('Skipped a redirect as it did not have a both patterns.');
+      continue;
+    }
+
+    redirects.push({
+      id: generateUniqueId(),
+      fromPattern: item.fromPattern,
+      toPattern: item.toPattern
     });
   }
 
@@ -46,7 +69,7 @@ export default function processImportedValue(input: Partial<MariaStore>) {
     }
 
     for (const entry of item.items) {
-      if (!entry.url) {
+      if (!entry.url || !entry.url.trim()) {
         messages.push('Skipped a stored tab as it did not have a url.');
         continue;
       }
