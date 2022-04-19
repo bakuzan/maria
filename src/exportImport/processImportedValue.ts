@@ -89,5 +89,9 @@ export default function processImportedValue(input: Partial<MariaStore>) {
     });
   }
 
-  return { success: true, data: { digitOptions, feeds, tabGroups }, messages };
+  return {
+    success: true,
+    data: { digitOptions, feeds, redirects, tabGroups },
+    messages
+  };
 }

@@ -27,7 +27,9 @@ async function importProcessor(importValue: string) {
       feedback.classList.add(activeClass);
       feedback.textContent = processed.messages.join('\r\n') || 'Done.';
 
-      const { digitOptions, feeds, tabGroups, ...store } = await getStorage();
+      const { digitOptions, feeds, tabGroups, redirects, ...store } =
+        await getStorage();
+
       const newDigitOptions = processed.data.digitOptions.length
         ? processed.data.digitOptions
         : digitOptions;
@@ -40,10 +42,15 @@ async function importProcessor(importValue: string) {
         uniqueItemsFilter((x) => x.link)
       );
 
+      const newRedirects = [...redirects, ...processed.data.redirects].filter(
+        uniqueItemsFilter((x) => `${x.fromPattern}_${x.toPattern}`)
+      );
+
       await browser.storage.local.set({
         ...store,
         digitOptions: newDigitOptions,
         feeds: newFeeds,
+        redirects: newRedirects,
         tabGroups: newGroups
       });
 
