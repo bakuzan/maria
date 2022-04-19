@@ -5,18 +5,21 @@
   "version": "3.0.0",
   "author": "Bakuzan",
   "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "webNavigation",
     "tabs",
     "notifications",
     "storage",
     "contextMenus",
     "downloads",
-    "http://*/",
-    "https://*/",
+    "http://*/*",
+    "https://*/*",
     "unlimitedStorage"
   ],
   "background": {
     "page": "background.html",
-    "persistent": false
+    "persistent": true
   },
   "browser_action": {
     "default_popup": "popup.html",
