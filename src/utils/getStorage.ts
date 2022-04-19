@@ -5,6 +5,7 @@ import { MariaStore } from '@/types/MariaStore';
 export const storageDefaults = {
   digitOptions: [6, 5],
   feeds: [],
+  redirects: [],
   shouldPlayGreeting: false,
   tabGroups: []
 };

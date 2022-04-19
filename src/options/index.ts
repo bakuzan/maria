@@ -5,6 +5,8 @@ import { browser } from 'webextension-polyfill-ts';
 import getStorage from '@/utils/getStorage';
 import { reloadImportAndExport } from '@/utils/reloadMariaPages';
 
+import setupRedirectSettings from './setupRedirectSettings';
+
 async function saveGreeting(event: InputEvent) {
   const items = await getStorage();
   const target = event.target as HTMLInputElement;
@@ -71,6 +73,8 @@ async function run() {
         url: browser.runtime.getURL('exportImport.html')
       })
   );
+
+  setupRedirectSettings();
 }
 
 run();
