@@ -1,6 +1,9 @@
 import { MariaStore } from '@/types/MariaStore';
 import getStorage from '@/utils/getStorage';
 
+const getDateTimeUTCForFileName = () =>
+  new Date().toISOString().replace(/\:/g, '-').replace(/\./g, '-');
+
 let timer = 0;
 
 function setupCopier(data: MariaStore) {
@@ -43,6 +46,7 @@ export default async function exportHandler() {
   exportButton.addEventListener('click', async () => {
     const exportValue = JSON.stringify(data, null, 2);
     const fileBlob = new Blob([exportValue]);
-    download(fileBlob, 'maria.json');
+    const fileNameSafeTimestamp = getDateTimeUTCForFileName();
+    download(fileBlob, `maria-${fileNameSafeTimestamp}.json`);
   });
 }
