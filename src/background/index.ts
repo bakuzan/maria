@@ -14,6 +14,7 @@ import { log } from '@/log';
 
 // Caches for redirect requests
 let redirects = [];
+let shouldRedirect = true;
 const redirectThreshold = 3;
 const ignoreNextRequest = {};
 const justRedirected = {};
@@ -25,6 +26,7 @@ async function startup() {
 
   // cache redirects
   redirects = store.redirects;
+  shouldRedirect = store.shouldRedirect;
 
   if (store.shouldPlayGreeting) {
     const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
@@ -42,6 +44,11 @@ browser.runtime.onStartup.addListener(function () {
 });
 
 function onPageRequest(details: RedirectDetails): WebRequest.BlockingResponse {
+  if (!shouldRedirect) {
+    // If redirects are turned off just ignore everything
+    return {};
+  }
+
   if (details.method !== 'GET') {
     return {};
   }
@@ -117,9 +124,11 @@ function onPageRequest(details: RedirectDetails): WebRequest.BlockingResponse {
  * We also have to monitor the store, so we can refresh redirects cache.
  */
 browser.storage.onChanged.addListener(function (changes) {
-  if (changes.redirects) {
+  if (changes.redirects || changes.shouldRedirect) {
     getStorage().then((store) => {
       redirects = store.redirects;
+      shouldRedirect = store.shouldRedirect;
+      log('Updated shouldRedirect', shouldRedirect);
       log('Updated redirects', redirects);
     });
   }

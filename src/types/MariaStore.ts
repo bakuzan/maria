@@ -7,5 +7,6 @@ export interface MariaStore {
   feeds: Feed[];
   redirects: Redirect[];
   shouldPlayGreeting: boolean;
+  shouldRedirect: boolean;
   tabGroups: TabGroup[];
 }

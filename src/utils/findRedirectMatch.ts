@@ -1,3 +1,4 @@
+import { log } from '@/log';
 import { Redirect, RedirectResult } from '@/types/Redirect';
 
 function convertWildcardToRegex(pattern: string) {
@@ -26,11 +27,11 @@ export default function findRedirectMatch(
   for (let rule of redirects) {
     const filter = new RegExp(convertWildcardToRegex(rule.fromPattern), 'gi');
     const matches = filter.exec(url);
-    console.log(`FIND >> `, rule, filter, matches);
+
     if (!matches || matches.length === 0) {
       continue;
     }
-
+    log(`Found redirect match, `, rule, filter, matches);
     let resultUrl = rule.toPattern;
 
     for (let i = matches.length - 1; i > 0; i--) {

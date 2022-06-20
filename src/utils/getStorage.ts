@@ -7,6 +7,7 @@ export const storageDefaults = {
   feeds: [],
   redirects: [],
   shouldPlayGreeting: false,
+  shouldRedirect: true,
   tabGroups: []
 };
 

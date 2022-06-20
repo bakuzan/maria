@@ -40,6 +40,18 @@ async function saveOption(event: InputEvent) {
   await reloadImportAndExport();
 }
 
+async function saveRedirect(event: InputEvent) {
+  const items = await getStorage();
+  const target = event.target as HTMLInputElement;
+
+  await browser.storage.local.set({
+    ...items,
+    shouldRedirect: target.checked
+  });
+
+  await reloadImportAndExport();
+}
+
 async function restoreOptions() {
   const items = await getStorage();
   const greeting =
@@ -53,6 +65,11 @@ async function restoreOptions() {
     (node) =>
       (node.checked = items.digitOptions.some((x) => x === Number(node.value)))
   );
+
+  const redirect =
+    document.querySelector<HTMLInputElement>(`[name='redirect']`);
+
+  redirect.checked = items.shouldRedirect;
 }
 
 async function run() {
@@ -64,6 +81,10 @@ async function run() {
   Array.from(document.querySelectorAll(`[name='digits']`)).forEach((node) =>
     node.addEventListener('change', saveOption)
   );
+
+  document
+    .querySelector(`[name='redirect']`)
+    .addEventListener('change', saveRedirect);
 
   document.getElementById('exportImport').addEventListener(
     'click',
