@@ -30,9 +30,10 @@ function feedItemIcon(isUnread: boolean, isLoading: boolean) {
 export function createFeedItem(item: Feed, isLoading = false) {
   const favicon = `${getUrlOrigin(item.link)}/favicon.ico`;
   const hasUpdate = feedItemIcon(item.hasUnread, isLoading);
+  const itemLink = item.link ? `data-link="${item.link}"` : '';
 
   return `
-  <li class="feed__item" data-link="${item.link}">
+  <li class="feed__item" ${itemLink}>
     <button 
       type="button" 
       class="maria-button remove-button" 

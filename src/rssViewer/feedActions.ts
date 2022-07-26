@@ -29,12 +29,14 @@ export function updateFeedMetaData(feeds: Feed[]) {
   hasUnread
     ? marButton.classList.remove('no-updates')
     : marButton.classList.add('no-updates');
+
+  log(`Feeds: `, feeds);
 }
 
 export async function onRemoveFeed(event: Event) {
   const t = this as HTMLButtonElement;
   const parent = t.parentElement;
-  const link = parent.getAttribute('data-link');
+  const link = parent.getAttribute('data-link') ?? undefined;
 
   const store = await getStorage();
   const feeds = store.feeds.filter((f) => f.link !== link);
@@ -106,6 +108,7 @@ export async function onFeedSelect(event: Event) {
     viewer.innerHTML = `
       <div>
         <p>Failed to load feed.</p>
+        <p>Url: ${link}</p>
         <pre>
           ${e.message}
         </pre>
