@@ -19,6 +19,9 @@ export default async function storeTabs(tabs: TabLinks[]) {
     isLocked: false
   };
 
+  const lastNotLocked = groups.filter((x) => !x.isLocked).pop();
+  const nonMatchedGroup = tabs.length === 1 ? lastNotLocked : newGroup;
+
   tabs.forEach((tab) => {
     const matchedGroup = groups.find(
       (x) =>
@@ -26,7 +29,7 @@ export default async function storeTabs(tabs: TabLinks[]) {
         x.patterns.some((p) => tab.url.match(new RegExp(p)))
     );
 
-    const targetGroup = matchedGroup ?? newGroup;
+    const targetGroup = matchedGroup ?? nonMatchedGroup ?? newGroup;
     targetGroup.items.push({
       title: tab.title,
       url: tab.url

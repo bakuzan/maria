@@ -1,3 +1,5 @@
+@import '../styles/_toast.scss';
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -52,17 +54,21 @@
   margin: 12px 5px;
   font-size: 1rem;
 
+  &__icon {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.check-updates-button,
+.mark-all-read-button,
+.store-latest-button {
   &:focus,
   &:hover,
   &:active {
     background-color: var(--primary-colour);
     color: var(--primary-colour-contrast);
-  }
-
-  &__icon {
-    display: block;
-    width: 1rem;
-    height: 1rem;
   }
 }
 

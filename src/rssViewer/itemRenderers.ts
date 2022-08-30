@@ -70,6 +70,7 @@ function createFeedEntry(item: Parser.Item) {
           rel="noopener noreferrer nofollow">
           ${item.title}
         </a>
+        <button class="maria-button store-latest-button">Store</button>
       </div>
       ${content}
     </li>

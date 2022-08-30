@@ -4,6 +4,7 @@ import Parser from 'rss-parser';
 import { Feed } from '@/types/Feed';
 
 import { renderFeed } from './itemRenderers';
+import { afterRenderFeed } from './lifecycles';
 import { LoaderHTML } from '@/consts';
 import { log } from '@/log';
 import getStorage from '@/utils/getStorage';
@@ -84,6 +85,7 @@ export async function onFeedSelect(event: Event) {
     log('Feed: ', data);
     clearTimeout(timer);
     viewer.innerHTML = renderFeed(data);
+    afterRenderFeed();
 
     const store = await getStorage();
     const feeds = store.feeds.map((f) =>
