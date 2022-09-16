@@ -14,7 +14,7 @@
   grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
   grid-template-areas: 'feeds feeds content content content content content content';
-  min-height: calc(100vh - 135px);
+  height: calc(100vh - 135px);
 
   &__title {
     font-size: 1.5rem;
@@ -43,6 +43,7 @@
   &__content {
     grid-area: content;
     border: 1px solid var(--rss-viewer-sidebar-background-colour);
+    overflow: auto;
   }
 }
 
@@ -184,5 +185,7 @@
 
   &__content {
     padding: 5px 0;
+    max-height: 100px;
+    overflow: hidden;
   }
 }
