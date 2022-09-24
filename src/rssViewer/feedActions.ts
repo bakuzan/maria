@@ -85,7 +85,7 @@ export async function onFeedSelect(event: Event) {
     log('Feed: ', data);
     clearTimeout(timer);
     viewer.innerHTML = renderFeed(data);
-    afterRenderFeed();
+    afterRenderFeed(viewer);
 
     const store = await getStorage();
     const feeds = store.feeds.map((f) =>

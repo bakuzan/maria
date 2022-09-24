@@ -1,7 +1,7 @@
 import storeTabs from '@/utils/storeTabs';
 import toaster from '@/utils/toaster';
 
-export function afterRenderFeed() {
+export function afterRenderFeed(viewer: HTMLElement) {
   const buttons = document.querySelectorAll<HTMLButtonElement>(
     '.store-latest-button'
   );
@@ -9,6 +9,9 @@ export function afterRenderFeed() {
   Array.from(buttons).forEach((btnElement) =>
     btnElement.addEventListener('click', onStoreButtonClick)
   );
+
+  // ensure scroll position is reset.
+  viewer.scrollTop = 0;
 }
 
 async function onStoreButtonClick() {
