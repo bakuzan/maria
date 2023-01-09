@@ -1,4 +1,4 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 
 import malPageProcessing from './onUpdated/malPage';
 import rssFeedProcessing from './onUpdated/rssFeed';

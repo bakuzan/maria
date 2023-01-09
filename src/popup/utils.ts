@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { MariaAction } from '@/consts';
 import getActiveTab from '@/utils/getActiveTab';

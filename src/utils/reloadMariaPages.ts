@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 async function reloadPages(pageName: string) {
   // Reload any open tabStore.html tabs

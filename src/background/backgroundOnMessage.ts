@@ -1,4 +1,4 @@
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import browser, { Runtime } from 'webextension-polyfill';
 
 import downloadContext from './DownloadContext';
 import { MariaAction, erzaGQL } from '@/consts';

@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import getStorage from '@/utils/getStorage';
 import reloadMariaPages from '@/utils/reloadMariaPages';

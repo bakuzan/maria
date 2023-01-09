@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import Sortable from 'sortablejs';
 
 import getViewToggleSVG from './getViewToggleSVG';

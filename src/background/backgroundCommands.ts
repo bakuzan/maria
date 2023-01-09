@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import getActiveTab from '@/utils/getActiveTab';
 import storeTabs, { storeTabsAfter } from '@/utils/storeTabs';

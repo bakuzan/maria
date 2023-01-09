@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import './options.scss';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import getStorage from '@/utils/getStorage';
 import { reloadImportAndExport } from '@/utils/reloadMariaPages';

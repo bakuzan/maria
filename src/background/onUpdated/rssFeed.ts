@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { PageAction } from '@/consts';
 import { FeedCheck } from '@/types/FeedCheck';

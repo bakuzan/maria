@@ -2,7 +2,7 @@ import './backgroundCommands';
 import './backgroundContextMenu';
 import './backgroundOnMessage';
 import './backgroundOnUpdated';
-import { browser, WebRequest } from 'webextension-polyfill-ts';
+import browser, { WebRequest } from 'webextension-polyfill';
 import { RedirectDetails } from '@/types/Redirect';
 
 import { MariaAssetFileNames } from '@/consts';

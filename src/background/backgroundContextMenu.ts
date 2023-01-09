@@ -1,4 +1,4 @@
-import { browser, Menus } from 'webextension-polyfill-ts';
+import browser, { Menus } from 'webextension-polyfill';
 
 import { BASE_JURI_URL, PageAction } from '@/consts';
 import handleMagicNumberSelect from '@/utils/handleMagicNumberSelect';

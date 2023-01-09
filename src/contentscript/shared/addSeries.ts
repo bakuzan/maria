@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { MariaAction, monthNames, excludedTags, LoaderHTML } from '@/consts';
 import { ContentResponse } from '@/types/ContentResponse';
@@ -12,9 +12,8 @@ import seriesPageButton from './seriesPageButton';
 
 /* Functions */
 function getMalId() {
-  const mid: HTMLInputElement | null = document.querySelector(
-    `input[name='mid']`
-  );
+  const mid: HTMLInputElement | null =
+    document.querySelector(`input[name='mid']`);
 
   if (!mid) {
     const [idSlug] = window.location.pathname.match(/\/\d+\/|\/\d+$/);
@@ -118,7 +117,7 @@ async function postSeries(isAnime: boolean, series: SeriesPayload) {
       series
     });
 
-    const response = (res as unknown) as ContentResponse;
+    const response = res as unknown as ContentResponse;
 
     if (response && response.success) {
       toaster('success', `Posted ${response.data.title}.`);

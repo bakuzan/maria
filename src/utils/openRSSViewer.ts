@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 export default async function openRSSViewer() {
   const targetTabUrl = browser.runtime.getURL('rssViewer.html');

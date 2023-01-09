@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import './rssViewer.scss';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import {
   renderFeedList,

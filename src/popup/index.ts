@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import './popup.scss';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { FeedCheck } from '@/types/FeedCheck';
 
