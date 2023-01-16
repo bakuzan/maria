@@ -17,11 +17,11 @@ describe('updateBadge', () => {
   it('should set badge text when has no feed updates', async () => {
     const input = [{ name: 'nohing', link: 'https', hasUnread: false }];
 
-    mockBrowser.browserAction.setBadgeBackgroundColor
+    mockBrowser.action.setBadgeBackgroundColor
       .expect(expect.anything())
       .times(1);
 
-    mockBrowser.browserAction.setBadgeText.expect({ text: '' }).times(1);
+    mockBrowser.action.setBadgeText.expect({ text: '' }).times(1);
 
     await updateBadge(input);
   });
@@ -29,11 +29,11 @@ describe('updateBadge', () => {
   it('should set badge text when has feed updates', async () => {
     const input = [{ name: 'nohing', link: 'https', hasUnread: true }];
 
-    mockBrowser.browserAction.setBadgeBackgroundColor
+    mockBrowser.action.setBadgeBackgroundColor
       .expect(expect.anything())
       .times(1);
 
-    mockBrowser.browserAction.setBadgeText.expect({ text: '1' }).times(1);
+    mockBrowser.action.setBadgeText.expect({ text: '1' }).times(1);
 
     await updateBadge(input);
   });

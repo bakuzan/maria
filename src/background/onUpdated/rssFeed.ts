@@ -17,13 +17,13 @@ export default async function rssFeedProcessing(tabId: number) {
       return;
     }
 
-    await browser.browserAction.setBadgeText({ text: '!', tabId });
-    await browser.browserAction.setBadgeBackgroundColor({
+    await browser.action.setBadgeText({ text: '!', tabId });
+    await browser.action.setBadgeBackgroundColor({
       color: `#ffa500`,
       tabId
     });
   } else {
-    const text = await browser.browserAction.getBadgeText({});
+    const text = await browser.action.getBadgeText({});
 
     if (!text) {
       const unreadFeeds = await getUnreadFeeds();

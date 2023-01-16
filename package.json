@@ -1,6 +1,6 @@
 {
   "name": "maria",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Utility extension for personal use.",
   "scripts": {
     "start": "echo 'To run the app in dev mode use: npm run watch'",

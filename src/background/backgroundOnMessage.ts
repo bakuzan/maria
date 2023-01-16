@@ -104,7 +104,7 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
 
       downloadContext.zipping();
       const content = await zip.generateAsync({ type: 'blob' });
-      const url = window.URL.createObjectURL(content);
+      const url = window.URL.createObjectURL(content); // TODO, this wont work in manifest v3
 
       await browser.downloads.download({
         url,
@@ -113,7 +113,7 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
       });
 
       downloadContext.reset();
-      window.URL.revokeObjectURL(url);
+      window.URL.revokeObjectURL(url); // TODO, this wont work in manifest v3
 
       break;
     }

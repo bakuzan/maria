@@ -13,11 +13,11 @@ const waitForIt = (delay: number = 100) =>
 export async function updateBadge(updates: Feed[]) {
   const unreadCount = updates.filter((x) => x.hasUnread).length;
 
-  await browser.browserAction.setBadgeBackgroundColor({
+  await browser.action.setBadgeBackgroundColor({
     color: `#0070ff`
   });
 
-  await browser.browserAction.setBadgeText({
+  await browser.action.setBadgeText({
     text: unreadCount ? `${unreadCount}` : ''
   });
 }

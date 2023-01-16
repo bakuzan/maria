@@ -58,8 +58,8 @@ class DownloadTracker {
   }
 
   private async updateBadge(text?: string) {
-    await browser.browserAction.setBadgeText({ text });
-    await browser.browserAction.setBadgeBackgroundColor({
+    await browser.action.setBadgeText({ text });
+    await browser.action.setBadgeBackgroundColor({
       color: `#800080`
     });
   }

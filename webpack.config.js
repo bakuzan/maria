@@ -59,7 +59,6 @@ module.exports = {
       chunkFilename: '[id].css'
     }),
     ...[
-      'background',
       'options',
       'popup',
       'tabStore',
