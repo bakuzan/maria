@@ -7,14 +7,14 @@ import { SeriesPayload } from '@/types/SeriesPayload';
 import toaster from '@/utils/toaster';
 import getNode from '@/utils/getNode';
 import isValidDate from '@/utils/isValidDate';
+import { capitalise } from '@/utils/capitalise';
 
 import seriesPageButton from './seriesPageButton';
 
 /* Functions */
 function getMalId() {
-  const mid: HTMLInputElement | null = document.querySelector(
-    `input[name='mid']`
-  );
+  const mid: HTMLInputElement | null =
+    document.querySelector(`input[name='mid']`);
 
   if (!mid) {
     const [idSlug] = window.location.pathname.match(/\/\d+\/|\/\d+$/);
@@ -57,6 +57,16 @@ function commonElements(isAnime: boolean) {
 
   const isAdult = tagString.includes('hentai');
 
+  const relationLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(
+      `.anime_detail_related_anime a`
+    )
+  );
+
+  const relations = relationLinks
+    .map((x) => x.href.split('/').slice(3, 5))
+    .map(([type, malId]) => ({ type: capitalise(type), malId: Number(malId) }));
+
   return {
     malId,
     title: getCleanTitle(
@@ -68,7 +78,8 @@ function commonElements(isAnime: boolean) {
     total,
     isAdult,
     status: 'Planned',
-    tagString: isAdult ? '' : tagString
+    tagString: isAdult ? '' : tagString,
+    relations
   };
 }
 
@@ -118,7 +129,7 @@ async function postSeries(isAnime: boolean, series: SeriesPayload) {
       series
     });
 
-    const response = (res as unknown) as ContentResponse;
+    const response = res as unknown as ContentResponse;
 
     if (response && response.success) {
       toaster('success', `Posted ${response.data.title}.`);

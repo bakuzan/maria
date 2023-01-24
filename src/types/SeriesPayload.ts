@@ -1,3 +1,8 @@
+interface SeriesRelation {
+  type: string;
+  malId: number;
+}
+
 export interface SeriesPayload {
   malId: number;
   title: string;
@@ -6,6 +11,7 @@ export interface SeriesPayload {
   isAdult: boolean;
   status: 'Planned';
   tagString: string;
+  relations: SeriesRelation[];
 }
 
 export interface Manga extends SeriesPayload {
