@@ -25,11 +25,11 @@ it('should execute toaster call in active tab', async () => {
     .andResolve([tabExample])
     .times(1);
 
-  mockBrowser.tabs.executeScript.spy(spyFn).times(1);
+  mockBrowser.scripting.executeScript.spy(spyFn).times(1);
 
   await userFeedback('error', input);
 
-  const [call] = mockBrowser.tabs.executeScript.getMockCalls();
+  const [call] = mockBrowser.scripting.executeScript.getMockCalls();
 
   expect(call).toEqual([testTabId, expect.anything()]);
   expect(call.pop().code.includes('.toaster(')).toBeTruthy();
@@ -45,7 +45,7 @@ it('should log failure', async () => {
     .andResolve([tabExample])
     .times(1);
 
-  mockBrowser.tabs.executeScript.mock(() => {
+  mockBrowser.scripting.executeScript.mock(() => {
     throw expected;
   });
 

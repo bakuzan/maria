@@ -26,12 +26,12 @@ xit('should open window if selection is valid', async () => {
     .andResolve([tabExample])
     .times(1);
 
-  mockBrowser.tabs.executeScript.spy(spyFn).times(1);
+  mockBrowser.scripting.executeScript.spy(spyFn).times(1);
 
   handleMagicNumberSelect(input);
 
-  const [call] = mockBrowser.tabs.executeScript.getMockCalls(); // TODO is returning undefined?
-  const outputCode = call.pop().code;
+  const [call] = mockBrowser.scripting.executeScript.getMockCalls(); // TODO is returning undefined?
+  const outputCode = ''; // call?.pop()?.code;
 
   expect(call).toEqual([testTabId, expect.anything()]);
   expect(outputCode.includes('window.open')).toBeTruthy();
@@ -47,12 +47,12 @@ xit('should send user feedback if not valid selection', async () => {
     .andResolve([tabExample])
     .times(1);
 
-  mockBrowser.tabs.executeScript.spy(spyFn).times(1);
+  mockBrowser.scripting.executeScript.spy(spyFn).times(1);
 
   handleMagicNumberSelect(input);
 
-  const [call] = mockBrowser.tabs.executeScript.getMockCalls(); // TODO is returning undefined?
-  const outputCode = call.pop().code;
+  const [call] = mockBrowser.scripting.executeScript.getMockCalls(); // TODO is returning undefined?
+  const outputCode = ''; // call?.pop()?.code;
 
   expect(call).toEqual([testTabId, expect.anything()]);
   expect(outputCode.includes('warning')).toBeTruthy();
@@ -67,7 +67,7 @@ it('should do nothing for invalid selection with alerts turned off', async () =>
   const spyFn2 = jest.fn();
 
   mockBrowser.tabs.query.mock(spyFn);
-  mockBrowser.tabs.executeScript.mock(spyFn2);
+  mockBrowser.scripting.executeScript.mock(spyFn2);
 
   handleMagicNumberSelect(input, false);
 

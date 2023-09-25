@@ -6,7 +6,7 @@
   "author": "Bakuzan",
   "permissions": [
     "webRequest",
-    "webRequestBlocking",
+    "declarativeNetRequest",
     "webNavigation",
     "tabs",
     "notifications",
@@ -50,7 +50,7 @@
   "commands": {
     "open-tab-store": {
       "suggested_key": {
-        "default": "Alt+Shift+1"
+        "default": "Alt+Shift+Q"
       },
       "description": "Open tab store management tab",
       "global": true

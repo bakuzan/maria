@@ -12,7 +12,7 @@ it('should execute processLinks script', () => {
   const callback = jest.fn();
   const executeSpy = jest.fn();
 
-  mockBrowser.tabs.executeScript.spy(executeSpy);
+  mockBrowser.scripting.executeScript.spy(executeSpy);
 
   processLinks(tabId, callback);
 
@@ -31,7 +31,7 @@ it('should execute removeLinks script', () => {
   const callback = jest.fn();
   const executeSpy = jest.fn();
 
-  mockBrowser.tabs.executeScript.spy(executeSpy);
+  mockBrowser.scripting.executeScript.spy(executeSpy);
 
   removeLinks(tabId, callback);
 

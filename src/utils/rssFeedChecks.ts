@@ -8,7 +8,7 @@ import { log, reportError } from '@/log';
 const feedReader = new Parser();
 
 const waitForIt = (delay: number = 100) =>
-  new Promise((resolve) => window.setTimeout(resolve, delay));
+  new Promise((resolve) => setTimeout(resolve, delay));
 
 export async function updateBadge(updates: Feed[]) {
   const unreadCount = updates.filter((x) => x.hasUnread).length;

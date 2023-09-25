@@ -6,7 +6,7 @@ const [browser, mockBrowser, mockBrowserNode] = deepMock<Browser>(
   false
 );
 
-jest.mock('webextension-polyfill', () => ({ browser }));
+jest.mock('webextension-polyfill', () => browser);
 
 export { mockBrowser, mockBrowserNode };
 

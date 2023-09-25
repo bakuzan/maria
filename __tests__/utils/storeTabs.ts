@@ -18,22 +18,6 @@ const storeTabsToBeReloaded = [
   }
 ];
 
-const getRandomValues = jest
-  .fn()
-  .mockImplementation(() => new Uint8Array(1).fill(16));
-
-beforeAll(() => {
-  Object.defineProperty(window, 'crypto', {
-    get: () => ({
-      getRandomValues
-    })
-  });
-});
-
-beforeEach(() => {
-  getRandomValues.mockClear();
-});
-
 function setup(storeValues: { [s: string]: any }, removeTabCount: number) {
   mockBrowser.storage.local.get
     .expect(storageDefaults)
@@ -72,7 +56,6 @@ it('should store tab links', async () => {
   const { tabGroups } = call[0];
   const linkItem = tabGroups[0].items[0];
 
-  expect(getRandomValues).toHaveBeenCalled();
   expect(tabGroups.length).toEqual(1);
   expect(tabGroups[0].items.length).toEqual(1);
   expect(linkItem.title).toEqual(input[0].title);
@@ -102,7 +85,6 @@ it('should store tab links that match an existing pattern group', async () => {
   const { tabGroups } = call[0];
   const currentGroup = tabGroups[0];
 
-  expect(getRandomValues).toHaveBeenCalled();
   expect(tabGroups.length).toEqual(1);
   expect(currentGroup.items.length).toEqual(1);
 
