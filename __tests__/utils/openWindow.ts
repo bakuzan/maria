@@ -1,10 +1,4 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import openWindow from '../../src/utils/openWindow';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const testTabId = 1066;
 const tabExample = {
@@ -29,10 +23,11 @@ it('should execute window.open in active tab', async () => {
 
   await openWindow(inputUrl);
 
-  const [call] = mockBrowser.scripting.executeScript.getMockCalls();
+  const [[call]] = mockBrowser.scripting.executeScript.getMockCalls();
 
-  expect(call).toEqual([testTabId, expect.anything()]);
-  expect(call.pop().code.includes('window.open')).toBeTruthy();
+  expect(call.args).toEqual([inputUrl]);
+  expect(call.target.tabId).toEqual(testTabId);
+  expect(call?.func?.toString().includes('openNewTab')).toBeTruthy();
 });
 
 it('should log failure', async () => {

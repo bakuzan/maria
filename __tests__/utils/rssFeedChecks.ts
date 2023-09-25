@@ -1,5 +1,4 @@
 import Parser, { mockParseURL } from '../../__mocks__/rss-parser';
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
 
 import {
   checkFeedsForUpdates,
@@ -8,10 +7,6 @@ import {
   updateBadge
 } from '../../src/utils/rssFeedChecks';
 import { storageDefaults } from '../../src/utils/getStorage';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 describe('updateBadge', () => {
   it('should set badge text when has no feed updates', async () => {

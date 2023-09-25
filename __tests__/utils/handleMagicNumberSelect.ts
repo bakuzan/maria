@@ -1,11 +1,11 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import handleMagicNumberSelect from '../../src/utils/handleMagicNumberSelect';
+import openWindow from '../../src/utils/openWindow';
+import userFeedback from '../../src/utils/userFeedback';
+
 import { BASE_LINK_URL } from '../../src/consts';
 
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
+jest.mock('../../src/utils/openWindow');
+jest.mock('../../src/utils/userFeedback');
 
 const testTabId = 1066;
 const tabExample = {
@@ -17,48 +17,23 @@ const tabExample = {
   incognito: false
 };
 
-xit('should open window if selection is valid', async () => {
+it('should open window if selection is valid', async () => {
   const input = '12345';
-  const spyFn = jest.fn();
-
-  mockBrowser.tabs.query
-    .expect({ active: true, currentWindow: true })
-    .andResolve([tabExample])
-    .times(1);
-
-  mockBrowser.scripting.executeScript.spy(spyFn).times(1);
 
   handleMagicNumberSelect(input);
 
-  const [call] = mockBrowser.scripting.executeScript.getMockCalls(); // TODO is returning undefined?
-  const outputCode = ''; // call?.pop()?.code;
-
-  expect(call).toEqual([testTabId, expect.anything()]);
-  expect(outputCode.includes('window.open')).toBeTruthy();
-  expect(outputCode.includes(`${BASE_LINK_URL}${input}`)).toBeTruthy();
+  expect(openWindow).toHaveBeenCalledWith(`${BASE_LINK_URL}${input}`);
 });
 
-xit('should send user feedback if not valid selection', async () => {
+it('should send user feedback if not valid selection', async () => {
   const input = 'qwerty';
-  const spyFn = jest.fn();
-
-  mockBrowser.tabs.query
-    .expect({ active: true, currentWindow: true })
-    .andResolve([tabExample])
-    .times(1);
-
-  mockBrowser.scripting.executeScript.spy(spyFn).times(1);
 
   handleMagicNumberSelect(input);
 
-  const [call] = mockBrowser.scripting.executeScript.getMockCalls(); // TODO is returning undefined?
-  const outputCode = ''; // call?.pop()?.code;
-
-  expect(call).toEqual([testTabId, expect.anything()]);
-  expect(outputCode.includes('warning')).toBeTruthy();
-  expect(
-    outputCode.includes('The current selection is not a valid magic number')
-  ).toBeTruthy();
+  expect(userFeedback).toHaveBeenCalledWith(
+    'warning',
+    'The current selection is not a valid magic number'
+  );
 });
 
 it('should do nothing for invalid selection with alerts turned off', async () => {

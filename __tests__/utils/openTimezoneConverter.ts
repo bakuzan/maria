@@ -1,11 +1,5 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import openTimezoneConverter from '../../src/utils/openTimezoneConverter';
 import formatDateForDisplay from '../../src/utils/formatDateForDisplay';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const testTabId = 1066;
 const tabExample = {

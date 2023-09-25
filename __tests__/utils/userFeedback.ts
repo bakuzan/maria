@@ -1,10 +1,4 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import userFeedback from '../../src/utils/userFeedback';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const testTabId = 1066;
 const tabExample = {
@@ -29,10 +23,11 @@ it('should execute toaster call in active tab', async () => {
 
   await userFeedback('error', input);
 
-  const [call] = mockBrowser.scripting.executeScript.getMockCalls();
+  const [[call]] = mockBrowser.scripting.executeScript.getMockCalls();
 
-  expect(call).toEqual([testTabId, expect.anything()]);
-  expect(call.pop().code.includes('.toaster(')).toBeTruthy();
+  expect(call.args).toEqual(['error', input]);
+  expect(call.target.tabId).toEqual(testTabId);
+  expect(call?.func?.toString().includes('.toaster(')).toBeTruthy();
 });
 
 it('should log failure', async () => {

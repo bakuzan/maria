@@ -1,11 +1,5 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import storeTabs from '../../src/utils/storeTabs';
 import { storageDefaults } from '../../src/utils/getStorage';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const storeTabsToBeReloaded = [
   {

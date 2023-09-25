@@ -1,23 +1,19 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import executeContentModule from '../../src/utils/executeContentModule';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 it('should call browser executeScript', async () => {
   const tabId = 1;
-  const code = `(async () => window.__Maria__.removeLinks())();`;
+  // const code = `(async () => window.__Maria__.removeLinks())();`;
   const spyFn = jest.fn();
 
   mockBrowser.scripting.executeScript.spy(spyFn).times(1);
 
   await executeContentModule(tabId, 'removeLinks');
 
-  const [call] = mockBrowser.scripting.executeScript.getMockCalls();
+  const [[call]] = mockBrowser.scripting.executeScript.getMockCalls();
 
-  expect(call).toEqual([tabId, { code }]);
+  expect(call?.args).toEqual(['removeLinks', '']);
+  expect(call?.target.tabId).toEqual(tabId);
+  expect(call?.func?.toString().includes('callMariaApi')).toBeTruthy();
 });
 
 /*
