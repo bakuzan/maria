@@ -156,7 +156,7 @@ browser.contextMenus.onClicked.addListener(async function (info) {
         break;
 
       case MariaContextMenuOption.TabStoreStoreLink:
-        const linkText = await browser.tabs.sendMessage(activeTab.id, {
+        const linkText: string = await browser.tabs.sendMessage(activeTab.id, {
           action: PageAction.GET_LINK_NAME,
           url: info.linkUrl
         });
