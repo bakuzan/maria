@@ -4,7 +4,7 @@ import { ToasterType } from '@/types/ToasterType';
 import getActiveTab from './getActiveTab';
 import { reportError } from '@/log';
 
-async function popMessage(type: ToasterType, message: string) {
+function popMessage(type: ToasterType, message: string) {
   window.__Maria__.toaster(type, message);
 }
 

@@ -6,6 +6,7 @@
   "author": "Bakuzan",
   "permissions": [
     "webRequest",
+    "webRequestBlocking",
     "declarativeNetRequest",
     "webNavigation",
     "tabs",
@@ -16,7 +17,7 @@
     "unlimitedStorage",
     "scripting"
   ],
-  "host_permissions": ["*://*/*", "http://*/*", "https://*/*"],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "background": {
     "service_worker": "background.js"
   },

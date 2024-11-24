@@ -25,7 +25,7 @@ async function startup() {
 
   if (store.shouldPlayGreeting) {
     const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
-    const greeting = new Audio(greetingUrl);
+    const greeting = new Audio(greetingUrl); // TODO doesnt work in sw.
     greeting.play();
   }
 

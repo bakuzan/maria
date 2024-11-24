@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-async function formatJson() {
+function formatJson() {
   const indentation = 2;
   const [pre] = Array.from(
     document.querySelectorAll("body > *:not([id^='userscript'])")

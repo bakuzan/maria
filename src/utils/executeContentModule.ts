@@ -8,7 +8,7 @@ export type ContentScriptFunction =
   | 'openSeriesInErza'
   | 'removeLinks';
 
-async function callMariaApi(func: ContentScriptFunction, arg: string) {
+function callMariaApi(func: ContentScriptFunction, arg: string) {
   window.__Maria__[func](arg);
 }
 

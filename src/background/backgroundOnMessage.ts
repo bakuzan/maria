@@ -57,7 +57,6 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
     }
 
     case MariaAction.OPEN_IN_ERZA: {
-      console.log('..', request);
       const response = await callErza(
         request.isAnime ? erzaGQL.animeExists : erzaGQL.mangaExists,
         { malId: request.malId }
@@ -89,8 +88,7 @@ async function onMessageHandler(request: any): Promise<ContentResponse> {
           downloadContext.bumpQueuedCount();
 
           queue.push(
-            window
-              .fetch(item.url)
+            fetch(item.url)
               .then((response) => response.arrayBuffer())
               .then((img) => zip.file(item.name, img))
               .then(() => downloadContext.bumpLoadedCount())

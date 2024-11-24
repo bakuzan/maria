@@ -6,9 +6,8 @@ export default async function fetcher(
   options?: RequestInit
 ): Promise<FetchResponse> {
   try {
-    const response = await window.fetch(url, options);
+    const response = await fetch(url, options);
     const data = await response.json();
-
     // For graphql queries
     if (data.hasOwnProperty('errors')) {
       return {
