@@ -1,10 +1,4 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import openNewTabStore from '../../src/utils/openNewTabStore';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const testTabId = 1066;
 const tabExample = {

@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import './rssViewer.scss';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import {
   renderFeedList,
@@ -12,7 +12,7 @@ import getStorage from '@/utils/getStorage';
 
 async function run() {
   const { feeds } = await getStorage();
-  await browser.browserAction.setBadgeText({ text: '' });
+  await browser.action.setBadgeText({ text: '' });
 
   const hasUnread = feeds.some((f) => f.hasUnread);
   setupMarkAllReadButton(hasUnread);

@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import './popup.scss';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { FeedCheck } from '@/types/FeedCheck';
 
@@ -94,7 +94,7 @@ async function run() {
         feeds: [...store.feeds, newFeedEntry]
       });
 
-      await browser.browserAction.setBadgeText({ text: '', tabId });
+      await browser.action.setBadgeText({ text: '', tabId });
 
       const btn = event.target as HTMLButtonElement;
       btn.disabled = true;

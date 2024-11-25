@@ -1,14 +1,18 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { MariaAction } from '@/consts';
 import getActiveTab from '@/utils/getActiveTab';
 import { reportError } from '@/log';
 
+type ActionResponse = {
+  success: boolean;
+};
+
 export async function buttonListener(action: MariaAction) {
   try {
     const activeTab = await getActiveTab();
 
-    const response = await browser.runtime.sendMessage({
+    const response: ActionResponse = await browser.runtime.sendMessage({
       tabID: activeTab.id,
       action
     });

@@ -1,10 +1,4 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import getStorage, { storageDefaults } from '../../src/utils/getStorage';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 it('should return defaults', async () => {
   mockBrowser.storage.local.get

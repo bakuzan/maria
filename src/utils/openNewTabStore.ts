@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 export default async function openNewTabStore() {
   const targetTabUrl = browser.runtime.getURL('tabStore.html');

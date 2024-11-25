@@ -1,5 +1,4 @@
 import Parser, { mockParseURL } from '../../__mocks__/rss-parser';
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
 
 import {
   checkFeedsForUpdates,
@@ -9,19 +8,15 @@ import {
 } from '../../src/utils/rssFeedChecks';
 import { storageDefaults } from '../../src/utils/getStorage';
 
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
-
 describe('updateBadge', () => {
   it('should set badge text when has no feed updates', async () => {
     const input = [{ name: 'nohing', link: 'https', hasUnread: false }];
 
-    mockBrowser.browserAction.setBadgeBackgroundColor
+    mockBrowser.action.setBadgeBackgroundColor
       .expect(expect.anything())
       .times(1);
 
-    mockBrowser.browserAction.setBadgeText.expect({ text: '' }).times(1);
+    mockBrowser.action.setBadgeText.expect({ text: '' }).times(1);
 
     await updateBadge(input);
   });
@@ -29,11 +24,11 @@ describe('updateBadge', () => {
   it('should set badge text when has feed updates', async () => {
     const input = [{ name: 'nohing', link: 'https', hasUnread: true }];
 
-    mockBrowser.browserAction.setBadgeBackgroundColor
+    mockBrowser.action.setBadgeBackgroundColor
       .expect(expect.anything())
       .times(1);
 
-    mockBrowser.browserAction.setBadgeText.expect({ text: '1' }).times(1);
+    mockBrowser.action.setBadgeText.expect({ text: '1' }).times(1);
 
     await updateBadge(input);
   });

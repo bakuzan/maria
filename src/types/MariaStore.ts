@@ -6,6 +6,7 @@ export interface MariaStore {
   digitOptions: number[];
   feeds: Feed[];
   redirects: Redirect[];
+  shouldCheckFeeds: boolean;
   shouldPlayGreeting: boolean;
   shouldRedirect: boolean;
   tabGroups: TabGroup[];

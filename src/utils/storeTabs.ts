@@ -1,12 +1,14 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 
 import { TabGroup, StoredTab } from '@/types/TabGroup';
 import getStorage from './getStorage';
 import generateUniqueId from './generateUniqueId';
 import { reloadTabStores } from './reloadMariaPages';
 import { uniqueItemsFilter } from './array';
+import { PartialBy } from '@/types/utils';
 
-interface TabLinks extends Pick<Tabs.Tab, 'id' | 'title' | 'url'> {}
+interface TabLinks
+  extends PartialBy<Pick<Tabs.Tab, 'id' | 'title' | 'url'>, 'id'> {}
 
 export default async function storeTabs(tabs: TabLinks[]) {
   const store = await getStorage();

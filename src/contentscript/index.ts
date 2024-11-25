@@ -8,9 +8,7 @@ import removeLinks from './removeLinks';
 import initOnMessage from './onMessage';
 import toaster from '../utils/toaster';
 
-const page = window as any;
-
-page.__Maria__ = {
+window.__Maria__ = {
   activateErzaSeries,
   addHoverListeners,
   addLinks,

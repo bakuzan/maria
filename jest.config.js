@@ -4,7 +4,7 @@ module.exports = {
   modulePathIgnorePatterns: ['dist/', '__tests__/__helpers'],
   coveragePathIgnorePatterns: ['dist/', '__tests__/__helpers'],
   moduleFileExtensions: ['js', 'json', 'ts'],
-  moduleDirectories: ['.', 'src', 'node_modules'],
+  moduleDirectories: ['<rootDir>', 'src', 'node_modules'],
   transform: {
     '^.+\\.ts?$': 'ts-jest'
   },
@@ -13,5 +13,6 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   setupFilesAfterEnv: ['./src/setupTests.ts'],
-  collectCoverageFrom: ['./src/**/*.ts']
+  collectCoverageFrom: ['./src/**/*.ts'],
+  testPathIgnorePatterns: ['\\.d\\.ts$']
 };

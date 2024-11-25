@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { MariaAction, monthNames, excludedTags, LoaderHTML } from '@/consts';
 import { ContentResponse } from '@/types/ContentResponse';

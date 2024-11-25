@@ -4,8 +4,8 @@
     "target": "es5",
     "module": "esnext",
     "sourceMap": false,
-    "types": ["@types/chrome", "node", "jest"],
-    "typeRoots": ["node_modules/@types"],
+    "types": ["chrome", "node", "jest"],
+    "typeRoots": ["node_modules/@types", "__tests__"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -15,6 +15,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/"],
-  "exclude": ["dist/", "__tests__", "coverage"]
+  "include": ["src/", "__tests__/"],
+  "exclude": ["dist/", "coverage"],
+  "files": ["./__tests__/globals.d.ts"]
 }

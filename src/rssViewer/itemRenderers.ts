@@ -4,6 +4,7 @@ import { LoaderHTMLMini } from '@/consts';
 import { Feed } from '@/types/Feed';
 import getUrlOrigin from '@/utils/getUrlOrigin';
 import formatDateForDisplay from '@/utils/formatDateForDisplay';
+import getFaviconUrl from '@/utils/getFaviconUrl';
 
 function feedItemIcon(isUnread: boolean, isLoading: boolean) {
   if (isLoading)
@@ -28,7 +29,7 @@ function feedItemIcon(isUnread: boolean, isLoading: boolean) {
 }
 
 export function createFeedItem(item: Feed, isLoading = false) {
-  const favicon = `${getUrlOrigin(item.link)}/favicon.ico`;
+  const favicon = getFaviconUrl(item.link);
   const hasUpdate = feedItemIcon(item.hasUnread, isLoading);
   const itemLink = item.link ? `data-link="${item.link}"` : '';
 

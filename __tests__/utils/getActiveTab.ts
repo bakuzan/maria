@@ -1,10 +1,4 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import getActiveTab from '../../src/utils/getActiveTab';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const tabExample = {
   index: 1999,

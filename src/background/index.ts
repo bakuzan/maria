@@ -2,7 +2,7 @@ import './backgroundCommands';
 import './backgroundContextMenu';
 import './backgroundOnMessage';
 import './backgroundOnUpdated';
-import { browser, WebRequest } from 'webextension-polyfill-ts';
+import browser, { WebRequest } from 'webextension-polyfill';
 import { RedirectDetails } from '@/types/Redirect';
 
 import { MariaAssetFileNames } from '@/consts';
@@ -13,29 +13,40 @@ import findRedirectMatch from '@/utils/findRedirectMatch';
 import { log } from '@/log';
 
 // Caches for redirect requests
-let redirects = [];
-let shouldRedirect = true;
-const redirectThreshold = 3;
+// These will be lost when the background task sleeps, but this is okay.
 const ignoreNextRequest = {};
 const justRedirected = {};
 
+const redirectThreshold = 3;
 const ResourceTypes = ['main_frame', 'history'];
 
 async function startup() {
   const store = await getStorage();
 
-  // cache redirects
-  redirects = store.redirects;
-  shouldRedirect = store.shouldRedirect;
-
   if (store.shouldPlayGreeting) {
-    const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
-    const greeting = new Audio(greetingUrl);
-    greeting.play();
+    playGreeting();
   }
 
-  const updatedFeeds = await checkFeedsForUpdates();
-  await updateBadge(updatedFeeds);
+  if (store.shouldCheckFeeds) {
+    const updatedFeeds = await checkFeedsForUpdates();
+    await updateBadge(updatedFeeds);
+  }
+}
+
+function playGreeting() {
+  const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
+  let url = browser.runtime.getURL('audio.html');
+  url += `?src=${encodeURIComponent(greetingUrl)}`;
+
+  browser.windows.create({
+    type: 'popup',
+    focused: true,
+    top: 1,
+    left: 1,
+    height: 100,
+    width: 100,
+    url
+  });
 }
 
 /* When the extension starts up... */
@@ -43,8 +54,12 @@ browser.runtime.onStartup.addListener(function () {
   startup();
 });
 
-function onPageRequest(details: RedirectDetails): WebRequest.BlockingResponse {
-  if (!shouldRedirect) {
+async function onPageRequest(
+  details: RedirectDetails
+): Promise<WebRequest.BlockingResponse> {
+  const store = await getStorage();
+
+  if (!store.shouldRedirect) {
     // If redirects are turned off just ignore everything
     return {};
   }
@@ -70,7 +85,7 @@ function onPageRequest(details: RedirectDetails): WebRequest.BlockingResponse {
     return {};
   }
 
-  const result = findRedirectMatch(redirects, details.url);
+  const result = findRedirectMatch(store.redirects, details.url);
 
   if (result) {
     const threshold = 3000;
@@ -120,32 +135,18 @@ function onPageRequest(details: RedirectDetails): WebRequest.BlockingResponse {
   return {};
 }
 
-/* On page navigation/new tab so we can redirect
- * We also have to monitor the store, so we can refresh redirects cache.
- */
-browser.storage.onChanged.addListener(function (changes) {
-  if (changes.redirects || changes.shouldRedirect) {
-    getStorage().then((store) => {
-      redirects = store.redirects;
-      shouldRedirect = store.shouldRedirect;
-      log('Updated shouldRedirect', shouldRedirect);
-      log('Updated redirects', redirects);
-    });
-  }
-});
-
 browser.webRequest.onBeforeRequest.addListener(
   onPageRequest,
   {
     urls: ['https://*/*', 'http://*/*'],
     types: ['main_frame']
   },
-  ['blocking']
+  ['blocking'] // TODO, this wont work in manifest v3 apparently.
 );
 
 browser.webNavigation.onHistoryStateUpdated.addListener(
   async function checkHistoryStateRedirects(ev) {
-    const result = onPageRequest({
+    const result = await onPageRequest({
       method: 'GET',
       type: 'history',
       url: ev.url

@@ -1,4 +1,4 @@
-import { WebRequest } from 'webextension-polyfill-ts';
+import { WebRequest } from 'webextension-polyfill';
 
 export interface Redirect {
   id: string;

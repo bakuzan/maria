@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import Parser from 'rss-parser';
 
 import { Feed } from '@/types/Feed';
@@ -8,16 +8,16 @@ import { log, reportError } from '@/log';
 const feedReader = new Parser();
 
 const waitForIt = (delay: number = 100) =>
-  new Promise((resolve) => window.setTimeout(resolve, delay));
+  new Promise((resolve) => setTimeout(resolve, delay));
 
 export async function updateBadge(updates: Feed[]) {
   const unreadCount = updates.filter((x) => x.hasUnread).length;
 
-  await browser.browserAction.setBadgeBackgroundColor({
+  await browser.action.setBadgeBackgroundColor({
     color: `#0070ff`
   });
 
-  await browser.browserAction.setBadgeText({
+  await browser.action.setBadgeText({
     text: unreadCount ? `${unreadCount}` : ''
   });
 }

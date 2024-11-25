@@ -1,5 +1,4 @@
 import {
-  DateTime,
   mockDateTimeLocal,
   mockFromJSDate,
   mockFromObject
@@ -13,7 +12,7 @@ it('should return invalid input message - empty string', () => {
   expect(result.success).toBeFalsy();
   expect(result.errorMessage).not.toBeUndefined();
   expect(
-    result.errorMessage.toLowerCase().includes('invalid input')
+    result.errorMessage?.toLowerCase().includes('invalid input')
   ).toBeTruthy();
 });
 
@@ -23,7 +22,7 @@ it('should return invalid input message - whitespace string', () => {
   expect(result.success).toBeFalsy();
   expect(result.errorMessage).not.toBeUndefined();
   expect(
-    result.errorMessage.toLowerCase().includes('invalid input')
+    result.errorMessage?.toLowerCase().includes('invalid input')
   ).toBeTruthy();
 });
 
@@ -33,7 +32,7 @@ it('should return invalid format message', () => {
   expect(result.success).toBeFalsy();
   expect(result.errorMessage).not.toBeUndefined();
   expect(
-    result.errorMessage.toLowerCase().includes('invalid format')
+    result.errorMessage?.toLowerCase().includes('invalid format')
   ).toBeTruthy();
 });
 
@@ -89,8 +88,8 @@ it('should convert colon format', () => {
 
   expect(result.success).toBeTruthy();
   expect(result.errorMessage).toBeUndefined();
-  expect(result.date.toLocaleTimeString()).toEqual('18:00:00');
-  expect(result.source.toLocaleTimeString()).toEqual('10:00:00');
+  expect(result.date?.toLocaleTimeString()).toEqual('18:00:00');
+  expect(result.source?.toLocaleTimeString()).toEqual('10:00:00');
   expect(result.utcOffset).toEqual(-8);
 
   expect(mockDateTimeLocal).toHaveBeenCalledTimes(1);
@@ -138,8 +137,8 @@ it('should convert colon format with no padded hour', () => {
 
   expect(result.success).toBeTruthy();
   expect(result.errorMessage).toBeUndefined();
-  expect(result.date.toLocaleTimeString()).toEqual('07:00:00');
-  expect(result.source.toLocaleTimeString()).toEqual('01:00:00');
+  expect(result.date?.toLocaleTimeString()).toEqual('07:00:00');
+  expect(result.source?.toLocaleTimeString()).toEqual('01:00:00');
   expect(result.utcOffset).toEqual(-6);
 
   expect(mockDateTimeLocal).toHaveBeenCalledTimes(1);
@@ -187,8 +186,8 @@ it('should convert ampm format with a space', () => {
 
   expect(result.success).toBeTruthy();
   expect(result.errorMessage).toBeUndefined();
-  expect(result.date.toLocaleTimeString()).toEqual('22:00:00');
-  expect(result.source.toLocaleTimeString()).toEqual('17:00:00');
+  expect(result.date?.toLocaleTimeString()).toEqual('22:00:00');
+  expect(result.source?.toLocaleTimeString()).toEqual('17:00:00');
   expect(result.utcOffset).toEqual(-5);
 
   expect(mockDateTimeLocal).toHaveBeenCalledTimes(1);
@@ -236,8 +235,8 @@ it('should convert ampm format with no space', () => {
 
   expect(result.success).toBeTruthy();
   expect(result.errorMessage).toBeUndefined();
-  expect(result.date.toLocaleTimeString()).toEqual('20:00:00');
-  expect(result.source.toLocaleTimeString()).toEqual('21:00:00');
+  expect(result.date?.toLocaleTimeString()).toEqual('20:00:00');
+  expect(result.source?.toLocaleTimeString()).toEqual('21:00:00');
   expect(result.utcOffset).toEqual(1);
 
   expect(mockDateTimeLocal).toHaveBeenCalledTimes(1);
@@ -285,8 +284,8 @@ it('should convert ampm-colon format with a space', () => {
 
   expect(result.success).toBeTruthy();
   expect(result.errorMessage).toBeUndefined();
-  expect(result.date.toLocaleTimeString()).toEqual('04:00:00');
-  expect(result.source.toLocaleTimeString()).toEqual('13:00:00');
+  expect(result.date?.toLocaleTimeString()).toEqual('04:00:00');
+  expect(result.source?.toLocaleTimeString()).toEqual('13:00:00');
   expect(result.utcOffset).toEqual(9);
 
   expect(mockDateTimeLocal).toHaveBeenCalledTimes(1);

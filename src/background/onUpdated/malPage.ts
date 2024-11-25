@@ -1,4 +1,4 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 
 import { erzaGQL } from '@/consts';
 
@@ -6,6 +6,12 @@ import { callErza } from '@/utils/fetch';
 import executeContentModule from '@/utils/executeContentModule';
 import userFeedback from '@/utils/userFeedback';
 import getErrorMessage from '@/utils/getErrorMessage';
+
+function turnOffAutocomplete() {
+  Array.from(document.querySelectorAll('.inputtext')).forEach((inp) =>
+    inp.setAttribute('autocomplete', 'off')
+  );
+}
 
 export default async function malPageProcessing(tabId: number, tab: Tabs.Tab) {
   const reA = /^https:\/\/myanimelist.net\/anime\/\d+/;
@@ -15,12 +21,9 @@ export default async function malPageProcessing(tabId: number, tab: Tabs.Tab) {
   const isSeriesPage = isAnime || isManga;
 
   if (isSeriesPage) {
-    await browser.tabs.executeScript(tabId, {
-      code: `(async () => {
-          Array
-            .from(document.querySelectorAll(".inputtext"))
-            .forEach((inp) => inp.setAttribute("autocomplete", "off"))
-        })();`
+    await browser.scripting.executeScript({
+      target: { tabId },
+      func: turnOffAutocomplete
     });
 
     const [idSlug] = tab.url.match(/\/\d+\/|\/\d+$/);

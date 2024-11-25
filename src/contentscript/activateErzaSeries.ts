@@ -5,7 +5,8 @@ import openSeriesInErza from './shared/openSeriesInErza';
 export default async function activateErzaSeries(
   successorScript: ContentScriptFunction
 ) {
-  if (successorScript === 'openSeriesInErza') {
+  const scriptName = successorScript.replace(/"/g, ''); // For some reason quotes are being added...
+  if (scriptName === 'openSeriesInErza') {
     await openSeriesInErza();
     return;
   }

@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { PageAction, MariaAction } from '@/consts';
 import { log } from '@/log';
@@ -74,9 +74,8 @@ export async function setupDownloadGallery() {
 
   if (isGalleryPage) {
     document.getElementById('downloadGalleryOption').style.display = 'block';
-    const downloadButton = document.querySelector<HTMLButtonElement>(
-      '#downloadGallery'
-    );
+    const downloadButton =
+      document.querySelector<HTMLButtonElement>('#downloadGallery');
 
     downloadButton.disabled = false;
     downloadButton.addEventListener('click', downloadGallery);

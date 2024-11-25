@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import './options.scss';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import getStorage from '@/utils/getStorage';
 import { reloadImportAndExport } from '@/utils/reloadMariaPages';
@@ -14,6 +14,18 @@ async function saveGreeting(event: InputEvent) {
   await browser.storage.local.set({
     ...items,
     shouldPlayGreeting: target.checked
+  });
+
+  await reloadImportAndExport();
+}
+
+async function saveCheckFeeds(event: InputEvent) {
+  const items = await getStorage();
+  const target = event.target as HTMLInputElement;
+
+  await browser.storage.local.set({
+    ...items,
+    shouldCheckFeeds: target.checked
   });
 
   await reloadImportAndExport();
@@ -59,6 +71,9 @@ async function restoreOptions() {
 
   greeting.checked = items.shouldPlayGreeting;
 
+  const feeds = document.querySelector<HTMLInputElement>(`[name='feeds']`);
+  feeds.checked = items.shouldCheckFeeds;
+
   const inputs = document.querySelectorAll<HTMLInputElement>(`[name='digits']`);
 
   Array.from(inputs).forEach(
@@ -74,9 +89,14 @@ async function restoreOptions() {
 
 async function run() {
   document.addEventListener('DOMContentLoaded', restoreOptions);
+
   document
     .querySelector(`[name='greeting']`)
     .addEventListener('change', saveGreeting);
+
+  document
+    .querySelector(`[name='feeds']`)
+    .addEventListener('change', saveCheckFeeds);
 
   Array.from(document.querySelectorAll(`[name='digits']`)).forEach((node) =>
     node.addEventListener('change', saveOption)

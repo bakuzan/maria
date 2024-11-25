@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 export type ContentScriptFunction =
   | 'addHoverListeners'
@@ -8,6 +8,10 @@ export type ContentScriptFunction =
   | 'openSeriesInErza'
   | 'removeLinks';
 
+function callMariaApi(func: ContentScriptFunction, arg: string) {
+  window.__Maria__[func](arg);
+}
+
 export default async function injectContentModule(
   tabId: number,
   func: ContentScriptFunction,
@@ -15,7 +19,9 @@ export default async function injectContentModule(
 ) {
   const arg = successorScript ? `"${successorScript}"` : '';
 
-  await browser.tabs.executeScript(tabId, {
-    code: `(async () => window.__Maria__.${func}(${arg}))();`
+  await browser.scripting.executeScript({
+    target: { tabId },
+    func: callMariaApi,
+    args: [func, arg]
   });
 }

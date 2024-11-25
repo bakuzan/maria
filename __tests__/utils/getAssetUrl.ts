@@ -1,11 +1,5 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
 import getAssetUrl from '../../src/utils/getAssetUrl';
 import { MariaAssetFileNames } from '../../src/consts';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 it('should return the asset url based on input filename', () => {
   const input = MariaAssetFileNames.Greeting;

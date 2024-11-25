@@ -1,27 +1,28 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Maria",
   "description": "Personal Utility Extension",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "author": "Bakuzan",
   "permissions": [
     "webRequest",
     "webRequestBlocking",
+    "declarativeNetRequest",
     "webNavigation",
     "tabs",
     "notifications",
     "storage",
     "contextMenus",
     "downloads",
-    "http://*/*",
-    "https://*/*",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "scripting",
+    "favicon"
   ],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "background": {
-    "page": "background.html",
-    "persistent": true
+    "service_worker": "background.js"
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "assets/maria_16x16.png",
@@ -38,12 +39,21 @@
       "matches": ["<all_urls>"]
     }
   ],
-  "web_accessible_resources": ["assets/*"],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*", "_favicon/*"],
+      "matches": ["<all_urls>"],
+      "extension_ids": ["*"]
+    }
+  ],
+  "content_security_policy": {
+    "script-src": "'self' 'unsafe-eval'",
+    "object-src": "'self'"
+  },
   "commands": {
     "open-tab-store": {
       "suggested_key": {
-        "default": "Alt+Shift+1"
+        "default": "Alt+Shift+Q"
       },
       "description": "Open tab store management tab",
       "global": true

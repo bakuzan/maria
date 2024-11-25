@@ -1,19 +1,5 @@
 import processImportedValue from '../../src/exportImport/processImportedValue';
 
-let getRandomValues = null;
-
-beforeAll(() => {
-  getRandomValues = jest
-    .fn()
-    .mockImplementation(() => new Uint8Array(1).fill(16));
-
-  Object.defineProperty(window, 'crypto', {
-    get: () => ({
-      getRandomValues
-    })
-  });
-});
-
 it('should return error if import is not an object', () => {
   const result = processImportedValue(undefined);
 
@@ -23,6 +9,10 @@ it('should return error if import is not an object', () => {
 
 it('should return empty default when input is empty', () => {
   const result = processImportedValue({});
+
+  if (!result.data) {
+    throw new Error("result.data should not be undefined")
+  }
 
   expect(result.success).toBeTruthy();
   expect(result.messages.length).toEqual(0);
@@ -39,6 +29,10 @@ it('should process feeds', () => {
   const expected = feeds.slice(0, 1);
 
   const result = processImportedValue({ feeds });
+
+  if (!result.data) {
+    throw new Error("result.data should not be undefined")
+  }
 
   expect(result.success).toBeTruthy();
   expect(result.messages.pop()).toEqual(
@@ -89,6 +83,10 @@ it('should process tab groups', () => {
   ];
 
   const result = processImportedValue({ tabGroups });
+
+  if (!result.data) {
+    throw new Error("result.data should not be undefined")
+  }
 
   const tg = result.data.tabGroups[0];
 

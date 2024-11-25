@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import seriesPageButton from './seriesPageButton';
 import { BASE_ERZA_URL, MariaAction } from '@/consts';

@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { TabGroup } from '@/types/TabGroup';
 import getStorage from '@/utils/getStorage';

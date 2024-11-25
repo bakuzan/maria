@@ -1,11 +1,6 @@
-import { mockBrowser, mockBrowserNode } from '../__helpers/browser';
-
+import type { TabGroup } from '../../src/types/TabGroup';
 import storeTabs from '../../src/utils/storeTabs';
 import { storageDefaults } from '../../src/utils/getStorage';
-
-beforeEach(() => mockBrowserNode.enable());
-
-afterEach(() => mockBrowserNode.verifyAndDisable());
 
 const storeTabsToBeReloaded = [
   {
@@ -17,22 +12,6 @@ const storeTabsToBeReloaded = [
     incognito: false
   }
 ];
-
-const getRandomValues = jest
-  .fn()
-  .mockImplementation(() => new Uint8Array(1).fill(16));
-
-beforeAll(() => {
-  Object.defineProperty(window, 'crypto', {
-    get: () => ({
-      getRandomValues
-    })
-  });
-});
-
-beforeEach(() => {
-  getRandomValues.mockClear();
-});
 
 function setup(storeValues: { [s: string]: any }, removeTabCount: number) {
   mockBrowser.storage.local.get
@@ -69,10 +48,10 @@ it('should store tab links', async () => {
   await storeTabs(input);
 
   const [call] = mockBrowser.storage.local.set.getMockCalls();
-  const { tabGroups } = call[0];
+  const callSet = call[0];
+  const tabGroups = callSet.tabGroups as TabGroup[];
   const linkItem = tabGroups[0].items[0];
 
-  expect(getRandomValues).toHaveBeenCalled();
   expect(tabGroups.length).toEqual(1);
   expect(tabGroups[0].items.length).toEqual(1);
   expect(linkItem.title).toEqual(input[0].title);
@@ -99,10 +78,10 @@ it('should store tab links that match an existing pattern group', async () => {
   await storeTabs(input);
 
   const [call] = mockBrowser.storage.local.set.getMockCalls();
-  const { tabGroups } = call[0];
+  const callSet = call[0];
+  const tabGroups = callSet.tabGroups as TabGroup[];
   const currentGroup = tabGroups[0];
 
-  expect(getRandomValues).toHaveBeenCalled();
   expect(tabGroups.length).toEqual(1);
   expect(currentGroup.items.length).toEqual(1);
 

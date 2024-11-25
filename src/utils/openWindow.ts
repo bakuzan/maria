@@ -1,17 +1,21 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import getActiveTab from './getActiveTab';
 import { reportError } from '@/log';
+
+function openNewTab(tabUrl: string) {
+  const win = window.open(tabUrl, '_blank');
+  win.opener = null;
+}
 
 export default async function openWindow(tabUrl: string) {
   try {
     const activeTab = await getActiveTab();
 
-    await browser.tabs.executeScript(activeTab.id, {
-      code: `(() => {
-                const win = window.open("${tabUrl}", '_blank');
-                win.opener = null;
-            })();`
+    await browser.scripting.executeScript({
+      target: { tabId: activeTab.id },
+      func: openNewTab,
+      args: [tabUrl]
     });
   } catch (error) {
     reportError(error);

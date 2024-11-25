@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import { Feed } from '@/types/Feed';
 
 import { checkFeedsForUpdates } from '@/utils/rssFeedChecks';

@@ -1,11 +1,16 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import { PageAction } from '@/consts';
 import getNode from '@/utils/getNode';
 import isElementHidden from '@/utils/isElementHidden';
 
+type Action = {
+  action: PageAction;
+  url?: string;
+};
+
 export default function initOnMessage() {
-  browser.runtime.onMessage.addListener(async function (msg, sender) {
+  browser.runtime.onMessage.addListener(async function (msg: Action, _sender) {
     switch (msg.action) {
       case PageAction.GET_GALLERY: {
         const images = document.querySelectorAll('.gallerythumb > img');
@@ -61,8 +66,10 @@ export default function initOnMessage() {
       case PageAction.GET_LINK_NAME: {
         const origin = window.location.origin;
         const linkEnding = msg.url
-          .replace(window.location.origin, '')
-          .replace(window.location.protocol, '');
+          ? msg.url
+              .replace(window.location.origin, '')
+              .replace(window.location.protocol, '')
+          : '';
 
         const links = document.querySelectorAll(`a[href$='${linkEnding}']`);
         const link = Array.from(links).find(
