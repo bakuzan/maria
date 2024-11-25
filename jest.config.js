@@ -13,5 +13,6 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   setupFilesAfterEnv: ['./src/setupTests.ts'],
-  collectCoverageFrom: ['./src/**/*.ts']
+  collectCoverageFrom: ['./src/**/*.ts'],
+  testPathIgnorePatterns: ['\\.d\\.ts$']
 };
