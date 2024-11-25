@@ -15,7 +15,8 @@
     "contextMenus",
     "downloads",
     "unlimitedStorage",
-    "scripting"
+    "scripting",
+    "favicon"
   ],
   "host_permissions": ["http://*/*", "https://*/*"],
   "background": {
@@ -40,8 +41,9 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["assets/*"],
-      "matches": ["<all_urls>"]
+      "resources": ["assets/*", "_favicon/*"],
+      "matches": ["<all_urls>"],
+      "extension_ids": ["*"]
     }
   ],
   "content_security_policy": {

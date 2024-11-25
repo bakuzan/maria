@@ -16,6 +16,7 @@ module.exports = {
   mode: process.env.NODE_ENV,
   devtool: 'inline-source-map',
   entry: {
+    audio: join(__dirname, 'src/audio', 'audio.js'),
     contentscript: join(__dirname, 'src/contentscript', 'index.ts'),
     background: join(__dirname, 'src/background', 'index.ts'),
     popup: join(__dirname, 'src/popup', 'index.ts'),
@@ -59,6 +60,7 @@ module.exports = {
       chunkFilename: '[id].css'
     }),
     ...[
+      'audio',
       'options',
       'popup',
       'tabStore',

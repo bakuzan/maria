@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals';
 import userFeedback from '../../src/utils/userFeedback';
 
 const testTabId = 1066;

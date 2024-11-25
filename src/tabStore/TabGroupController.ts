@@ -7,7 +7,7 @@ import groupSync from './TabGroupSync';
 import { TabGroup } from '@/types/TabGroup';
 import { move } from '@/utils/array';
 import getStorage from '@/utils/getStorage';
-import getUrlOrigin from '@/utils/getUrlOrigin';
+import getFaviconUrl from '@/utils/getFaviconUrl';
 
 const LIST_HOVER_CLASS = 'stored-links--is-target';
 
@@ -131,7 +131,7 @@ export class TabGroupController {
 
       const icon = new Image(16, 16);
       icon.className = 'stored-links__icon';
-      icon.src = `${getUrlOrigin(item.url)}/favicon.ico`;
+      icon.src = getFaviconUrl(item.url);
       icon.alt = 'i';
       icon.onerror = function (event: ErrorEvent) {
         const t = event.target as HTMLImageElement;

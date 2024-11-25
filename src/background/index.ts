@@ -24,13 +24,29 @@ async function startup() {
   const store = await getStorage();
 
   if (store.shouldPlayGreeting) {
-    const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
-    const greeting = new Audio(greetingUrl); // TODO doesnt work in sw.
-    greeting.play();
+    playGreeting();
   }
 
-  const updatedFeeds = await checkFeedsForUpdates();
-  await updateBadge(updatedFeeds);
+  if (store.shouldCheckFeeds) {
+    const updatedFeeds = await checkFeedsForUpdates();
+    await updateBadge(updatedFeeds);
+  }
+}
+
+function playGreeting() {
+  const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
+  let url = browser.runtime.getURL('audio.html');
+  url += `?src=${encodeURIComponent(greetingUrl)}`;
+
+  browser.windows.create({
+    type: 'popup',
+    focused: true,
+    top: 1,
+    left: 1,
+    height: 100,
+    width: 100,
+    url
+  });
 }
 
 /* When the extension starts up... */
