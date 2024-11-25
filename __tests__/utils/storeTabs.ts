@@ -1,3 +1,4 @@
+import type { TabGroup } from '../../src/types/TabGroup';
 import storeTabs from '../../src/utils/storeTabs';
 import { storageDefaults } from '../../src/utils/getStorage';
 
@@ -47,7 +48,8 @@ it('should store tab links', async () => {
   await storeTabs(input);
 
   const [call] = mockBrowser.storage.local.set.getMockCalls();
-  const { tabGroups } = call[0];
+  const callSet = call[0];
+  const tabGroups = callSet.tabGroups as TabGroup[];
   const linkItem = tabGroups[0].items[0];
 
   expect(tabGroups.length).toEqual(1);
@@ -76,7 +78,8 @@ it('should store tab links that match an existing pattern group', async () => {
   await storeTabs(input);
 
   const [call] = mockBrowser.storage.local.set.getMockCalls();
-  const { tabGroups } = call[0];
+  const callSet = call[0];
+  const tabGroups = callSet.tabGroups as TabGroup[];
   const currentGroup = tabGroups[0];
 
   expect(tabGroups.length).toEqual(1);
