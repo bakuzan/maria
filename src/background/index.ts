@@ -5,11 +5,10 @@ import './backgroundOnUpdated';
 import browser, { WebRequest } from 'webextension-polyfill';
 import { RedirectDetails } from '@/types/Redirect';
 
-import { MariaAssetFileNames } from '@/consts';
 import getStorage from '@/utils/getStorage';
-import getAssetUrl from '@/utils/getAssetUrl';
 import { checkFeedsForUpdates, updateBadge } from '@/utils/rssFeedChecks';
 import findRedirectMatch from '@/utils/findRedirectMatch';
+import playGreeting from '@/utils/playGreeting';
 import { log } from '@/log';
 
 // Caches for redirect requests
@@ -24,29 +23,13 @@ async function startup() {
   const store = await getStorage();
 
   if (store.shouldPlayGreeting) {
-    playGreeting();
+    await playGreeting();
   }
 
   if (store.shouldCheckFeeds) {
     const updatedFeeds = await checkFeedsForUpdates();
     await updateBadge(updatedFeeds);
   }
-}
-
-function playGreeting() {
-  const greetingUrl = getAssetUrl(MariaAssetFileNames.Greeting);
-  let url = browser.runtime.getURL('audio.html');
-  url += `?src=${encodeURIComponent(greetingUrl)}`;
-
-  browser.windows.create({
-    type: 'popup',
-    focused: true,
-    top: 1,
-    left: 1,
-    height: 100,
-    width: 100,
-    url
-  });
 }
 
 /* When the extension starts up... */

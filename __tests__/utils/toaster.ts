@@ -1,6 +1,12 @@
 import toaster from '../../src/utils/toaster';
 
-jest.useFakeTimers();
+beforeAll(() => {
+  jest.useFakeTimers();
+});
+
+afterAll(() => {
+  jest.useRealTimers();
+});
 
 it('should create element and append to body', () => {
   const spyCreateElement = jest.spyOn(document, 'createElement');

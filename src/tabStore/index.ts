@@ -6,8 +6,11 @@ import { TabGroup } from '@/types/TabGroup';
 import getStorage from '@/utils/getStorage';
 import generateUniqueId from '@/utils/generateUniqueId';
 import { TabGroupController } from './TabGroupController';
+import checkAndPlayAudio from './audio';
 
 async function run() {
+  await checkAndPlayAudio();
+
   const rootContainer = document.getElementById('tabStore');
   const { tabGroups } = await getStorage();
 
