@@ -5,7 +5,11 @@ export default async function checkAndPlayAudio() {
 
   if (src) {
     const audio = new Audio(src);
-    audio.addEventListener('ended', () => (window.location.search = ''));
+    audio.addEventListener('ended', () => {
+      const url = new URL(window.location.href);
+      url.search = '';
+      window.history.replaceState({}, document.title, url.toString());
+    });
     await audio.play();
   }
 }
